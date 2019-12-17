@@ -1,0 +1,43 @@
+{
+  "name": "course1",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Matt Farstad's Website",
+  "scripts": {
+    "start": "npm run prod",
+    "server": "babel-node ./src/bin/www",
+    "server:prod": "node ./dist/bin/www",
+    "dev": "NODE_ENV=development npm-run-all server",
+    "clean": "rimraf dist",
+    "build": "babel ./src --out-dir dist",
+    "prod": "NODE_ENV=production npm-run-all clean build server:prod",
+    "watch": "nodemon"
+  },
+  "dependencies": {
+    "bootstrap": "^4.4.1",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1",
+    "node-express-generator": "0.0.1",
+    "npm-run-all": "^4.1.5",
+    "pug": "^2.0.4",
+    "rimraf": "^3.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.5",
+    "@babel/core": "^7.7.5",
+    "@babel/node": "^7.7.4",
+    "@babel/preset-env": "^7.7.6",
+    "nodemon": "^2.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathaou/showcase.git"
+  },
+  "author": "matt farstad",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mathaou/showcase/issues"
+  },
+  "homepage": "https://github.com/mathaou/showcase#readme"
+}
