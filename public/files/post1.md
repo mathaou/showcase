@@ -2,7 +2,7 @@
 
 <!--block content -->
 
-# Adventures in Markdown-To-HTML
+# Adventures in Markdown-To-HTML Conversion
 ## 19 Dec 2019
 ### Promises galore!
 
@@ -75,12 +75,12 @@ This then gets all of the blurbs for all of the .md files into one array.
             let headerCopy = header.replace(/\s|-|\\|\d/gim, "").toLowerCase();
 
             createWebPage(data, headerCopy);
-            // some stuff that breaks my engine but the blurb gets resolved with more regex
+            // some stuff that breaks my engine parsing but resolves the blurb back up as inline HTML
         });
     };
 ```
 
-The actual home page blurb gets resolved up, and the web page gets created in the background. I should probably be using async/await here, too, but I am still a little mistified as to when it's necessary. I kind of just found a configuration that works and hoped it wasn't so superfluous. I kind of cheated by using increasing levels of headers and crazy levels of regular expressions, but I mean it works 
+The actual home page blurb gets resolved up, and the web page gets created in the background. I should probably be using async/await here, too, but I am still a little mistified as to when it's necessary. I kind of just found a configuration that works and hoped it wasn't so superfluous. I kind of cheated by using increasing levels of headers and crazy levels of regular expressions, but it works so 🤷.
 
 ```
     # Adventures in Markdown-To-HTML
@@ -113,4 +113,4 @@ I need this structure at the top of every one of my posts, and I need an extra t
 
 This is the final piece. This creates the webpage and does some regex craziness to fix some of the grey areas that the markdown-to-pug package can't handle very well. I added the functionality with just-about-boilerplate code, but after about a days worth of work I think my whole system is at a point where I'm pretty proud of it. At least proud enough to just use it for a while and not have to poke at the innards.
 
-Source code is on my github! Link in sidebar.
+Source code is on my [github](https://github.com/mathaou/showcase)#!

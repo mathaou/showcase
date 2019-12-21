@@ -2,9 +2,8 @@ extends layout
 block content 
   .row
     .col-md-8.post-container
-      h1 Adventures in Markdown-To-HTML
+      h1 Adventures in Markdown-To-HTML Conversion
       h2 19 Dec 2019
-      h3 Promises galore!
       p In creating this portfolio/resume/personal website, I thought it might be nice to have a system where I could just write a series of individual, self-contained posts in markdown format, and then translate that document to #[a(href="https://pugjs.org/api/getting-started.html") pug]. It turned out to be a little bit more involved than that, since then generation didn’t account for things like links inside of paragraphs or fenced code blocks. There was also plenty of async/await going on behind the scenes in order to make sure that the page didn’t render before the conversion took place.
       p There’s also the possibility that I over-thought/ over-engineered the whole thing and made a real SNAFU of a possibly simplistic matter. But at the time, this seemed to be the most elegant way to achieve what I wanted to do.
       h4 Lets start from the top…
@@ -69,11 +68,11 @@ block content
                   let headerCopy = header.replace(/\s|-|\\|\d/gim, "").toLowerCase();
       
                   createWebPage(data, headerCopy);
-                  // some stuff that breaks my engine but the blurb gets resolved with more regex
+                  // some stuff that breaks my engine parsing but resolves the blurb back up as inline HTML
               });
           };
       
-      p The actual home page blurb gets resolved up, and the web page gets created in the background. I should probably be using async/await here, too, but I am still a little mistified as to when it’s necessary. I kind of just found a configuration that works and hoped it wasn’t so superfluous. I kind of cheated by using increasing levels of headers and crazy levels of regular expressions, but I mean it works
+      p The actual home page blurb gets resolved up, and the web page gets created in the background. I should probably be using async/await here, too, but I am still a little mistified as to when it’s necessary. I kind of just found a configuration that works and hoped it wasn’t so superfluous. I kind of cheated by using increasing levels of headers and crazy levels of regular expressions, but it works so 🤷.
       pre.hljs
         code. 
           # Adventures in Markdown-To-HTML
@@ -103,4 +102,4 @@ block content
           };
       
       p This is the final piece. This creates the webpage and does some regex craziness to fix some of the grey areas that the markdown-to-pug package can’t handle very well. I added the functionality with just-about-boilerplate code, but after about a days worth of work I think my whole system is at a point where I’m pretty proud of it. At least proud enough to just use it for a while and not have to poke at the innards.
-      p Source code is on my github! Link in sidebar.
+      p Source code is on my #[a(href="https://github.com/mathaou/showcase") github]!

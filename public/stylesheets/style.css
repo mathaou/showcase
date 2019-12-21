@@ -2,6 +2,40 @@
 Tablets
 */
 @media (min-width: 768px) and (max-width: 991.98px) {
+  .col1 {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+  }
+
+  .col2 {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 4vh;
+  }
+
+  .post-container {
+    flex: none;
+    max-width: 100%;
+  }
+
+  .post-container p {
+    font-size: 18px;
+  }
+
+  code {
+    font-size: 12px;
+  }
+
+  #posts h2 {
+    font-size: 24px;
+  }
+
+  blockquote {
+    padding-left: 1vw;
+  }
+
   html {
     font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
   }
@@ -35,6 +69,19 @@ Tablets
 Smartphone
 */
 @media (max-width: 767px) {
+  .col1 {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+  }
+
+  .col2 {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 4vh;
+  }
+
   html {
     font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
   }
@@ -49,6 +96,22 @@ Smartphone
 
   .icon {
     font-size: large;
+  }
+
+  .post-container p {
+    font-size: 14px;
+  }
+
+  code {
+    font-size: 12px;
+  }
+
+  #posts h2 {
+    font-size: 22px;
+  }
+
+  blockquote {
+    padding-left: 1vw;
   }
 
   h2, h3 {
@@ -95,6 +158,10 @@ Desktop
     padding: .33em;
     line-height: 1.33em;
   }
+}
+
+code {
+  overflow-x: scroll;
 }
 
 body {
@@ -149,8 +216,25 @@ h1 {
   margin-left: 2vw;
 }
 
+.music {
+  text-align: center;
+}
+
+.projects {
+  text-align: center;
+}
+
+.project-description {
+  text-align: left;
+  padding: 1vw;
+}
+
 i {
   padding: 5px;
+}
+
+.col2, .col1 {
+  text-align: center;
 }
 
 #nav-menu {
@@ -160,6 +244,12 @@ i {
   right: 1vw;
   z-index: 10;
   height: 4vh;
+}
+
+img {
+  vertical-align: middle;
+  border-style: none;
+  width: 85%;
 }
 
 .post-container {
@@ -183,11 +273,36 @@ blockquote {
 #posts h2 {
   color: #F68887;
   padding: 0;
+  margin-left: 1vw;
+}
+
+.post-container h1 { 
+  color: #F68887;
+}
+
+.post-container h2 {
+  color: #A0BFDF;
+  font-size: 18px;
+  padding: 1vw;
   margin: 0;
+}
+
+.post-container h3 {
+  border-left: 4px solid #F68887;
+  font-style: italic;
+}
+
+.music p {
+  padding-left: 3vw;
+}
+
+#artarea {
+  margin: 1vw;
 }
 
 #posts p {
   color: #A0BFDF;
+  padding-left: 3vw;
 }
 
 #posts li {
@@ -203,6 +318,31 @@ blockquote {
 
 #menu::before {
   top: -8px;
+}
+
+.pagination {
+  text-align: center;
+  justify-content: center;
+  margin: 3vh;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+span.page-item {
+  background-color: lightgrey;
+}
+
+.page-item {
+  margin: .2vw;
+  background-color: #F68887;
+  color: #FFF;
+  padding: 4px 8px;
+  font-weight: 400;
+  padding: 0.5em 1em;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  border-radius: 4px;
 }
 
 #menu::after {

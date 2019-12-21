@@ -7,8 +7,9 @@ import { glob } from "glob";
 import path from "path";
 import fs from "fs";
 
+const chunkSize = 5;
 const mdGenerator = new (require("markdown-to-pug"))();
-
+const title = "M. Farstad";
 var router = express.Router();
 
 const generateHTML = () => {
@@ -53,12 +54,13 @@ const createWebPage = (data, header) => {
       .replace(/\s\s(h\d)/gim, "      $1")
       .replace(/\s\s(p)/gmi, '      $1')
       .replace(/\n\s\s\s\s(a\(href=".*"\)\s.*)\s#/gmi, `#[$1]`)
+      .replace(/\n\s*h3.*\n/gm, '\n')
   ].join("");
 
   generated = generated.replace(/hljs\n(\s*code)/gm, 'hljs\n    $1');
 
   fs.writeFileSync(`src/views/${header}.pug`, generated);
-  router.get(`/${header}`, function(req, res, next) {
+  router.get(`/${header}`, (req, res, next) => {
     res.render(header, { title });
   });
 };
@@ -91,28 +93,83 @@ const generateBlurbPromise = async file => {
   });
 };
 
-let title = "M. Farstad";
+const chunkArrayInGroups = (arr, size) => {
+  var myArray = [];
+  for(var i = 0; i < arr.length; i += size) {
+    myArray.push(arr.slice(i, i+size));
+  }
+  return myArray;
+};
 
-/* GET home page. */
-router.get("/", async (req, res, next) => {
-  let posts = await generateHTML();
+const generatePagination = (length, index) => {
+  var previous = (index == 2) ? '/' : `/page${index-1}/`;
+  var next = `/page${index+1}/`;
+  
+  var leftArrow = (index == 1) ? `<span class =\"page-item\"><<</span>` : `<a href=\"${previous}\" class =\"page-item\"><<</a>`;
+  var rightArrow = (index == length) ? `<span class =\"page-item\">>></span>` : `<a href=\"${next}\" class =\"page-item\">>></a>`;
 
-  res.render("index", {
-    title,
-    now: moment().format("MMMM Do, YYYY"),
-    createdPosts: posts.join("")
-  });
-});
+  var current = `<span class=\"page-item\">${index}</span>`;
 
-router.get("/resume", function(req, res, next) {
+  var pagination = leftArrow;
+
+  for(var i = 1; i < length + 1; i++) {
+    var toAdd = (i == 1) ? '/' : `/page${i}/`;
+    if(i != index) {
+      pagination = pagination.concat(`<a href=\"${toAdd}\" class =\"page-item\">${i}</a>`)
+    } else {
+      pagination = pagination.concat(current);
+    }
+  };
+
+  return pagination.concat(rightArrow);
+};
+
+const createMultiplePages = async () => {
+  var posts = await generateHTML();
+
+  const postChunks = chunkArrayInGroups(posts, chunkSize) || [''];
+
+  for(let i = 0; i < postChunks.length; i++) {
+    const chunkStore = postChunks[i];
+    if(i === 0) {
+      router.get("/", (req, res, next) => {
+        res.render("index", {
+          title,
+          now: moment().format("MMMM Do, YYYY"),
+          createdPosts: chunkStore.join(""),
+          pages: generatePagination(postChunks.length, i + 1)
+        });
+      });
+    } else {
+      const fileName = `page${i+1}`;
+      fs.copyFileSync('src/views/index.pug', `src/views/${fileName}.pug`);
+      router.get(`/${fileName}`, (req, res, next) => {
+        res.render(fileName, {
+          title,
+          now: moment().format("MMMM Do, YYYY"),
+          createdPosts: chunkStore.join(""),
+          pages: generatePagination(postChunks.length, i + 1)
+        });
+      });
+    }
+  }
+};
+
+createMultiplePages();
+
+router.get("/resume", (req, res, next) => {
   res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
 });
 
-router.get("/resume", function(req, res, next) {
-  res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
+router.get("/music", (req, res, next) => {
+  res.render("music", { title, now: moment().format("MMMM Do, YYYY") });
 });
 
-router.get("/files/resume_cv.pdf", function(req, res, next) {
+router.get("/projects", (req, res, next) => {
+  res.render("projects", { title, now: moment().format("MMMM Do, YYYY") });
+});
+
+router.get("/files/resume_cv.pdf", (req, res, next) => {
   res.sendFile("/files/resume_cv.pdf");
 });
 
