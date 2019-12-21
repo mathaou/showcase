@@ -14,6 +14,8 @@
     "watch": "nodemon"
   },
   "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/runtime": "^7.7.7",
     "@types/jquery": "^3.3.31",
     "babel-eslint": "~5.0.3",
     "bootstrap": "^4.4.1",
