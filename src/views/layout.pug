@@ -1,7 +1,28 @@
 doctype html
 html
   head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(http-equiv='x-ua-compatable', content='ie=edge')
+
     title= title
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    block content
+    .wrapper
+      header.container-fluid
+          h1= title
+      include sidebar
+      .container.main
+        block content
+    .hidden#back-to-top
+      svg(viewBox="0 0 24 24")
+        path(d="M 7.41 15.41 L 12 10.83 l 4.59 4.58 L 18 14 l -6 -6 l -6 6 Z")
+    footer
+      - var footerString = `2019 - Matthew W. Farstad`
+      span= footerString
+    
+    script(type='text/javascript' src='/jquery.min.js')
+    script(type='text/javascript' src='/js/bootstrap.min.js')
+    script(type='text/javascript' src='/javascripts/main.js')
