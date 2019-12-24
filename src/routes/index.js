@@ -132,7 +132,7 @@ const createMultiplePages = async () => {
   for(let i = 0; i < postChunks.length; i++) {
     const chunkStore = postChunks[i];
     if(i === 0) {
-      router.get("/", (req, res, next) => {
+      router.get("/personal", (req, res, next) => {
         res.render("index", {
           title,
           now: moment().format("MMMM Do, YYYY"),
@@ -156,6 +156,10 @@ const createMultiplePages = async () => {
 };
 
 createMultiplePages();
+
+router.get("/", (req, res, next) => {
+  res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
+});
 
 router.get("/resume", (req, res, next) => {
   res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
