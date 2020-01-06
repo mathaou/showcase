@@ -6,7 +6,7 @@
 ## 19 Dec 2019
 ### Promises galore!
 
-In creating this portfolio/resume/personal website, I thought it might be nice to have a system where I could just write a series of individual, self-contained posts in markdown format, and then translate that document to [pug](https://pugjs.org/api/getting-started.html)#. It turned out to be a little bit more involved than that, since then generation didn't account for things like links inside of paragraphs or fenced code blocks. There was also plenty of async/await going on behind the scenes in order to make sure that the page didn't render before the conversion took place.
+In creating this portfolio/resume/personal website, I thought it might be nice to have a system where I could just write a series of individual, self-contained posts in markdown format, and then translate that document to [pug](https://pugjs.org/api/getting-started.html)#. It turned out to be a little bit more involved than that since then generation didn't account for things like links inside of paragraphs or fenced code blocks. There was also plenty of async/await going on behind the scenes to make sure that the page didn't render before the conversion took place. 
 
 There's also the possibility that I over-thought/ over-engineered the whole thing and made a real SNAFU of a possibly simplistic matter. But at the time, this seemed to be the most elegant way to achieve what I wanted to do.
 
@@ -24,7 +24,7 @@ There's also the possibility that I over-thought/ over-engineered the whole thin
     });
 ```
 
-I'm using [express.js](https://expressjs.com/)# for my web server, and signaling it to render my .pug files as HTML. That await right there is the crux of the whole operation. It outputs a list of inline HTML that I then shove into the home page as links to the individualized pages I render from the markdown. 
+I'm using [express.js](https://expressjs.com/)# for my webserver and signaling it to render my .pug files as HTML. That await right there is the crux of the whole operation. It outputs a list of inline HTML that I then shove into the home page as links to the individualized pages I render from the markdown. 
 
 ```
     const generateHTML = () => {
@@ -80,7 +80,7 @@ This then gets all of the blurbs for all of the .md files into one array.
     };
 ```
 
-The actual home page blurb gets resolved up, and the web page gets created in the background. I should probably be using async/await here, too, but I am still a little mistified as to when it's necessary. I kind of just found a configuration that works and hoped it wasn't so superfluous. I kind of cheated by using increasing levels of headers and crazy levels of regular expressions, but it works so 🤷.
+The actual home page blurb gets resolved up, and the web page gets created in the background. I should probably be using async/await here, too, but I am still a little mystified as to when it's necessary. I found a configuration that works and hoped it wasn't too superfluous. I kind of cheated by using increasing levels of headers and crazy levels of regular expressions, but it works so 🤷.
 
 ```
     # Adventures in Markdown-To-HTML
@@ -88,7 +88,7 @@ The actual home page blurb gets resolved up, and the web page gets created in th
     ### Promises galore!
 ```
 
-I need this structure at the top of every one of my posts, and I need an extra tab in all of my code fences (I tried making it cleaner, but this works every time so far and is much simpler than the positive-lookbehind nonsense that I would have had to do). I also need a delimiter at the end of any links, but other than that I can just type in plaintext and it gets converted to paragraph tags.
+I need this structure at the top of every one of my posts, and I need an extra tab in all of my code fences (I tried making it cleaner, but this works every time so far and is much simpler than the positive-look behind nonsense that I would have had to do). I also need a delimiter at the end of any links, but other than that I can just type in plaintext and it gets converted to paragraph tags.
 
 ```
     const createWebPage = (data, header) => {
@@ -111,6 +111,6 @@ I need this structure at the top of every one of my posts, and I need an extra t
     };
 ```
 
-This is the final piece. This creates the webpage and does some regex craziness to fix some of the grey areas that the markdown-to-pug package can't handle very well. I added the functionality with just-about-boilerplate code, but after about a days worth of work I think my whole system is at a point where I'm pretty proud of it. At least proud enough to just use it for a while and not have to poke at the innards.
+This is the final piece. This creates the webpage and does some regex craziness to fix some of the grey areas that the markdown-to-pug package can't handle very well. I added the functionality with just-about-boilerplate code, but after about a day's worth of work, I think my whole system is at a point where I'm pretty proud of it. At least proud enough to just use it for a while and not have to poke at the innards.
 
 Source code is on my [github](https://github.com/mathaou/showcase)#!

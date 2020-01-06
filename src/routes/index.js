@@ -54,6 +54,8 @@ const createWebPage = (data, header) => {
       .replace(/\s\s(h\d)/gim, "      $1")
       .replace(/\s\s(p)/gmi, '      $1')
       .replace(/\n\s\s\s\s(a\(href=".*"\)\s.*)\s#/gmi, `#[$1]`)
+      .replace(/\s\s\s\s(em.*\n)/gmi, `      $1`)
+      .replace(/\s\s\s\s(img\(src=".*\))/gmi, `      $1.generated`)
       .replace(/\n\s*h3.*\n/gm, '\n')
   ].join("");
 
