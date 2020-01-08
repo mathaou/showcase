@@ -179,4 +179,8 @@ router.get("/files/resume_cv.pdf", (req, res, next) => {
   res.sendFile("/files/resume_cv.pdf");
 });
 
+router.get("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0", (req, res, next) => {
+  res.sendFile("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0");
+});
+
 export default router;

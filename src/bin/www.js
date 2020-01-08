@@ -21,6 +21,26 @@ app.set('port', port);
  * Create HTTP server.
  */
 
+const readFile = src => {
+  return new Promise((resolve, reject) => {
+    fs.readFile(__dirname + src, "utf8", (err, data) => {
+      if (err) {
+        reject(err);
+      }
+
+      resolve(data);
+    });
+  });
+};
+
+const generateHTTPSData = async () => {
+  return {
+    key: await readFile('/key.pem'),
+    cert: await readFile('/cert.pem'),
+    passphrase: 'H3ather!sC00l10'
+  }
+}
+
 var server = http.createServer(app);
 
 /**
