@@ -7,6 +7,9 @@
 import app from '../app';
 import debugLib from 'debug';
 import http from 'http';
+import https from 'https';
+
+import fs from 'fs';
 
 const debug = debugLib('showcase:server');
 
@@ -15,41 +18,51 @@ const debug = debugLib('showcase:server');
  */
 
 var port = normalizePort(process.env.PORT || '3000');
+
 app.set('port', port);
 
 /**
  * Create HTTP server.
  */
 
-const readFile = src => {
-  return new Promise((resolve, reject) => {
-    fs.readFile(__dirname + src, "utf8", (err, data) => {
-      if (err) {
-        reject(err);
-      }
+// const readFile = src => {
+//   return new Promise((resolve, reject) => {
+//     fs.readFile(src, "utf8", (err, data) => {
+//       if (err) {
+//         reject(err);
+//       }
 
-      resolve(data);
-    });
-  });
-};
+//       resolve(data);
+//     });
+//   });
+// };
 
-const generateHTTPSData = async () => {
+const generateHTTPSData = () => {
   return {
-    key: await readFile('/key.pem'),
-    cert: await readFile('/cert.pem'),
-    passphrase: 'H3ather!sC00l10'
+    key: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/cert.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/chain.pem')
   }
 }
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
+var secureServer = https.createServer(generateHTTPSData(), app);
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+// server.listen(port, () => {
+//   console.log('HTTP server listening on '+ port);
+// });
+
+// server.on('error', onError);
+
+secureServer.listen(port, () => {
+  console.log('HTTPS server listening on '+ port);
+});
+
+secureServer.on('error', onError);
 
 /**
  * Normalize a port into a number, string, or false.
@@ -102,7 +115,7 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
+  var addr = secureServer.address();
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   console.log(`Listening on ${bind}`);
   debug('Listening on ' + bind);
