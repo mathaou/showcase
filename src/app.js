@@ -3,14 +3,17 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import indexRouter from './routes/index';
 import path from 'path';
-import http from 'http';
-import { redirectToHTTPS } from 'express-http-to-https';
- 
 
 const app = express();
 
-app.use(redirectToHTTPS([/localhost:(\d{4})/], [/\/insecure/], 301));
- 
+app.use((req, res, next) => {
+    if (req.headers.host.slice(0, 4) !== 'www.') {
+        var newHost = 'www.' + req.headers.host;
+        return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
+    }
+    next();
+});
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

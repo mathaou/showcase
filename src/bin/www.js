@@ -6,6 +6,7 @@
 
 import app from '../app';
 import debugLib from 'debug';
+import net from 'net';
 import http from 'http';
 import https from 'https';
 
@@ -35,7 +36,23 @@ const generateHTTPSData = () => {
   }
 }
 
-// var server = http.createServer(app).listen(8080);
+net.createServer((conn) => {
+  conn.once('data', (buf) => {
+    // A TLS handshake record starts with byte 22.
+    var address = (buf[0] === 22) ? port + 2 : port + 1;
+    var proxy = net.createConnection(address, function () {
+      proxy.write(buf);
+      conn.pipe(proxy).pipe(conn);
+    });
+  })
+}).listen(port);
+
+http.createServer((req, res) => {
+  var host = req.headers['host'];
+  res.writeHead(301, { "Location": "https://" + host + req.url });
+  res.end();
+}).listen(port + 1);
+
 var secureServer = https.createServer(generateHTTPSData(), app);
 
 /**
@@ -48,7 +65,7 @@ var secureServer = https.createServer(generateHTTPSData(), app);
 
 // server.on('error', onError);
 
-secureServer.listen(port, () => {
+secureServer.listen(port + 2, () => {
   console.log('HTTPS server listening on '+ port);
 });
 
@@ -60,12 +77,10 @@ secureServer.on('error', onError);
 
 function normalizePort(val) {
   var port = parseInt(val, 10);
-
   if (isNaN(port)) {
     // named pipe
     return val;
   }
-
   if (port >= 0) {
     // port number
     return port;
