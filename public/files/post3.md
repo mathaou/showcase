@@ -6,9 +6,9 @@
 ## 10 Jan 2020
 ### Filtering for correct DNS entry, too!
 
-This post is going to be short, mostly for my own/ future use (provided my setup is the same), but I suppose the principal of the lesson I learned is applicable elsewhere, too.
+This post is going to be short. It's mostly for my own/ future use (provided my setup is the same), but I suppose the principal of the lesson I learned is applicable elsewhere, too.
 
-I wanted incoming traffic to be HTTPS because I spent a while learning how to create SSL certs for the website. But the domain is only valid if it uses www.domain.com, so here's what I came up with. 
+I wanted incoming traffic to be HTTPS because I spent a while learning how to create SSL certs for the website. But the domain is only valid if it uses a specific URL, so here's what I came up with. 
 
 Routing all non www. traffic:
 ```
@@ -33,7 +33,7 @@ Be careful with reading from '/' with fs, you will likely need to mess with file
         }
     }
 ```
-This is the annoying part. I tried various other solutions that claimed to be http-https routing packages, but I either couldn't get them to work or they were for websites less complicated than mine. So you have to create a TLS router on {desiredPort} that pipes the connection to the appropriate port (http: {desiredPort + 1, https: {desiredPort + 2}}).
+This is the annoying part. I tried various other solutions that claimed to be http-https routing packages, but I either couldn't get them to work or they were for websites less complicated than mine. So you have to create a TLS router on {desiredPort} that pipes the connection to the appropriate port (http: {desiredPort + 1}, https: {desiredPort + 2}}).
 ```
 
     net.createServer((conn) => {
@@ -63,5 +63,4 @@ Anyway, http server just routes to https. Took a while to figure out how to get 
 
 
 ```
-
 That's all, folks!

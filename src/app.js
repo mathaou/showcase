@@ -7,7 +7,7 @@ import path from 'path';
 const app = express();
 
 app.use((req, res, next) => {
-    if (req.headers.host.slice(0, 4) !== 'www.') {
+    if (req.headers.host.slice(0, 4) !== 'www.' && req.headers.host.indexOf('localhost') === -1) {
         var newHost = 'www.' + req.headers.host;
         return res.redirect(301, req.protocol + '://' + newHost + req.originalUrl);
     }

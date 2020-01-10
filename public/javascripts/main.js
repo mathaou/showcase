@@ -1,4 +1,4 @@
-$(document).on('ready', () => {
+$(document).ready(() => {
     $('#nav-menu').on('click', () => {
         $('#menu').toggleClass('btn-close');
         $('#sidebar').toggleClass('menu-open');
@@ -15,5 +15,5 @@ $(document).on('ready', () => {
     $('#back-to-top').on('click', () => {
         $(document).scrollTop(0); // For Safari
         $('#back-to-top').removeClass('hidden');
-    });
+    })
 });

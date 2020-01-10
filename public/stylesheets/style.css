@@ -64,6 +64,10 @@ Tablets
   h3, h4 {
     font-size: 1em;
   }
+
+  footer {
+    margin-top: -6vh;
+  }
 }
 /*
 Smartphone
@@ -125,6 +129,10 @@ Smartphone
 
   h3, h4 {
     font-size: 1em;
+  }
+
+  footer {
+    margin-top: -6vh;
   }
 }
 /*
@@ -425,7 +433,7 @@ div {
 
 footer {
   padding: 2vh 0;
-  margin-top: -6vh;
+  /* margin-top: -6vh; */
   height: 6vh;
   background-color: #F68887;
   color: #314455;
