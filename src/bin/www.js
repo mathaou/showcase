@@ -21,21 +21,11 @@ var port = normalizePort(process.env.PORT || '3000');
 
 app.set('port', port);
 
+app.enable('trust proxy');
+
 /**
  * Create HTTP server.
  */
-
-// const readFile = src => {
-//   return new Promise((resolve, reject) => {
-//     fs.readFile(src, "utf8", (err, data) => {
-//       if (err) {
-//         reject(err);
-//       }
-
-//       resolve(data);
-//     });
-//   });
-// };
 
 const generateHTTPSData = () => {
   return {
@@ -45,7 +35,7 @@ const generateHTTPSData = () => {
   }
 }
 
-// var server = http.createServer(app);
+// var server = http.createServer(app).listen(8080);
 var secureServer = https.createServer(generateHTTPSData(), app);
 
 /**
