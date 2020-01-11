@@ -37,6 +37,10 @@ const generateHTTPSData = () => {
 }
 
 net.createServer((conn) => {
+  conn.on('error', (err) => {
+    console.log("Caught flash policy server socket error: ")
+    console.log(err.stack)
+  })
   conn.once('data', (buf) => {
     // A TLS handshake record starts with byte 22.
     var address = (buf[0] === 22) ? port + 2 : port + 1;
