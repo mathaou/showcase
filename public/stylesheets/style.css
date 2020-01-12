@@ -68,11 +68,20 @@ Tablets
   footer {
     margin-top: -6vh;
   }
+
+  .main {
+    max-width: 100vw;
+  }
 }
 /*
 Smartphone
 */
 @media (max-width: 767px) {
+
+  .main {
+    max-width: 100vw;
+  }
+
   .col1 {
     margin-left: auto;
     margin-right: auto;
@@ -139,6 +148,11 @@ Smartphone
 Desktop
 */
 @media (min-width: 992px) {
+
+  .main {
+    max-width: 80vw;
+  }
+
   blockquote {
     margin: 1.3334em;
     padding: 0 1.33334em;
@@ -422,7 +436,6 @@ h2, h3, h4 {
 }
 
 .main {
-  max-width: 80vw;
   min-height: 100%;
   margin-bottom: 6vh;
 }
