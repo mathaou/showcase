@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .row
+    .col-md-8.post-container
+      ul#posts
+        != createdPosts
+      .pagination
+        != pages

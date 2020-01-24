@@ -2,6 +2,11 @@
 Tablets
 */
 @media (min-width: 768px) and (max-width: 991.98px) {
+
+  .wrapper {
+    min-height: 100%;
+  }
+
   .col1 {
     margin-left: auto;
     margin-right: auto;
@@ -78,6 +83,10 @@ Smartphone
 */
 @media (max-width: 767px) {
 
+  .wrapper {
+    min-height: 100%;
+  }
+
   .main {
     max-width: 100vw;
   }
@@ -149,6 +158,10 @@ Desktop
 */
 @media (min-width: 992px) {
 
+  .wrapper {
+    min-height: 94vh;
+  }
+
   .main {
     max-width: 80vw;
   }
@@ -190,10 +203,7 @@ body {
   background-color: #ECECEC;
   color: #314455;
   height: 100%;
-  transition: .3s ease-in-out;
-  -moz-transition: .3s ease-in-out;
-  -webkit-transition: .3s ease-in-out;
-  -o-transition: .3s ease-in-out;
+  font-family: 'IBM Plex Mono', monospace;
 }
 
 html {
@@ -202,6 +212,7 @@ html {
 
 h1 {
   color: #4682B4;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
 }
 
 #back-to-top svg {
@@ -266,6 +277,10 @@ i {
   right: 1vw;
   z-index: 10;
   height: 4vh;
+  transition: .3s ease-in-out;
+  -moz-transition: .3s ease-in-out;
+  -webkit-transition: .3s ease-in-out;
+  -o-transition: .3s ease-in-out;
 }
 
 em {
@@ -311,6 +326,7 @@ blockquote {
   color: #F68887;
   padding: 0;
   margin-left: 1vw;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
 }
 
 .post-container h1 { 
@@ -327,6 +343,7 @@ blockquote {
 .post-container h3, h4 {
   border-left: 4px solid #F68887;
   font-style: italic;
+  font-family: 'IBM Plex Sans Condensed', sans-serif;
 }
 
 .music p {
@@ -411,10 +428,6 @@ span.page-item {
   -moz-transition: .3s ease-in-out;
   -webkit-transition: .3s ease-in-out;
   -o-transition: .3s ease-in-out;
-}
-
-.wrapper {
-  min-height: 100%;
 }
 
 header {

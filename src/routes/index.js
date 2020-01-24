@@ -135,7 +135,7 @@ const createMultiplePages = async () => {
     const chunkStore = postChunks[i];
     if(i === 0) {
       router.get("/personal", (req, res, next) => {
-        res.render("index", {
+        res.render("personal", {
           title,
           now: moment().format("MMMM Do, YYYY"),
           createdPosts: chunkStore.join(""),
@@ -160,7 +160,7 @@ const createMultiplePages = async () => {
 createMultiplePages();
 
 router.get("/", (req, res, next) => {
-  res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
+  res.render("index", { title, now: moment().format("MMMM Do, YYYY") });
 });
 
 router.get("/resume", (req, res, next) => {
@@ -179,8 +179,8 @@ router.get("/files/resume_cv.pdf", (req, res, next) => {
   res.sendFile("/files/resume_cv.pdf");
 });
 
-router.get("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0", (req, res, next) => {
-  res.sendFile("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0");
-});
+// router.get("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0", (req, res, next) => {
+//   res.sendFile("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0");
+// });
 
 export default router;
