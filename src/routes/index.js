@@ -160,7 +160,7 @@ const createMultiplePages = async () => {
 createMultiplePages();
 
 router.get("/", (req, res, next) => {
-  res.render("index", { title, now: moment().format("MMMM Do, YYYY") });
+  res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
 });
 
 router.get("/resume", (req, res, next) => {
