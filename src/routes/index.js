@@ -104,7 +104,7 @@ const chunkArrayInGroups = (arr, size) => {
 };
 
 const generatePagination = (length, index) => {
-  var previous = (index == 2) ? '/' : `/page${index-1}/`;
+  var previous = (index == 2) ? '/personal' : `/page${index-1}/`;
   var next = `/page${index+1}/`;
   
   var leftArrow = (index == 1) ? `<span class =\"page-item\"><<</span>` : `<a href=\"${previous}\" class =\"page-item\"><<</a>`;
@@ -115,7 +115,7 @@ const generatePagination = (length, index) => {
   var pagination = leftArrow;
 
   for(var i = 1; i < length + 1; i++) {
-    var toAdd = (i == 1) ? '/' : `/page${i}/`;
+    var toAdd = (i == 1) ? '/personal' : `/page${i}/`;
     if(i != index) {
       pagination = pagination.concat(`<a href=\"${toAdd}\" class =\"page-item\">${i}</a>`)
     } else {
@@ -144,7 +144,7 @@ const createMultiplePages = async () => {
       });
     } else {
       const fileName = `page${i+1}`;
-      fs.copyFileSync('src/views/index.pug', `src/views/${fileName}.pug`);
+      fs.copyFileSync('src/views/personal.pug', `src/views/${fileName}.pug`);
       router.get(`/${fileName}`, (req, res, next) => {
         res.render(fileName, {
           title,

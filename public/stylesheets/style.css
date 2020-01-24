@@ -1,209 +1,149 @@
-/*
-Tablets
-*/
-@media (min-width: 768px) and (max-width: 991.98px) {
+/* COLOR */
 
-  .wrapper {
-    min-height: 100%;
-  }
+/* BACK TO TOP BUTTON */
 
-  .col1 {
-    margin-left: auto;
-    margin-right: auto;
-    display: table;
-  }
-
-  .col2 {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-bottom: 4vh;
-  }
-
-  .post-container {
-    flex: none;
-    max-width: 100%;
-  }
-
-  .post-container p {
-    font-size: 18px;
-  }
-
-  code {
-    font-size: 12px;
-  }
-
-  #posts h2 {
-    font-size: 24px;
-  }
-
-  blockquote {
-    padding-left: 1vw;
-  }
-
-  html {
-    font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
-  }
-
-  .menu-open {
-    width: 25%!important;
-  }
-  
-  #sidebar {
-    padding: 5vh 0;
-  }
-
-  .icon {
-    font-size: x-large;
-  }
-
-  h2, h3, h4 {
-    line-height: 1em;
-    padding: 1em 0 0 0;
-  }
-
-  h2 {
-    font-size: 1.5em;
-  }
-
-  h3, h4 {
-    font-size: 1em;
-  }
-
-  footer {
-    margin-top: -6vh;
-  }
-
-  .main {
-    max-width: 100vw;
-  }
+#back-to-top {
+  background-color: #4E6D9B ; /* Set a background color */
+  color: lightgrey; /* Text color */
+  border: .1em solid white;
 }
-/*
-Smartphone
-*/
-@media (max-width: 767px) {
 
-  .wrapper {
-    min-height: 100%;
-  }
+/* LINKS */
 
-  .main {
-    max-width: 100vw;
-  }
-
-  .col1 {
-    margin-left: auto;
-    margin-right: auto;
-    display: table;
-  }
-
-  .col2 {
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    margin-bottom: 4vh;
-  }
-
-  html {
-    font: 12px "Lucida Grande", Helvetica, Arial, sans-serif;
-  }
-
-  .menu-open {
-    width: 30%!important;
-  }
-
-  #sidebar {
-    padding: 4vh 0;
-  }
-
-  .icon {
-    font-size: large;
-  }
-
-  .post-container p {
-    font-size: 14px;
-  }
-
-  code {
-    font-size: 12px;
-  }
-
-  #posts h2 {
-    font-size: 22px;
-  }
-
-  blockquote {
-    padding-left: 1vw;
-  }
-
-  h2, h3, h4 {
-    line-height: 1em;
-    padding: 1em 0 0 0;
-  }
-
-  h2 {
-    font-size: 1.5em;
-  }
-
-  h3, h4 {
-    font-size: 1em;
-  }
-
-  footer {
-    margin-top: -6vh;
-  }
+a:active {
+  color: lightgrey;
 }
-/*
-Desktop
-*/
-@media (min-width: 992px) {
 
-  .wrapper {
-    min-height: 94vh;
-  }
-
-  .main {
-    max-width: 80vw;
-  }
-
-  blockquote {
-    margin: 1.3334em;
-    padding: 0 1.33334em;
-  }
-
-  #posts h2 {
-    font-size: 50px;
-  }
-  html {
-    font: 18px "Lucida Grande", Helvetica, Arial, sans-serif;
-  }
-  .menu-open {
-    width: 20%!important;
-  }
-
-  #sidebar {
-    padding: 6vh 0;
-  }
-
-  .icon {
-    font-size: x-large;
-  }
-
-  h2, h3, h4 {
-    padding: .33em;
-    line-height: 1.33em;
-  }
+a {
+  color: #FFFFFF;
 }
+
+/* FOOTER */
+
+footer {
+  background-color: #E56A6C;
+  color: black;
+}
+
+/* SIDEBAR */
+
+#sidebar {
+  background-color: #6ABDDB;
+  color: #AFABA0;
+}
+
+#sidebar a {
+  color: white;
+}
+
+#sidebar a:hover {
+  color: black;
+  background-color: #99CED2;
+}
+
+hr { 
+  display: block; height: 1px;
+  border: 0; border-top: 1px solid white;
+  margin: 1em 0; padding: 0; 
+}
+
+/* 3 LITTLE BAR THINGS FOR SIDEBAR */
+
+#menu {
+  background-color: #c4d8e8;
+}
+
+#menu::before,
+#menu::after {
+  background-color: #c4d8e8;
+}
+
+/* WHITE BAR BETWEEN SECTIONS OF SIDEBAR */
+
+.nav-list::after {
+  background-color: #fff;
+}
+
+
+span.page-item {
+  color: darkgrey;
+}
+
+a.page-item:hover {
+  color: #99CED2;
+}
+
+span.page-item:hover {
+  color: none;
+}
+
+/* DATE TAG OF POSTS */
+
+#posts p {
+  color: #99CED2;
+}
+
+/* THE POST LINK */
+
+a {
+  color: lightblue;
+}
+
+a:hover {
+  color: #6ABDDB;
+}
+
+/* POST PREVIEW */
+
+blockquote {
+  border-left: 4px solid #6ABDDB;
+}
+
+/* CODE */
+
+pre {
+  color: #99CED2;
+}
+
+body {
+  background-color: #5F6366;
+  color: #E5F5FF;
+}
+
+/* HEADERS */
+
+h1 {
+  color: #E56A6C;
+}
+
+#posts h2 {
+  color: #6ABDDB;
+}
+
+.post-container h3,
+h4 {
+  border-left: 4px solid #6ABDDB;
+}
+
+.post-container h2 {
+  color: #6ABDDB;
+}
+
+h2,
+h3,
+h4 {
+  color: #6ABDDB  ;
+}
+
+/* END COLOR */
 
 code {
   overflow-x: scroll;
 }
 
 body {
-  background-color: #ECECEC;
-  color: #314455;
   height: 100%;
-  font-family: 'IBM Plex Mono', monospace;
+  font-family: "IBM Plex Mono", monospace;
 }
 
 html {
@@ -211,8 +151,7 @@ html {
 }
 
 h1 {
-  color: #4682B4;
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
 }
 
 #back-to-top svg {
@@ -228,17 +167,14 @@ h1 {
 }
 
 #back-to-top {
-  box-shadow: .2vh .2vw;
+  box-shadow: 0.2vh 0.2vw;
   display: block; /* Hidden by default */
   position: fixed; /* Fixed/sticky position */
   bottom: 2vh; /* Place the button at the bottom of the page */
   right: 1vw; /* Place the button 30px from the right */
   z-index: 99; /* Make sure it does not overlap */
-  border: none; /* Remove borders */
   outline: none; /* Remove outline */
-  background-color: #303C6C; /* Set a background color */
-  transition: bottom .2s, opacity .2s;
-  color: lightgrey; /* Text color */
+  transition: bottom 0.2s, opacity 0.2s;
   cursor: pointer; /* Add a mouse pointer on hover */
   padding: 1vw; /* Some padding */
   border-radius: 1vw; /* Rounded corners */
@@ -266,7 +202,8 @@ i {
   padding: 5px;
 }
 
-.col2, .col1 {
+.col2,
+.col1 {
   text-align: center;
 }
 
@@ -277,10 +214,10 @@ i {
   right: 1vw;
   z-index: 10;
   height: 4vh;
-  transition: .3s ease-in-out;
-  -moz-transition: .3s ease-in-out;
-  -webkit-transition: .3s ease-in-out;
-  -o-transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
 }
 
 em {
@@ -310,40 +247,26 @@ img {
 }
 
 blockquote {
-  border-left: 4px solid #F68887;
   font-style: italic;
 }
 
-#posts a {
-  color: #F68887;
-}
-
-#posts a:hover {
-  color: #FF9F9F
-}
-
 #posts h2 {
-  color: #F68887;
   padding: 0;
   margin-left: 1vw;
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
-}
-
-.post-container h1 { 
-  color: #F68887;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
 }
 
 .post-container h2 {
-  color: #A0BFDF;
   font-size: 18px;
   padding: 1vw;
   margin: 0;
 }
 
-.post-container h3, h4 {
-  border-left: 4px solid #F68887;
+.post-container h3,
+h4 {
   font-style: italic;
-  font-family: 'IBM Plex Sans Condensed', sans-serif;
+  padding-left: 1em;
+  font-family: "IBM Plex Sans Condensed", sans-serif;
 }
 
 .music p {
@@ -355,7 +278,6 @@ blockquote {
 }
 
 #posts p {
-  color: #A0BFDF;
   padding-left: 3vw;
 }
 
@@ -366,7 +288,6 @@ blockquote {
 #menu {
   height: 4px;
   width: 1.5em;
-  background-color: #c4d8e8;
   margin-top: 8px;
 }
 
@@ -382,14 +303,8 @@ blockquote {
   margin-right: auto;
 }
 
-span.page-item {
-  background-color: lightgrey;
-}
-
 .page-item {
-  margin: .2vw;
-  background-color: #F68887;
-  color: #FFF;
+  margin: 0.2vw;
   padding: 4px 8px;
   font-weight: 400;
   padding: 0.5em 1em;
@@ -403,31 +318,29 @@ span.page-item {
   top: 4px;
 }
 
-#menu::before, #menu::after {
+#menu::before,
+#menu::after {
   content: "";
   display: block;
   position: relative;
   height: 4px;
   width: 1.5em;
-  background-color: #c4d8e8;
   transition: all 0.3s ease-in;
 }
 
 #sidebar {
   position: fixed;
   display: block;
-  background-color: #91CCF4;
   width: 0%;
   top: 0;
   bottom: 0;
   right: -10vw;
-  color: #FFF;
   opacity: 0.95;
   z-index: 1;
-  transition: .3s ease-in-out;
-  -moz-transition: .3s ease-in-out;
-  -webkit-transition: .3s ease-in-out;
-  -o-transition: .3s ease-in-out;
+  transition: 0.3s ease-in-out;
+  -moz-transition: 0.3s ease-in-out;
+  -webkit-transition: 0.3s ease-in-out;
+  -o-transition: 0.3s ease-in-out;
 }
 
 header {
@@ -437,15 +350,10 @@ header {
 
 .nav-list::after {
   display: inline-flex;
-  content: '';
+  content: "";
   width: 20%;
   height: 1px;
   margin-left: 2vw;
-  background-color: #FFF;
-}
-
-h2, h3, h4 {
-  color: #314455
 }
 
 .main {
@@ -461,18 +369,15 @@ footer {
   padding: 2vh 0;
   /* margin-top: -6vh; */
   height: 6vh;
-  background-color: #F68887;
-  color: #314455;
   text-align: center;
   width: 100%;
 }
 
 a {
-  color: black;
   text-decoration: none;
   display: block;
   font-weight: 400;
-  padding: .33em 0;
+  padding: 0.33em 0;
 }
 
 p a {
@@ -501,12 +406,15 @@ a:hover {
   cursor: pointer;
 }
 
-#sidebar a:hover {
-  color: #4D6E9B;
-  background-color: #FF8F8F;
+a:active {
+  text-decoration: none;
 }
 
-a:active {
-  color: lightgrey;
-  text-decoration: none;
+.projects > h3 {
+  margin-top: 1em;
+}
+
+.projects > img {
+  padding-bottom: 1em;
+  border-bottom: 0.1em double white;
 }

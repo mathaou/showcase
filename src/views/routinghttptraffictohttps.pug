@@ -4,7 +4,7 @@ block content
     .col-md-8.post-container
       h1 Routing HTTP Traffic to HTTPS
       h2 10 Jan 2020
-      p This post is going to be short. It’s mostly for my own/ future use (provided my setup is the same), but I suppose the principal of the lesson I learned is applicable elsewhere, too.
+      p This post is going to be short - It’s mostly for my own/ future use (provided my setup is the same), but I suppose the principal of the lesson I learned is applicable elsewhere, too.
       p I wanted incoming traffic to be HTTPS because I spent a while learning how to create SSL certs for the website. But the domain is only valid if it uses a specific URL, so here’s what I came up with.
       p Routing all non www. traffic:
       pre.hljs
@@ -58,7 +58,5 @@ block content
           }).listen(port + 1);
       
           var secureServer = https.createServer(generateHTTPSData(), app);
-      
-      
       
       p That’s all, folks!

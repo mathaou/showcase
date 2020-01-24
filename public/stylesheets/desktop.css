@@ -1,0 +1,47 @@
+/*
+Desktop
+*/
+@media (min-width: 992px) {
+  .wrapper {
+    min-height: 94vh;
+  }
+
+  #sidebar a {
+      font-size: smaller;
+  }
+
+  .main {
+    max-width: 80vw;
+  }
+
+  blockquote {
+    margin: 1.3334em;
+    padding: 0 1.33334em;
+  }
+
+  #posts h2 {
+    font-size: 50px;
+  }
+
+  html {
+    font-size: 18px;
+  }
+
+  .menu-open {
+    width: 20% !important;
+  }
+
+  #sidebar {
+    padding: 6vh 0;
+  }
+
+  .icon {
+    font-size: x-large;
+  }
+
+  h2,
+  h3,
+  h4 {
+    line-height: 1.33em;
+  }
+}

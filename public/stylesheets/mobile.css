@@ -1,0 +1,77 @@
+/*
+Smartphone
+*/
+@media (max-width: 767px) {
+  .wrapper {
+    min-height: 100%;
+  }
+
+  .main {
+    max-width: 100vw;
+  }
+
+  .col1 {
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+  }
+
+  .col2 {
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-bottom: 4vh;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  .menu-open {
+    width: 30% !important;
+  }
+
+  #sidebar {
+    padding: 4vh 0;
+  }
+
+  .icon {
+    font-size: large;
+  }
+
+  .post-container p {
+    font-size: 14px;
+  }
+
+  #posts h2 {
+    font-size: 22px;
+  }
+
+  blockquote {
+    padding-left: 1vw;
+  }
+
+  #sidebar a {
+    font-size: small;
+  }
+
+  h2,
+  h3,
+  h4 {
+    line-height: 1em;
+  }
+
+  h2 {
+    font-size: 1.5em;
+  }
+
+  h3,
+  h4 {
+    font-size: 1em;
+    padding-left: 1em;
+  }
+
+  footer {
+    margin-top: -6vh;
+  }
+}

@@ -6,7 +6,7 @@
 ## 10 Jan 2020
 ### Filtering for correct DNS entry, too!
 
-This post is going to be short. It's mostly for my own/ future use (provided my setup is the same), but I suppose the principal of the lesson I learned is applicable elsewhere, too.
+This post is going to be short - It's mostly for my own/ future use (provided my setup is the same), but I suppose the principal of the lesson I learned is applicable elsewhere, too.
 
 I wanted incoming traffic to be HTTPS because I spent a while learning how to create SSL certs for the website. But the domain is only valid if it uses a specific URL, so here's what I came up with. 
 
@@ -60,7 +60,5 @@ Anyway, http server just routes to https. Took a while to figure out how to get 
     }).listen(port + 1);
 
     var secureServer = https.createServer(generateHTTPSData(), app);
-
-
 ```
 That's all, folks!
