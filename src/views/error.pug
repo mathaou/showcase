@@ -1,6 +1,31 @@
-extends layout
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
+    meta(http-equiv='x-ua-compatable', content='ie=edge')
 
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+    title= title
+    link(rel='stylesheet', href='/css/font-awesome.min.css')
+    link(rel="icon" href="/images/piano.png" sizes="16x16")
+    script(type='text/javascript' src='/jquery.min.js')
+    script(type='text/javascript' src='/js/bootstrap.min.js')
+    script(type='text/javascript' src='/javascripts/main.js')
+    link(rel='stylesheet', href='/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/desktop.css')
+    link(rel='stylesheet', href='/stylesheets/mobile.css')
+    link(rel='stylesheet', href='/stylesheets/tablets.css')
+    link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i|IBM+Plex+Sans+Condensed:400,400i|IBM+Plex+Sans:100,100i,400,400i,700,700i|IBM+Plex+Serif:400,400i&display=swap" rel="stylesheet")
+  body
+    .wrapper
+      header.container-fluid
+          h1.p2= message
+      include sidebar
+      .container.main
+        #error-div.col-12.d-flex
+          if(message === "404'd!")
+            h2.p2 Use the sidebar to return to civilization.
+    footer
+        - var footerString = `2019 - Matthew W. Farstad`
+        span= footerString

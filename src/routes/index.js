@@ -155,6 +155,10 @@ const createMultiplePages = async () => {
       });
     }
   }
+
+  router.get("*", (req, res, next) => {
+    res.status(404).render("error", { message: "404'd!" });
+  }); 
 };
 
 createMultiplePages();
@@ -179,8 +183,10 @@ router.get("/files/resume_cv.pdf", (req, res, next) => {
   res.sendFile("/files/resume_cv.pdf");
 });
 
-// router.get("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0", (req, res, next) => {
-//   res.sendFile("/.well-known/acme-challenge/Z4Zc2HGghWIoBulj4k4dk4jjol7mXJ_QsowI6CSXZJ0");
+// for ssl cert generation
+
+// router.get("/.well-known/acme-challenge/CHALLENGE_STRING", (req, res, next) => {
+//   res.sendFile("/.well-known/acme-challenge/CHALLENGE_STRING");
 // });
 
 export default router;

@@ -59,16 +59,6 @@ http.createServer((req, res) => {
 
 var secureServer = https.createServer(generateHTTPSData(), app);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-// server.listen(port, () => {
-//   console.log('HTTP server listening on '+ port);
-// });
-
-// server.on('error', onError);
-
 secureServer.listen(port + 2, () => {
   console.log('HTTPS server listening on '+ port);
 });
