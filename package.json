@@ -11,6 +11,7 @@
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist --copy-files",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
+    "forever": "NODE_ENV=production npm-run-all clean build",
     "watch": "nodemon"
   },
   "dependencies": {
