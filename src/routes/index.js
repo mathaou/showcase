@@ -1,7 +1,6 @@
 // @flow
 
 import express from "express";
-import moment from "moment";
 
 import { glob } from "glob";
 import path from "path";
@@ -10,6 +9,8 @@ import fs from "fs";
 const chunkSize = 5;
 const mdGenerator = new (require("markdown-to-pug"))();
 const title = "M. Farstad";
+const lastUpdate = '24 January 2019'
+
 var router = express.Router();
 
 const generateHTML = () => {
@@ -137,7 +138,7 @@ const createMultiplePages = async () => {
       router.get("/personal", (req, res, next) => {
         res.render("personal", {
           title,
-          now: moment().format("MMMM Do, YYYY"),
+          now: lastUpdate,
           createdPosts: chunkStore.join(""),
           pages: generatePagination(postChunks.length, i + 1)
         });
@@ -148,7 +149,7 @@ const createMultiplePages = async () => {
       router.get(`/${fileName}`, (req, res, next) => {
         res.render(fileName, {
           title,
-          now: moment().format("MMMM Do, YYYY"),
+          now: lastUpdate,
           createdPosts: chunkStore.join(""),
           pages: generatePagination(postChunks.length, i + 1)
         });
@@ -164,19 +165,19 @@ const createMultiplePages = async () => {
 createMultiplePages();
 
 router.get("/", (req, res, next) => {
-  res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
+  res.render("index ", { title, now: lastUpdate });
 });
 
 router.get("/resume", (req, res, next) => {
-  res.render("resume", { title, now: moment().format("MMMM Do, YYYY") });
+  res.render("resume", { title, now: lastUpdate });
 });
 
 router.get("/music", (req, res, next) => {
-  res.render("music", { title, now: moment().format("MMMM Do, YYYY") });
+  res.render("music", { title, now: lastUpdate });
 });
 
 router.get("/projects", (req, res, next) => {
-  res.render("projects", { title, now: moment().format("MMMM Do, YYYY") });
+  res.render("projects", { title, now: lastUpdate });
 });
 
 router.get("/files/resume_cv.pdf", (req, res, next) => {
