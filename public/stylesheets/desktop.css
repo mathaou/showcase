@@ -39,6 +39,10 @@ Desktop
     font-size: x-large;
   }
 
+  .post-container {
+    max-width: 1140px;
+  }
+
   h2,
   h3,
   h4 {
