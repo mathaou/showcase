@@ -15,6 +15,7 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
     link(rel='stylesheet', href='/stylesheets/desktop.css')
     link(rel='stylesheet', href='/stylesheets/mobile.css')
+    link(rel='stylesheet', href='/stylesheets/4k.css')
     link(rel='stylesheet', href='/stylesheets/tablets.css')
     link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i|IBM+Plex+Sans+Condensed:400,400i|IBM+Plex+Sans:100,100i,400,400i,700,700i|IBM+Plex+Serif:400,400i&display=swap" rel="stylesheet")
   body
@@ -26,6 +27,6 @@ html
         #error-div.col-12.d-flex
           if(message === "404'd!")
             h2.p2 Use the sidebar to return to civilization.
-    footer
+    footer.d-flex.justify-content-center
         - var footerString = `2019 - Matthew W. Farstad`
-        span= footerString
+        .d-flex.justify-content-center.align-self-center= footerString

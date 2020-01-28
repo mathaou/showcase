@@ -16,6 +16,7 @@ html
     link(rel='stylesheet', href='/stylesheets/desktop.css')
     link(rel='stylesheet', href='/stylesheets/mobile.css')
     link(rel='stylesheet', href='/stylesheets/tablets.css')
+    link(rel='stylesheet', href='/stylesheets/4k.css')
     link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i|IBM+Plex+Sans+Condensed:400,400i|IBM+Plex+Sans:100,100i,400,400i,700,700i|IBM+Plex+Serif:400,400i&display=swap" rel="stylesheet")
   body
     .wrapper
@@ -27,6 +28,6 @@ html
     .hidden#back-to-top
       svg(viewBox="0 0 24 24")
         path(d="M 7.41 15.41 L 12 10.83 l 4.59 4.58 L 18 14 l -6 -6 l -6 6 Z")
-    footer
-      - var footerString = `2019 - Matthew W. Farstad - Last Updated ${now}`
-      span= footerString
+    footer.d-flex.justify-content-center
+      - var footerString = `2019 - Matthew W. Farstad`
+      .d-flex.justify-content-center.align-self-center= footerString

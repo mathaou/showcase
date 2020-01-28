@@ -6,6 +6,10 @@ Smartphone
     min-height: 100%;
   }
 
+  ul {
+    padding-inline-start: 0px;
+  }
+
   .main {
     max-width: 100vw;
   }
@@ -32,7 +36,7 @@ Smartphone
   }
 
   #sidebar {
-    padding: 4vh 0;
+    padding: 6vh 0;
   }
 
   .icon {
@@ -52,7 +56,7 @@ Smartphone
   }
 
   #sidebar a {
-    font-size: small;
+    font-size: smaller;
   }
 
   h2,

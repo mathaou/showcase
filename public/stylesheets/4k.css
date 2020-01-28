@@ -1,0 +1,80 @@
+@media (min-width: 1441px) {
+    .wrapper {
+      min-height: 94vh;
+    }
+
+    footer {
+      font-size: xx-large;
+    }
+
+    .post-container h2 {
+      font-size: xx-large;
+    }
+
+    .post-container {
+      max-width: 1140px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+    }
+
+    body {
+      font-size: xx-large;
+    }
+
+    #menu {
+      height: 8px;
+    }
+
+
+    #menu::before {
+      top: -16px;
+      height: 8px !important;
+    }
+
+    #menu::after {
+      top: 8px;
+      height: 8px !important;
+    }
+
+    #sidebar a {
+        font-size: inherit;
+    }
+  
+    blockquote {
+      margin: 1.3334em;
+      padding: 0 1.33334em;
+    }
+  
+    #posts h2 {
+      font-size: 50px;
+    }
+  
+    html {
+      font-size: 22px;
+    }
+
+    .main {
+      max-width: 100% !important;
+    }
+  
+    .menu-open {
+      width: 20% !important;
+    }
+  
+    #sidebar {
+      padding: 6vh 0;
+    }
+  
+    .icon {
+      font-size: 4vh;
+    }
+  
+    h2,
+    h3,
+    h4 {
+      line-height: 1.33em;
+      font-size: xx-large;
+    }  
+}

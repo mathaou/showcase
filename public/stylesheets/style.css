@@ -41,8 +41,12 @@ a {
 /* FOOTER */
 
 footer {
-  background-color: #E56A6C;
   color: black;
+  background-color: #E56A6C;
+}
+
+footer > div {
+  background-color: #E56A6C;
 }
 
 /* SIDEBAR */
@@ -315,6 +319,31 @@ h4 {
   top: -8px;
 }
 
+#menu::after {
+  top: 4px;
+}
+
+#menu::before,
+#menu::after {
+  content: "";
+  display: block;
+  position: relative;
+  height: 4px;
+  width: 1.5em;
+}
+
+.index > a {
+  display: initial;
+}
+
+.index {
+
+}
+
+.wrapper {
+  min-height: 94vh;
+}
+
 .pagination {
   text-align: center;
   justify-content: center;
@@ -332,20 +361,6 @@ h4 {
   -moz-border-radius: 4px;
   -ms-border-radius: 4px;
   border-radius: 4px;
-}
-
-#menu::after {
-  top: 4px;
-}
-
-#menu::before,
-#menu::after {
-  content: "";
-  display: block;
-  position: relative;
-  height: 4px;
-  width: 1.5em;
-  transition: all 0.3s ease-in;
 }
 
 #sidebar {
@@ -386,7 +401,6 @@ div {
 }
 
 footer {
-  padding: 2vh 0;
   /* margin-top: -6vh; */
   height: 6vh;
   text-align: center;

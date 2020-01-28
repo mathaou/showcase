@@ -1,17 +1,13 @@
 /*
 Desktop
 */
-@media (min-width: 992px) {
+@media (min-width: 992px) and (max-width: 1440px){
   .wrapper {
     min-height: 94vh;
   }
 
   #sidebar a {
-      font-size: smaller;
-  }
-
-  .main {
-    max-width: 80vw;
+      font-size: medium;
   }
 
   blockquote {

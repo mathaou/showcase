@@ -8,8 +8,8 @@ import fs from "fs";
 
 const chunkSize = 5;
 const mdGenerator = new (require("markdown-to-pug"))();
-const title = "M. Farstad";
-const lastUpdate = '24 January 2019'
+const title = "mfarstad.com";
+const lastUpdate = "24 January 2019";
 
 var router = express.Router();
 
@@ -51,16 +51,17 @@ const createWebPage = (data, header) => {
   generated = [
     generated.slice(0, templateString),
     "  .row\n    .col-md-8.post-container\n",
-    generated.slice(templateString)
+    generated
+      .slice(templateString)
       .replace(/\s\s(h\d)/gim, "      $1")
-      .replace(/\s\s(p)/gmi, '      $1')
-      .replace(/\n\s\s\s\s(a\(href=".*"\)\s.*)\s#/gmi, `#[$1]`)
-      .replace(/\s\s\s\s(em.*\n)/gmi, `      $1`)
-      .replace(/\s\s\s\s(img\(src=".*\))/gmi, `      $1.generated`)
-      .replace(/\n\s*h3.*\n/gm, '\n')
+      .replace(/\s\s(p)/gim, "      $1")
+      .replace(/\n\s\s\s\s(a\(href=".*"\)\s.*)\s#/gim, `#[$1]`)
+      .replace(/\s\s\s\s(em.*\n)/gim, `      $1`)
+      .replace(/\s\s\s\s(img\(src=".*\))/gim, `      $1.generated`)
+      .replace(/\n\s*h3.*\n/gm, "\n")
   ].join("");
 
-  generated = generated.replace(/hljs\n(\s*code)/gm, 'hljs\n    $1');
+  generated = generated.replace(/hljs\n(\s*code)/gm, "hljs\n    $1");
 
   fs.writeFileSync(`src/views/${header}.pug`, generated);
   router.get(`/${header}`, (req, res, next) => {
@@ -98,31 +99,39 @@ const generateBlurbPromise = async file => {
 
 const chunkArrayInGroups = (arr, size) => {
   var myArray = [];
-  for(var i = 0; i < arr.length; i += size) {
-    myArray.push(arr.slice(i, i+size));
+  for (var i = 0; i < arr.length; i += size) {
+    myArray.push(arr.slice(i, i + size));
   }
   return myArray;
 };
 
 const generatePagination = (length, index) => {
-  var previous = (index == 2) ? '/personal' : `/page${index-1}/`;
-  var next = `/page${index+1}/`;
-  
-  var leftArrow = (index == 1) ? `<span class =\"page-item\"><<</span>` : `<a href=\"${previous}\" class =\"page-item\"><<</a>`;
-  var rightArrow = (index == length) ? `<span class =\"page-item\">>></span>` : `<a href=\"${next}\" class =\"page-item\">>></a>`;
+  var previous = index == 2 ? "/personal" : `/page${index - 1}/`;
+  var next = `/page${index + 1}/`;
+
+  var leftArrow =
+    index == 1
+      ? `<span class =\"page-item\"><<</span>`
+      : `<a href=\"${previous}\" class =\"page-item\"><<</a>`;
+  var rightArrow =
+    index == length
+      ? `<span class =\"page-item\">>></span>`
+      : `<a href=\"${next}\" class =\"page-item\">>></a>`;
 
   var current = `<span class=\"page-item\">${index}</span>`;
 
   var pagination = leftArrow;
 
-  for(var i = 1; i < length + 1; i++) {
-    var toAdd = (i == 1) ? '/personal' : `/page${i}/`;
-    if(i != index) {
-      pagination = pagination.concat(`<a href=\"${toAdd}\" class =\"page-item\">${i}</a>`)
+  for (var i = 1; i < length + 1; i++) {
+    var toAdd = i == 1 ? "/personal" : `/page${i}/`;
+    if (i != index) {
+      pagination = pagination.concat(
+        `<a href=\"${toAdd}\" class =\"page-item\">${i}</a>`
+      );
     } else {
       pagination = pagination.concat(current);
     }
-  };
+  }
 
   return pagination.concat(rightArrow);
 };
@@ -130,11 +139,11 @@ const generatePagination = (length, index) => {
 const createMultiplePages = async () => {
   var posts = await generateHTML();
 
-  const postChunks = chunkArrayInGroups(posts, chunkSize) || [''];
+  const postChunks = chunkArrayInGroups(posts, chunkSize) || [""];
 
-  for(let i = 0; i < postChunks.length; i++) {
+  for (let i = 0; i < postChunks.length; i++) {
     const chunkStore = postChunks[i];
-    if(i === 0) {
+    if (i === 0) {
       router.get("/personal", (req, res, next) => {
         res.render("personal", {
           title,
@@ -144,8 +153,8 @@ const createMultiplePages = async () => {
         });
       });
     } else {
-      const fileName = `page${i+1}`;
-      fs.copyFileSync('src/views/personal.pug', `src/views/${fileName}.pug`);
+      const fileName = `page${i + 1}`;
+      fs.copyFileSync("src/views/personal.pug", `src/views/${fileName}.pug`);
       router.get(`/${fileName}`, (req, res, next) => {
         res.render(fileName, {
           title,
@@ -159,14 +168,10 @@ const createMultiplePages = async () => {
 
   router.get("*", (req, res, next) => {
     res.status(404).render("error", { message: "404'd!" });
-  }); 
+  });
 };
 
 createMultiplePages();
-
-router.get("/", (req, res, next) => {
-  res.render("index ", { title, now: lastUpdate });
-});
 
 router.get("/resume", (req, res, next) => {
   res.render("resume", { title, now: lastUpdate });
@@ -182,6 +187,10 @@ router.get("/projects", (req, res, next) => {
 
 router.get("/files/resume_cv.pdf", (req, res, next) => {
   res.sendFile("/files/resume_cv.pdf");
+});
+
+router.get("/", (req, res, next) => {
+  res.render("index", { title, now: lastUpdate });
 });
 
 // for ssl cert generation

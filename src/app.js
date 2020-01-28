@@ -1,3 +1,5 @@
+// @flow
+
 import express from "express";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
@@ -29,12 +31,15 @@ app.use(
 );
 app.use(express.static(path.join(__dirname, "../node_modules/font-awesome/")));
 
-app.use(express.static(__dirname, { dotfiles: "allow" }), indexRouter);
+// for ssl
+// app.use(express.static(__dirname, { dotfiles: "allow" }), indexRouter);
+
+app.use(indexRouter);
 
 app.set("views", __dirname + "/views");
 app.set("view engine", "pug");
 
-// // error handling
+// error handling
 app.use((err, req, res, next) => {
   return res
   .status(500)

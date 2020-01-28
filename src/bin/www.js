@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// @flow
+
 /**
  * Module dependencies.
  */
@@ -60,7 +62,7 @@ http.createServer((req, res) => {
 var secureServer = https.createServer(generateHTTPSData(), app);
 
 secureServer.listen(port + 2, () => {
-  console.log('HTTPS server listening on '+ port);
+  console.log('HTTPS server listening on '+ `${port + 2}`);
 });
 
 secureServer.on('error', onError);
@@ -92,7 +94,7 @@ function onError(error) {
     throw error;
   }
 
-  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+  var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port.toString();
 
   // handle specific listen errors with friendly messages
   switch (error.code) {
