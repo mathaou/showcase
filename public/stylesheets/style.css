@@ -1,3 +1,7 @@
+/* COLOR */
+
+/* SCROLLBAR */
+
 /* width */
 ::-webkit-scrollbar {
   width: 10px;
@@ -17,8 +21,6 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #555555;
 }
-
-/* COLOR */
 
 /* BACK TO TOP BUTTON */
 
@@ -336,10 +338,6 @@ h4 {
   display: initial;
 }
 
-.index {
-
-}
-
 .wrapper {
   min-height: 94vh;
 }
@@ -394,6 +392,16 @@ header {
 .main {
   min-height: 100%;
   margin-bottom: 6vh;
+}
+
+.index {
+  font-size: 22px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.menu-open {
+  width: 20% !important;
 }
 
 div {

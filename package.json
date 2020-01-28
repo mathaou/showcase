@@ -16,9 +16,11 @@
   },
   "dependencies": {
     "@babel/plugin-transform-runtime": "^7.7.6",
+    "@babel/preset-flow": "^7.8.3",
     "@babel/runtime": "^7.7.7",
     "@types/jquery": "^3.3.31",
     "babel-eslint": "~5.0.3",
+    "binaryjs": "^0.2.1",
     "bootstrap": "^4.4.1",
     "cheerio": "^1.0.0-rc.3",
     "cookie-parser": "^1.4.4",
