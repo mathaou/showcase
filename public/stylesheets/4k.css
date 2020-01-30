@@ -58,6 +58,10 @@
     font-size: 22px;
   }
 
+  img {
+    max-width: 50%;
+  }
+
   .main {
     max-width: 100vw !important;
   }

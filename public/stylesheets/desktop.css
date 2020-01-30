@@ -27,6 +27,10 @@ Desktop
     width: 20% !important;
   }
 
+  img {
+    max-width: 50%;
+  }
+
   #sidebar {
     padding: 6vh 0;
   }
