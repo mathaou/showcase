@@ -30,9 +30,9 @@ router.get('/', (req, res, next) => {
   res.render('index', { title, now: lastUpdate });
 });
 
-// router.get('/jzodd', (req, res, next) => {
-//   res.render('jzodd', { title, now: lastUpdate });
-// });
+router.get('/zodd', (req, res, next) => {
+  res.render('zodd', { title: "Zodd Chord Builder", now: lastUpdate });
+});
 
 // for ssl cert generation
 

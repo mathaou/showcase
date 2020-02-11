@@ -13,10 +13,9 @@ import http from 'http';
 import https from 'https';
 
 import fs from 'fs';
+import path from 'path';
 
-import { BinaryServer } from 'binaryjs';
-
-import path from "path";
+import { buildChord } from '../chordDriver';
 
 const debug = debugLib('showcase:server');
 
@@ -24,7 +23,7 @@ const debug = debugLib('showcase:server');
  * Normalize a port into a number, string, or false.
  */
 
-const normalizePort = (val) => {
+const normalizePort = val => {
   var port = parseInt(val, 10);
   if (isNaN(port)) {
     // named pipe
@@ -36,13 +35,13 @@ const normalizePort = (val) => {
   }
 
   return false;
-}
+};
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
-const onError = (error) => {
+const onError = error => {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -63,7 +62,7 @@ const onError = (error) => {
     default:
       throw error;
   }
-}
+};
 
 /**
  * Event listener for HTTP server "listening" event.
@@ -74,7 +73,7 @@ const onListening = () => {
   var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
   console.log(`Listening on ${bind}`);
   debug('Listening on ' + bind);
-}
+};
 
 /**
  * Get port from environment and store in Express.
@@ -131,37 +130,28 @@ secureServer.listen(port + 2, () => {
 
 secureServer.on('error', onError);
 
-// const socket = new BinaryServer({
-//   server: secureServer,
-//   path: '/socket',
-// });
+const socket = require('socket.io')(secureServer);
+const ss = require('socket.io-stream');
 
-// const playTone = (tone, stream) => {
-//   if (tone > 61 || tone < 1) {
-//     console.log('undefined tone', tone);
-//     return;
-//   }
+const playTone = (tone, stream) => {
+  // implementation soon
+  // if (tone > 61 || tone < 1) {
+  //   console.log('undefined tone', tone);
+  //   return;
+  // }
+  // const file = fs.createReadStream(path.resolve(__dirname, 'wav', `${tone}.wav`));
+  // file.pipe(stream);
+  // file.on('end', () => {
+  //   file.unpipe(stream);
+  // });
+  // return file;
+};
 
-//   const file = fs.createReadStream(path.resolve(__dirname, 'wav', `${tone}.wav`));
-//   file.pipe(stream);
-//   file.on('end', () => {
-//     file.unpipe(stream);
-//   });
-
-//   return file;
-// }
-
-// socket.on('connection', (client) => {
-//   client.on('stream', (stream, meta) => {
-
-//     stream.on('data', (data) => {
-//       console.log(data);
-//       const tone = data.readInt8(1);
-//       Object.keys(socket.clients).map(i => playTone(tone, socket.clients[i].createStream()));
-//     });
-
-//     stream.on('end', () => {
-//       console.log('end of stream');
-//     });
-//   });
-// });
+socket.on('connection', client => {
+  console.log('Client connected...');
+  ss(client).on('event', (data, stream) => {
+    var payload = JSON.parse(data);
+    buildChord(payload);
+    // playTone(tone, other);
+  });
+});

@@ -1,68 +1,50 @@
-(function midiSocket() {
-  'use strict';
+'use strict';
 
-  console.log('App is running');
+var socket = io.connect('https://localhost:3002');
+// var stream = ss.createStream();
 
-  // AUDIO CONTEXT
+const onMidiAccessSuccess = access => {
+  midiAccess = access;
 
-  var context;
-  window.AudioContext = window.AudioContext || window.webkitAudioContext;
-  context = new AudioContext();
+  var inputs = midiAccess.inputs;
+  console.log(inputs);
+  var inputIterators = inputs.values();
 
-  const playSound = (audioBuffer) => {
-    var source = context.createBufferSource();
-    source.buffer = audioBuffer;
-    source.connect(context.destination);
-    source.start(0);
-    console.timeEnd('send');
+  var firstInput = inputIterators.next().value;
+
+  if (!firstInput) return;
+  firstInput.onmidimessage = handleMidiMessage;
+  console.log('MIDI SUCCESS');
+};
+
+const onMidiAccessFailure = error => {
+  console.log('Oops. Something were wrong with requestMIDIAccess', error.code);
+};
+
+const getMIDIMessage = message => {
+  var command = message.data[0];
+  var velocity = message.data.length > 2 ? message.data[2] : 0; // a velocity value might not be included with a noteOff command
+
+  if (velocity > 0) {
+    return 1; // noteOn
+  } else {
+    return 0; // noteOff
   }
-  // WEBSOCKETS
+};
 
-  var client = new BinaryClient(location.origin.replace('https', 'wss').replace('https', 'wss') + '/socket');
-  var MIDIStream = null;
+const handleMidiMessage = e => {
+  console.log(e);
+  let newObj = {};
+  newObj.note = e.data[1];
+  newObj.status = getMIDIMessage(e);
 
-  client.on('open', function () {
-    MIDIStream = client.createStream();
-  });
+  let payload = JSON.stringify(newObj, null, 2);
 
-  client.on('stream', function (stream) {
-    stream.on('data', handleReceiveAudioData);
-    stream.on('end', handleEndAudioStream);
-  })
+  // console.log(payload);
+  // newObj.timeStamp = e.timeStamp; // unnecessary?
+  ss(socket).emit('event', payload);
+};
 
-  const handleReceiveAudioData = (data) => {
-    console.log('receive audio data', data);
-    context.decodeAudioData(data, playSound);
-  }
-
-  function handleEndAudioStream(data) {
-    console.log('end', data);
-  }
-
-  // MIDI access
-  var midiAccess = null;
-  navigator.requestMIDIAccess().then(onMidiAccessSuccess, onMidiAccessFailure);
-
-  const onMidiAccessSuccess = (access) => {
-    midiAccess = access;
-
-    var inputs = midiAccess.inputs;
-    var inputIterators = inputs.values();
-
-    var firstInput = inputIterators.next().value;
-
-    if (!firstInput) return;
-    firstInput.onmidimessage = handleMidiMessage;
-  }
-
-  const onMidiAccessFailure = (error) => {
-    console.log('Oops. Something were wrong with requestMIDIAccess', error.code);
-  }
-
-  const handleMidiMessage = (e) => {
-    if (!MIDIStream || e.data[0] !== 0x90) return;
-    console.log(e);
-    console.time('send');
-    MIDIStream.write(e.data);
-  }
-})();
+// MIDI access
+var midiAccess = null;
+navigator.requestMIDIAccess().then(onMidiAccessSuccess, onMidiAccessFailure);
