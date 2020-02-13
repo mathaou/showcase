@@ -38,7 +38,7 @@ class MQTTBroker():
         payload = [x.encode('utf-8') for x in payload]
         topic = msg.topic
 
-        print("{}: {}".format(topic, payload))
+        print("PY: {}- {}".format(topic, payload))
 
         try:
             """Any data destined for host from client node"""
