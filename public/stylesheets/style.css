@@ -25,7 +25,7 @@
 /* BACK TO TOP BUTTON */
 
 #back-to-top {
-  background-color: #3298BA ; /* Set a background color */
+  background-color: #389583 ; /* Set a background color */
   color: lightgrey; /* Text color */
   border: .1em solid white;
 }
@@ -44,17 +44,23 @@ a {
 
 footer {
   color: #E2E2E2;
-  background-color: #4E9588;
+  background-color: #389583;
 }
 
 footer > div {
-  background-color: #4E9588;
+  background-color: #389583;
+}
+
+/* HEADER */
+
+header {
+  background-color: #063A6C;
 }
 
 /* SIDEBAR */
 
 #sidebar {
-  background-color: #3298BA;
+  background-color: #063A6C;
   color: #AFABA0;
 }
 
@@ -76,12 +82,12 @@ hr {
 /* 3 LITTLE BAR THINGS FOR SIDEBAR */
 
 #menu {
-  background-color: #c4d8e8;
+  background-color: #389583;
 }
 
 #menu::before,
 #menu::after {
-  background-color: #c4d8e8;
+  background-color: #389583;
 }
 
 /* WHITE BAR BETWEEN SECTIONS OF SIDEBAR */
@@ -112,7 +118,7 @@ span.page-item:hover {
 /* THE POST LINK */
 
 a {
-  color: #3298BA;
+  color: #389583;
 }
 
 a:hover {
@@ -122,7 +128,7 @@ a:hover {
 /* POST PREVIEW */
 
 blockquote {
-  border-left: 4px solid #4E9588;
+  border-left: 4px solid #063A6C;
 }
 
 /* CODE */
@@ -132,33 +138,33 @@ pre {
 }
 
 body {
-  background-color: #E2E2E2;
-  color: #141518;
+  background-color: #EDF5E0;
+  color: black;
 }
 
 /* HEADERS */
 
 h1 {
-  color: #C34D58;
+  color: #EDF5E0;
 }
 
 #posts h2 {
-  color: #3298BA;
+  color: #389583;
 }
 
 .post-container h3,
 h4 {
-  border-left: 4px solid #4E9588;
+  border-left: 4px solid #063A6C;
 }
 
 .post-container h2 {
-  color: #3298BA;
+  color: #389583;
 }
 
 h2,
 h3,
 h4 {
-  color: #3298BA  ;
+  color: #389583  ;
 }
 
 /* END COLOR */
@@ -391,7 +397,7 @@ header {
 
 .midiDevice {
   padding: 2vw;
-  color: #4E9588;
+  color: #063A6C;
 }
 
 .chord {
@@ -404,6 +410,7 @@ header {
 
 .main {
   min-height: 100%;
+  margin-top: 1vw;
   margin-bottom: 6vh;
 }
 

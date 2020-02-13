@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/zodd', (req, res, next) => {
-  res.render('zodd', { title: "Zodd Chord Builder", now: lastUpdate });
+  res.render('zodd', { title: "Mingus-Zodd Chord Detection Mk. 1", now: lastUpdate });
 });
 
 /*=======================+
