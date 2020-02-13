@@ -86,7 +86,9 @@ export default class Client {
     };
 
     this.arrayBufferToString = buf => {
-      return new TextDecoder('utf-8').decode(buf);
+      var encodedString = String.fromCharCode.apply(null, buf),
+        decodedString = decodeURIComponent(escape(encodedString));
+      return decodedString;
     };
   }
 }
