@@ -1,18 +1,10 @@
 // @flow
 
-import { pcset } from '@tonaljs/pcset';
-import { chordType, entries } from '@tonaljs/chord-dictionary';
 import { midiToNoteName, toMidi } from '@tonaljs/midi';
 import { sortedNoteNames, permutations } from '@tonaljs/array';
 import { fromSemitones } from '@tonaljs/interval';
-import { chord } from '@tonaljs/chord';
 import { transposeBy } from '@tonaljs/note';
 import { distance } from '@tonaljs/tonal';
-
-import Client from './mqttClient';
-const client = new Client();
-
-var chordArray = [];
 
 const normalizeToC = (candidate: any) => {
   var distanceFromC = toMidi(candidate.notes[0]) % 12;
@@ -44,17 +36,21 @@ const numberFromRoot = (temp: any) => {
   });
 };
 
-export const transmit = (arr: any) => {
+export const transmit = (mqttClient: any, arr: any, sharp: boolean) => {
   var comparisons = [];
 
   var array = permutations(arr);
+
+  // console.log(array);
 
   for (var i = 0; i < array.length; i++) {
     var temp = array[i];
     var startingIndex = 3;
     var lowest = 0;
 
-    // number here if desired
+    /*======================+
+     |number here if desired|
+     +======================*/
 
     var intervals = ['1P'];
 
@@ -65,8 +61,10 @@ export const transmit = (arr: any) => {
 
     var score = 0;
     intervals.forEach(e => {
-      // arbitrary for now, find better way
-      if (e === '3M' || e === '3m' || e === '5P') score++;
+      /*==================================+
+       |arbitrary for now, find better way|
+       +==================================*/
+      if (e === '3M' || e === '2A' || e === '3m' || e === '5P') score++;
     });
 
     var candidate = {
@@ -78,43 +76,103 @@ export const transmit = (arr: any) => {
     comparisons.push(candidate);
   }
 
-  var max = Math.max(
-    ...comparisons.map(e => {
-      return e.score;
-    })
-  );
+  // console.log(comparisons);
+
+  /*==========================================+
+   |Filter by some maximum score if that helps|
+   +==========================================*/
+
+  // var max = Math.max(
+  //   ...comparisons.map(e => {
+  //     return e.score;
+  //   })
+  // );
 
   var candidate = comparisons.filter(e => {
-    if (e !== 'undefined' && e.score === max) return e;
+    if (e !== 'undefined') return e;
   });
 
-  console.log(candidate[0].notes);
+  /*=============================================================+
+   |Sends the first candidte - the intervals will be sent as well|
+   |~-~-~-~-~-~-~-~-later, once kinks ironed out~-~-~-~-~-~-~-~-~|
+   +=============================================================*/
+  var candidateNotes = candidate[0].notes;
+  mqttClient.sendData(JSON.stringify(candidateNotes));
 
-  client.sendData(JSON.stringify(candidate[0].notes));
+  /*==================================================================================+
+   |Gross but the only easy way I could think of to deal with mingus-python's devotion|
+   |~-~-~-~-~-~-~-~-to adhering to strict definitions of a key center~-~-~-~-~-~-~-~-~|
+   +==================================================================================*/
+  if (candidateNotes.includes('C') || candidateNotes.includes('F') || candidateNotes.includes('E') || candidateNotes.includes('B')) {
+    if(sharp) {
+      mqttClient.sendData(
+        JSON.stringify(
+          candidateNotes.map(note => {
+            if (note === 'F') return 'E#';
+            else if (note === 'C') return 'B#';
+            else return note;
+          })
+        )
+      );
+    } else {
+      mqttClient.sendData(
+        JSON.stringify(
+          candidateNotes.map(note => {
+            if (note === 'E') return 'Fb';
+            else if (note === 'B') return 'Cb';
+            else return note;
+          })
+        )
+      );
+    }
+  }
 };
 
-export const buildChord = (payload: any) => {
+export const buildChord = (mqttClient: any, payload: any) => {
   const { note, status } = payload;
 
-  chordArray.push(payload);
+  mqttClient.chordArray.push(payload);
+  // console.log(payload);
 
-  console.log(payload);
-
-  chordArray = chordArray.filter(e => {
+  mqttClient.chordArray = mqttClient.chordArray.filter(e => {
     if (e.note === note && status === 0) return false;
     return true;
   });
 
-  if (chordArray.length > 0) {
-    var chordDetection = [];
+  if (mqttClient.chordArray.length > 0) {
+    var chordDetectionSharps = [];
+    var chordDetectionFlats = [];
 
-    chordArray.map(e => {
-      chordDetection.push(midiToNoteName(e.note, { sharps: true }).replace(/[\d]+/gmi, ''));
+    /*======================================================+
+     |Keep the note numbering for now, important for sorting|
+     +======================================================*/
+    mqttClient.chordArray.map(e => {
+      chordDetectionFlats.push(
+        midiToNoteName(e.note, { sharps: false })
+      );
+      chordDetectionSharps.push(
+        midiToNoteName(e.note, { sharps: true })
+      );
     });
 
-    chordDetection = sortedNoteNames([...new Set(chordDetection)]); // ensure no duplicates (perhaps isolated bug)
+    /*===========================================+
+     |ensure no duplicates (perhaps isolated bug)|
+     +===========================================*/
+    chordDetectionSharps = sortedNoteNames([...new Set(chordDetectionSharps)]).map(note => {
+      return note.replace(/[\d]+/gim, '');
+    })
+    chordDetectionFlats = sortedNoteNames([...new Set(chordDetectionFlats)]).map(note => {
+      return note.replace(/[\d]+/gim, '');
+    });
 
+    /*====================+
+     |For testing purposes|
+     +====================*/
     // transmit('D4 F#4 A4 B5'.split(' '));
-    transmit(chordDetection);
+
+    transmit(mqttClient, chordDetectionSharps, true);
+    if(chordDetectionSharps.toString() !== chordDetectionFlats.toString()) {
+      transmit(mqttClient, chordDetectionFlats, false);
+    }
   }
 };

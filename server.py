@@ -45,10 +45,7 @@ class MQTTBroker():
             if(topic == "/host-in" and len(payload) > 2):
                 chord = chords.determine(payload)
                 if(len(chord) > 0):
-                    # print(chord[0])
-                    self.mqtt.publish("/host-out", json.dumps(chord[0]))
-                else:
-                    self.mqtt.publish("/host-out", "N/A")
+                    self.mqtt.publish("/host-out", json.dumps(chord))
         except:
             traceback.print_exc()
 

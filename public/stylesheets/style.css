@@ -14,18 +14,18 @@
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #777777;
+  background: #999999;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555555;
+  background: #AAAAAA;
 }
 
 /* BACK TO TOP BUTTON */
 
 #back-to-top {
-  background-color: #4E6D9B ; /* Set a background color */
+  background-color: #3298BA ; /* Set a background color */
   color: lightgrey; /* Text color */
   border: .1em solid white;
 }
@@ -43,18 +43,18 @@ a {
 /* FOOTER */
 
 footer {
-  color: black;
-  background-color: #E56A6C;
+  color: #E2E2E2;
+  background-color: #4E9588;
 }
 
 footer > div {
-  background-color: #E56A6C;
+  background-color: #4E9588;
 }
 
 /* SIDEBAR */
 
 #sidebar {
-  background-color: #6ABDDB;
+  background-color: #3298BA;
   color: #AFABA0;
 }
 
@@ -112,53 +112,53 @@ span.page-item:hover {
 /* THE POST LINK */
 
 a {
-  color: lightblue;
+  color: #3298BA;
 }
 
 a:hover {
-  color: #6ABDDB;
+  color: lightblue;
 }
 
 /* POST PREVIEW */
 
 blockquote {
-  border-left: 4px solid #6ABDDB;
+  border-left: 4px solid #4E9588;
 }
 
 /* CODE */
 
 pre {
-  color: #99CED2;
+  color: grey;
 }
 
 body {
-  background-color: #5F6366;
-  color: #E5F5FF;
+  background-color: #E2E2E2;
+  color: #141518;
 }
 
 /* HEADERS */
 
 h1 {
-  color: #E56A6C;
+  color: #C34D58;
 }
 
 #posts h2 {
-  color: #6ABDDB;
+  color: #3298BA;
 }
 
 .post-container h3,
 h4 {
-  border-left: 4px solid #6ABDDB;
+  border-left: 4px solid #4E9588;
 }
 
 .post-container h2 {
-  color: #6ABDDB;
+  color: #3298BA;
 }
 
 h2,
 h3,
 h4 {
-  color: #6ABDDB  ;
+  color: #3298BA  ;
 }
 
 /* END COLOR */
@@ -387,6 +387,19 @@ header {
   width: 20%;
   height: 1px;
   margin-left: 2vw;
+}
+
+.midiDevice {
+  padding: 2vw;
+  color: #4E9588;
+}
+
+.chord {
+  display: block;
+  position: relative;
+  text-align: center;
+  margin-top: 1vw;
+  font-size: x-large;
 }
 
 .main {

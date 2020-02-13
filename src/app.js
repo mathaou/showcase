@@ -8,7 +8,9 @@ import path from 'path';
 
 const app = express();
 
-// redirect non-www
+/*================+
+ |redirect non-www|
+ +================*/
 app.use((req, res, next) => {
   if (
     req.headers.host.slice(0, 4) !== 'www.' &&
@@ -32,14 +34,20 @@ app.use(
 app.use(
   express.static(path.join(__dirname, '../node_modules/socket.io-client/dist/'))
 );
-// app.use(express.static(path.join(__dirname, '../node_modules/mqtt/dist/')));
+app.use(express.static(path.join(__dirname, '../node_modules/mqtt/dist/')));
+
+/*=========+
+ |CSS Stuff|
+ +=========*/
 
 app.use(
   express.static(path.join(__dirname, '../node_modules/bootstrap/dist/'))
 );
 app.use(express.static(path.join(__dirname, '../node_modules/font-awesome/')));
 
-// for ssl
+/*=======+
+ |For SSL|
+ +=======*/
 // app.use(express.static(__dirname, { dotfiles: "allow" }), indexRouter);
 
 app.use(indexRouter);
@@ -47,7 +55,9 @@ app.use(indexRouter);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'pug');
 
-// error handling
+/*==============+
+ |Error Handling|
+ +==============*/
 app.use((err, req, res, next) => {
   return res.status(500).render('error', {
     message:

@@ -2,9 +2,9 @@
 
 // @flow
 
-/**
- * Module dependencies.
- */
+/*====================+
+ |Module dependencies.|
+ +====================*/
 
 import app from '../app';
 import debugLib from 'debug';
@@ -16,12 +16,16 @@ import fs from 'fs';
 import path from 'path';
 
 import { buildChord } from '../chordDriver';
+import Client from '../mqttClient';
+
+const mqttClient = new Client();
+var chordArray = [];
 
 const debug = debugLib('showcase:server');
 
-/**
- * Normalize a port into a number, string, or false.
- */
+/*=================================================+
+ |Normalize a port into a number, string, or false.|
+ +=================================================*/
 
 const normalizePort = val => {
   var port = parseInt(val, 10);
@@ -37,9 +41,9 @@ const normalizePort = val => {
   return false;
 };
 
-/**
- * Event listener for HTTP server "error" event.
- */
+/*=============================================+
+ |Event listener for HTTP server "error" event.|
+ +=============================================*/
 
 const onError = error => {
   if (error.syscall !== 'listen') {
@@ -49,7 +53,9 @@ const onError = error => {
   var bind =
     typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port.toString();
 
-  // handle specific listen errors with friendly messages
+  /*====================================================+
+   |handle specific listen errors with friendly messages|
+   +====================================================*/
   switch (error.code) {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
@@ -64,9 +70,9 @@ const onError = error => {
   }
 };
 
-/**
- * Event listener for HTTP server "listening" event.
- */
+/*=================================================+
+ |Event listener for HTTP server "listening" event.|
+ +=================================================*/
 
 const onListening = () => {
   var addr = secureServer.address();
@@ -75,9 +81,9 @@ const onListening = () => {
   debug('Listening on ' + bind);
 };
 
-/**
- * Get port from environment and store in Express.
- */
+/*===============================================+
+ |Get port from environment and store in Express.|
+ +===============================================*/
 
 var port = normalizePort(process.env.PORT || '3000');
 
@@ -85,9 +91,9 @@ app.set('port', port);
 
 app.enable('trust proxy');
 
-/**
- * Create HTTP server.
- */
+/*===================+
+ |Create HTTP server.|
+ +===================*/
 
 const generateHTTPSData = () => {
   return {
@@ -104,7 +110,9 @@ net
       console.log(err.stack);
     });
     conn.once('data', buf => {
-      // A TLS handshake record starts with byte 22.
+      /*===========================================+
+       |A TLS handshake record starts with byte 22.|
+       +===========================================*/
       var address = buf[0] === 22 ? port + 2 : port + 1;
       var proxy = net.createConnection(address, function() {
         proxy.write(buf);
@@ -131,7 +139,15 @@ secureServer.listen(port + 2, () => {
 secureServer.on('error', onError);
 
 const socket = require('socket.io')(secureServer);
+
+mqttClient.setSocket(socket);
+mqttClient.setChordArray(chordArray);
+
 const ss = require('socket.io-stream');
+
+/*==================================================+
+ |Better implementation, need to get sound to client|
+ +==================================================*/
 
 const playTone = (tone, stream) => {
   // implementation soon
@@ -151,7 +167,13 @@ socket.on('connection', client => {
   console.log('Client connected...');
   ss(client).on('event', (data, stream) => {
     var payload = JSON.parse(data);
-    buildChord(payload);
+
+    /*=================+
+     |Do the MQTT stuff|
+     +=================*/
+
+    buildChord(mqttClient, payload);
+
     // playTone(tone, other);
   });
 });

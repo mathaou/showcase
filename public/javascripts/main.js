@@ -13,7 +13,10 @@ $(document).ready(() => {
   });
 
   $('#back-to-top').on('click', () => {
-    $(document).scrollTop(0); // For Safari
+    /*==========+
+     |For Safari|
+     +==========*/
+    $(document).scrollTop(0);
     $('#back-to-top').removeClass('hidden');
   });
 });
