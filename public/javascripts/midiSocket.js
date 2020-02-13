@@ -1,6 +1,7 @@
 'use strict';
 
-var socket = io.connect('https://localhost:3002');
+// 3.132.182.86 on production
+var socket = io.connect('https://3.132.182.86:3002');
 
 var buffer = [];
 var lastPayloadSize = 0;
