@@ -1,7 +1,7 @@
 'use strict';
 
-// 3.132.182.86 on production
-var socket = io.connect('https://3.132.182.86:3002');
+// mfarstad.com on production
+var socket = io.connect('https://mfarstad.com:3002');
 
 var buffer = [];
 var lastPayloadSize = 0;
