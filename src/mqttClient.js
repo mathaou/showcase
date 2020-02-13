@@ -48,7 +48,7 @@ export default class Client {
     });
 
     this.client.on('message', (topic, message) => {
-      // console.log(topic + ': ' + message);
+      console.log(topic + ': ' + message);
       /*=============================================+
        |This relays mqtt responses to a set websocket|
        +=============================================*/
