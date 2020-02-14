@@ -144,6 +144,10 @@ body {
 
 /* HEADERS */
 
+.main h1 {
+  color: #063A6C;
+}
+
 h1 {
   color: #EDF5E0;
 }
@@ -373,7 +377,7 @@ h4 {
   width: 0%;
   top: 0;
   bottom: 0;
-  right: -10vw;
+  right: -9vw;
   opacity: 0.95;
   z-index: 1;
   transition: 0.3s ease-in-out;
