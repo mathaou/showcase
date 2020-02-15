@@ -21,10 +21,10 @@ html
     link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i|IBM+Plex+Sans+Condensed:400,400i|IBM+Plex+Sans:100,100i,400,400i,700,700i|IBM+Plex+Serif:400,400i&display=swap" rel="stylesheet")
   body
     .wrapper
-      header.container-fluid
+      header.container-fluid.d-flex.justify-content-center
           h1= title
       include sidebar
-      .container.main
+      .container.main.d-flex.justify-content-center.flex-column
         block content
     .hidden#back-to-top
       svg(viewBox="0 0 24 24")

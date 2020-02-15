@@ -80,6 +80,10 @@ Tablets
     max-width: 100vw;
   }
 
+  header {
+    height: 10vh;
+  }
+
   .post-container {
     max-width: 700px;
   }

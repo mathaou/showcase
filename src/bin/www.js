@@ -16,6 +16,7 @@ import fs from 'fs';
 import path from 'path';
 
 import { buildChord } from '../chordDriver';
+import { handleRegister, handleJoin, handleMessage, handleDisconnect } from '../cardDriver';
 import Client from '../mqttClient';
 
 const mqttClient = new Client();
@@ -165,6 +166,20 @@ const playTone = (tone, stream) => {
 
 socket.on('connection', client => {
   console.log('Client connected...');
+
+  client.on('register', handleRegister);
+  
+  client.on('message', handleMessage);
+  
+  client.on('join', handleJoin);
+  
+  client.on('disconnect', handleDisconnect);
+
+  client.on('error', err => {
+    console.log('received error from client:', client.id);
+    console.log(err);
+  });
+  
   ss(client).on('event', (data, stream) => {
     var payload = JSON.parse(data);
 

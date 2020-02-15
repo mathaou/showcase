@@ -10,6 +10,10 @@ Desktop
       font-size: medium;
   }
 
+  header {
+    height: 14vh;
+  }
+
   blockquote {
     margin: 1.3334em;
     padding: 0 1.33334em;

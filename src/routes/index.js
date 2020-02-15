@@ -34,6 +34,10 @@ router.get('/zodd', (req, res, next) => {
   res.render('zodd', { title: "Mingus-Zodd Chord Detection Mk. 1", now: lastUpdate });
 });
 
+router.get('/cardgame', (req, res, next) => {
+  res.render('cardgame', { title: "Playin' Cards", now: lastUpdate });
+});
+
 /*=======================+
  |for ssl cert generation|
  +=======================*/
