@@ -2,6 +2,7 @@ $(document).ready(() => {
   $('#nav-menu').on('click', () => {
     $('#menu').toggleClass('btn-close');
     $('#sidebar').toggleClass('menu-open');
+    $('#taunts').toggleClass('menu-open');
   });
 
   $(window).scroll(() => {

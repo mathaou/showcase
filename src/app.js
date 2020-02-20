@@ -59,9 +59,10 @@ app.set('view engine', 'pug');
  |Error Handling|
  +==============*/
 app.use((err, req, res, next) => {
+  console.log(err);
   return res.status(500).render('error', {
     message:
-      'Internal server error. Please contact the administrator at matthewwilliamfarstad@gmail.com if this issue continues to be unresolved.',
+      'Please contact the administrator at matthewwilliamfarstad@gmail.com if this issue continues to be unresolved.',
   });
 });
 

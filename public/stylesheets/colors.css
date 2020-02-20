@@ -1,0 +1,265 @@
+/* COLOR */
+
+/* CARD COLORS */
+
+.current-turn {
+  color: aqua !important;
+}
+
+.selected {
+  border: 1px dashed yellow;
+  background-color: #ff0801;
+}
+
+.selected .mark {
+  background-color: yellow !important;
+}
+
+.selected:before,
+.selected:after {
+  color: yellow !important;
+}
+
+.player-1 .play-card {
+  border: 1px solid #25a2a6 !important;
+}
+
+.player-2 .play-card {
+  border: 1px solid #25a2a6 !important;
+}
+
+.player-3 .play-card {
+  border: 1px solid #a4d05f !important;
+}
+
+.player-4 .play-card {
+  border: 1px solid #f48f97 !important;
+}
+
+.play-card.wild {
+  color: #e06700;
+}
+
+.play-card.wild .inner {
+  background: #e06700;
+}
+
+.num-1,
+.num-2,
+.num-3,
+.num-4 {
+  color: #0069c4;
+}
+
+.num-1 .inner,
+.num-2 .inner,
+.num-3 .inner,
+.num-4 .inner {
+  background: #0069c4;
+}
+
+.num-5,
+.num-6,
+.num-7,
+.num-8 {
+  color: #088342;
+}
+
+.num-5 .inner,
+.num-6 .inner,
+.num-7 .inner,
+.num-8 .inner {
+  background: #088342;
+}
+
+.num-9,
+.num-10,
+.num-11,
+.num-12 {
+  color: #b00404;
+}
+
+.num-9 .inner,
+.num-10 .inner,
+.num-11 .inner,
+.num-12 .inner {
+  background: #b00404;
+}
+
+/* SCROLLBAR */
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #999999;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #aaaaaa;
+}
+
+/* BACK TO TOP BUTTON */
+
+#back-to-top {
+  background-color: #389583; /* Set a background color */
+  color: lightgrey; /* Text color */
+  border: 0.1em solid white;
+}
+
+/* LINKS */
+
+a:active {
+  color: lightgrey;
+}
+
+a {
+  color: #ffffff;
+}
+
+/* FOOTER */
+
+footer {
+  color: white;
+  background-color: #389583;
+}
+
+footer > div {
+  background-color: #389583;
+}
+
+/* HEADER */
+
+header {
+  background-color: #063a6c;
+}
+
+/* SIDEBAR */
+
+#sidebar,
+#taunts {
+  background-color: #063a6c;
+  color: #afaba0;
+}
+
+#sidebar a,
+#taunts a {
+  color: white;
+}
+
+#sidebar a:hover,
+#taunts a:hover {
+  color: black;
+  background-color: #99ced2;
+}
+
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid white;
+  margin: 1em 0;
+  padding: 0;
+}
+
+/* 3 LITTLE BAR THINGS FOR SIDEBAR */
+
+#menu {
+  background-color: #389583;
+}
+
+#menu::before,
+#menu::after {
+  background-color: #389583;
+}
+
+/* WHITE BAR BETWEEN SECTIONS OF SIDEBAR */
+
+.nav-list::after {
+  background-color: #fff;
+}
+
+span.page-item {
+  color: darkgrey;
+}
+
+a.page-item:hover {
+  color: #285c8e;
+}
+
+span.page-item:hover {
+  color: none;
+}
+
+/* DATE TAG OF POSTS */
+
+#posts p {
+  color: #99ced2;
+}
+
+/* THE POST LINK */
+
+a {
+  color: #063a6c;
+}
+
+a:hover {
+  color: lightblue;
+}
+
+/* POST PREVIEW */
+
+blockquote {
+  border-left: 4px solid #063a6c;
+}
+
+/* CODE */
+
+pre {
+  color: grey;
+}
+
+body {
+  background-color: #edf5e0;
+  color: black;
+}
+
+/* HEADERS */
+
+.main h1 {
+  color: #063a6c;
+}
+
+h1 {
+  color: #edf5e0;
+}
+
+#posts h2 {
+  color: #389583;
+}
+
+.post-container h3,
+h4 {
+  border-left: 4px solid #063a6c;
+}
+
+.post-container h2 {
+  color: #389583;
+}
+
+h2,
+h3,
+h4 {
+  color: #389583;
+}
+
+/* END COLOR */

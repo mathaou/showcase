@@ -10,11 +10,14 @@ html
     link(rel='stylesheet', href='/css/font-awesome.min.css')
     link(rel="icon" href="/images/piano.png" sizes="16x16")
     script(type='text/javascript' src='/jquery.min.js')
+    script(type='text/javascript' src='/socket.io.slim.js')
     script(type='text/javascript' src='/js/bootstrap.min.js')
     script(type='text/javascript' src='/javascripts/main.js')
     script(type='text/javascript' src='/javascripts/cards.js')
+    
     link(rel='stylesheet', href='/css/bootstrap.min.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/colors.css')
     link(rel='stylesheet', href='/stylesheets/desktop.css')
     link(rel='stylesheet', href='/stylesheets/mobile.css')
     link(rel='stylesheet', href='/stylesheets/tablets.css')
@@ -22,7 +25,7 @@ html
     link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i|IBM+Plex+Sans+Condensed:400,400i|IBM+Plex+Sans:100,100i,400,400i,700,700i|IBM+Plex+Serif:400,400i&display=swap" rel="stylesheet")
   body
     .wrapper
-      include sidebar
+      include taunts
       .container.main.d-flex.justify-content-center.flex-column
-        .row.d-flex.align-content-stretch
+        .row.d-flex.align-content-stretch.align-content-center
           include play-area

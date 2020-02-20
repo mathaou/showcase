@@ -1,85 +1,80 @@
-.d-flex.align-items-center.player-tabs.container-fluid.justify-content-around
-  .player-tab
-    button 2
-  .player-tab
-    button 3
-  .player-tab
-    button 4
-#play-area
-  #opponent.col-12.d-flex.justify-content-between.row
+#note
+.d-flex.container-fluid.row.col-12
+  .col-4.btn-group.btn-group-toggle.d-flex.align-items-center.player-tabs.justify-content-around
+    .btn.btn-secondary.active.player-tab.player-2-button.hidden
+      input(type="radio" name="options" id="player2" autocomplete="off" checked)
+    .btn.btn-secondary.player-tab.player-3-button.hidden
+      input(type="radio" name="options" id="player3" autocomplete="off")
+    .btn.btn-secondary.player-tab.player-4-button.hidden
+      input(type="radio" name="options" id="player4" autocomplete="off")
+  .col-8.d-flex.justify-content-center.align-items-center.notifications
+    span.notification-text Waiting for a full party...
+#registration-area.d-flex-align-items-center.justify-content-around.col-12.row
+  .col-12.d-flex-align-content-center.justify-content-between.hand-size
+    .form-group
+      label(for='cardNumber') How Many Cards to Wrangle?
+      select#cardNumber.form-control
+        option 5
+        option 7
+  .col-12.d-flex-align-content-center.justify-content-between.stock-size
+    .form-group
+      label(for='stockNumber') How Many to Stockpile?
+      select#stockNumber.form-control
+        option 15
+        option 20
+        option 25
+        option 30
+  .col-12.d-flex-align-content-center.justify-content-between.name-area
+    .form-group
+      label(for='playerName') What's Yer Name?
+        textarea#playerName.form-control(rows='1')
+  button(type='button').btn.btn-secondary.btn-lg.register Register
+#play-area.col-12
+  #opponent.hidden.col-12.d-flex.justify-content-between.row.align-content-center
       .stock.col-3.d-flex.justify-content-between
-          .play-card
-              span.inner
-                span.mark 1
       .discard.d-flex.justify-content-between.col-9
-          .play-card
+          .play-card(data-opponent-number='1')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+          .play-card(data-opponent-number='2')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+          .play-card(data-opponent-number='3')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+          .play-card(data-opponent-number='4')
               span.inner
-                span.mark 1
-  #building.col-12.d-flex.justify-content-between.row
-      .draw.col-3.d-flex.justify-content-between
-          .play-card.facedown
-              span.inner
-                span.mark 1
+                span.mark &nbsp;&nbsp;
+  #building.hidden.col-12.d-flex.justify-content-between.row.align-content-center
+      .draw.col-3.d-flex.flex-column
+          span#num-cards.d-flex.align-content-center.justify-content-between
       .stacks.d-flex.justify-content-between.col-9
-          .play-card
+          .play-card(data-play-number='1')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+          .play-card(data-play-number='2')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+          .play-card(data-play-number='3')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+          .play-card(data-play-number='4')
               span.inner
-                span.mark 1
-  #player.col-12.d-flex.justify-content-between.row
+                span.mark &nbsp;&nbsp;
+  #player.hidden.col-12.d-flex.justify-content-between.row.align-content-center
       .stock.col-3.d-flex.justify-content-between
-          .play-card
-              span.inner
-                span.mark 1
       .discard.d-flex.justify-content-between.col-9
-          .play-card
+        .play-card(data-discard-number='1')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+        .play-card(data-discard-number='2')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+        .play-card(data-discard-number='3')
               span.inner
-                span.mark 1
-          .play-card
+                span.mark &nbsp;&nbsp;
+        .play-card(data-discard-number='4')
               span.inner
-                span.mark 1
-  #hand-area
-      #hand.row.col-12.d-flex.justify-content-between
-          .play-card
-              span.inner
-                span.mark 1
-          .play-card
-              span.inner
-                span.mark 1
-          .play-card
-              span.inner
-                span.mark 1
-          .play-card
-              span.inner
-                span.mark 1
-          .play-card
-              span.inner
-                span.mark 1
-          .play-card
-              span.inner
-                span.mark 1
-          .play-card
-              span.inner
-                span.mark 1
+                span.mark &nbsp;&nbsp;
+#hand-area.d-flex.align-content-center.justify-content-between.hidden
+    #hand.row.col-12.d-flex.justify-content-between

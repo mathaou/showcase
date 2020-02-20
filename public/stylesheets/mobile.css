@@ -2,6 +2,10 @@
 Smartphone
 */
 @media (max-width: 767px) {
+  body {
+    overflow-y: hidden;
+  }
+
   .wrapper {
     /* min-height: 100%; */
   }
@@ -32,11 +36,19 @@ Smartphone
   }
 
   .menu-open {
-    width: 37% !important;
+    width: 39% !important;
   }
 
   #sidebar {
     padding: 4vh 0;
+  }
+
+  #taunts {
+    padding: 7vh 0;
+  }
+
+  a span {
+    padding-right: 6vw;
   }
 
   .icon {
@@ -55,7 +67,8 @@ Smartphone
     padding-left: 1vw;
   }
 
-  #sidebar a {
+  #sidebar a,
+  #taunts a {
     font-size: smaller;
   }
 
@@ -82,14 +95,16 @@ Smartphone
     margin-bottom: 0;
   }
 
-  #opponent, #building, #player {
+  #opponent,
+  #building,
+  #player {
     height: 22.5vh;
     padding: 2vh;
     margin-bottom: 4vh;
   }
 
-  .player-tabs {
-    margin-right: 5vw;
+  .notifications {
+    padding-right: 5vw;
   }
 
   #hand-area {
@@ -106,7 +121,7 @@ Smartphone
     height: 10vh;
   }
 
-/* 
+  /* 
   #back-to-top {
     right: 4vw!important;
   }
