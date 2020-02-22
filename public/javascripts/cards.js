@@ -441,8 +441,6 @@ $(document).ready(() => {
    |Discard on click|
    +================*/
   $('#player .discard .play-card').on('click', e => {
-    console.log(selectedArea);
-    console.log(selectedCard);
     if (
       isTurn &&
       opponents.length > 0
@@ -454,7 +452,7 @@ $(document).ready(() => {
         .trim();
       let discardIndex = parseInt($(element).attr('data-discard-number'));
       
-      if(selectedArea === null) {
+      if(selectedArea === null || selectedArea.indexOf('discard') !== -1 || selectedArea === 'stock') {
         handleSelect(e, `discard${discardIndex}`);
       } else if(selectedArea !== 'stock' && selectedArea.indexOf('discard') === -1 && selectedCard > -1) {
         let payload = {};
@@ -553,6 +551,7 @@ $(document).ready(() => {
     $('#building').removeClass('hidden');
     $('#player').removeClass('hidden');
     $('#hand-area').removeClass('hidden');
+    handleOpponentDiscard();
 
     socket.on('gameover', data => {
       $('#opponent').addClass('hidden');
