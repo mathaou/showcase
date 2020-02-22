@@ -304,7 +304,7 @@ a:hover {
   content: attr(data);
   position: absolute;
   color: black;
-  top: -20px;
+  top: -25px;
 }
 
 #opponent .stock .play-card .inner:before {
