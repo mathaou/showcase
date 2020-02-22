@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// @flow
-
 /*====================+
  |Module dependencies.|
  +====================*/
@@ -252,8 +250,10 @@ const generateHand = id => {
   players.players = players.players.map(player => {
     if (player.id === selectedPlayer.id) {
       player.hand = selectedPlayer.hand;
+      console.log('IS THIS YOUR CARD')
     }
 
+    console.log(JSON.stringify(player));
     return player;
   });
 };
@@ -272,6 +272,40 @@ const generateStock = id => {
   }
 };
 
+const compareToLastPlay = (building, card, lastPlay) => {
+  if(building.length !== 0) {
+    let diff = card - lastPlay;
+    if(diff === 1) return card;
+    else if(diff === -lastPlay) return lastPlay + 1;
+    else return -1;
+  } else if(building.length === 0) {
+    if(card === 1) return card;
+    else if(card === 0) return 1;
+    else return -1;
+  }
+}
+
+const determinePlayValidity = (target, card) => {
+  let lastPlay = null;
+
+  switch(target){
+    case 1:
+      lastPlay = players.building1[players.building1.length - 1];
+      return compareToLastPlay(players.building1, card, lastPlay);
+    case 2:
+      lastPlay = players.building2[players.building2.length - 1];
+      return compareToLastPlay(players.building2, card, lastPlay);
+    case 3:
+      lastPlay = players.building3[players.building3.length - 1];
+      return compareToLastPlay(players.building3, card, lastPlay);
+    case 4:
+      lastPlay = players.building4[players.building4.length - 1];
+      return compareToLastPlay(players.building4, card, lastPlay);
+    default:
+      return -1;
+  }
+};
+
 /*====================+
  |Publish player state|
  +====================*/
@@ -285,12 +319,16 @@ socket.on('connection', client => {
   const ss = require('socket.io-stream');
 
   client.on('discard', data => {
+    console.log(JSON.stringify(data));
+
+    let { id, card, area } = data;
+
     players.players = players.players.map(player => {
-      if(player.id === data.id) {
-        let removedCard = player.hand.splice(player.hand.indexOf(data.card), 1);
+      if(player.id === id) {
+        let removedCard = player.hand.splice(player.hand.indexOf(card), 1);
         console.log(`Removed ${JSON.stringify(removedCard)} from hand...`);
         console.log(player.hand);
-        switch(parseInt(data.area.slice(-1))) {
+        switch(parseInt(area.slice(-1))) {
           case 1:
             player.discard1.push(removedCard[0]);
             break;
@@ -310,13 +348,27 @@ socket.on('connection', client => {
     });
 
     nextPlayer();
+    socket.emit('incomingTaunt', {
+      "message": "Your Turn!",
+      "target": players.currentPlayer
+    });
+    generateHand(players.currentPlayer);
     socket.sockets.emit('state', players);
   });
 
   client.on('play', data => {
+    let discardIndex = parseInt(data.area.slice(-1));
+
     players.players = players.players.map(player => {
       if(player.id === data.id) {
         let removedCard = null;
+
+        let valid = determinePlayValidity(data.target, data.card);
+
+        if(valid === -1) {
+          return player;
+        }
+
         switch(data.area) {
           case 'hand':
             removedCard = player.hand.splice(player.hand.indexOf(data.card), 1);
@@ -325,10 +377,9 @@ socket.on('connection', client => {
             removedCard = player.stock.shift();
             break;
           default:
-            let discardIndex = parseInt(data.area.slice(-1));
             switch(discardIndex) {
               case 1:
-                removedCard = player.discard3.splice(player.discard3.indexOf(data.card), 1);
+                removedCard = player.discard1.splice(player.discard1.indexOf(data.card), 1);
                 break;
               case 2:
                 removedCard = player.discard2.splice(player.discard2.indexOf(data.card), 1);
@@ -336,27 +387,61 @@ socket.on('connection', client => {
               case 3:
                 removedCard = player.discard3.splice(player.discard3.indexOf(data.card), 1);
                 break;
-              case 4:
+              case 4: 
                 removedCard = player.discard4.splice(player.discard4.indexOf(data.card), 1);
                 break;
+              default:
+                return;
             }
             break;
         }
 
-        switch(data.target) {
-          case 1:
-            players.building1.push(removedCard);
-            break;
-          case 2:
-            players.building2.push(removedCard);
-            break;
-          case 3:
-            players.building3.push(removedCard);
-            break;
-          case 4:
-            players.building4.push(removedCard);
-            break;
+        removedCard = valid;
+
+        if(removedCard === 12) {
+          switch(data.target) {
+            case 1:
+              players.building1.length = 0;
+              break;
+            case 2:
+              players.building2.length = 0;
+              break;
+            case 3:
+              players.building3.length = 0;
+              break;
+            case 4:
+              players.building4.length = 0;
+              break;
+            default:
+              return;
+          }
+        } else {
+          switch(data.target) {
+            case 1:
+              players.building1.push(removedCard);
+              break;
+            case 2:
+              players.building2.push(removedCard);
+              break;
+            case 3:
+              players.building3.push(removedCard);
+              break;
+            case 4:
+              players.building4.push(removedCard);
+              break;
+            default:
+              return;
+          }
         }
+      }
+
+      if(player.hand.length === 0) { 
+        generateHand(player.id);
+        console.log('NEW HAND');
+        socket.emit('incomingTaunt', {
+          "message": "NEW HAND TURBO BONUS",
+          "target": player.id
+        });
       }
 
       return player;
@@ -370,7 +455,7 @@ socket.on('connection', client => {
    +==================*/
 
   client.on('taunt', data => {
-    // console.log(JSON.stringify(data));
+    console.log(JSON.stringify(data));
     socket.emit('incomingTaunt', data);
   });
 

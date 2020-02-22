@@ -56,8 +56,7 @@ const getOpponent = () => {
 };
 
 const getSelectedPlayer = () => {
-  console.log(currentPlayer);
-  return $('.player-tabs .active').text();
+  return selectedOpponent;
 };
 
 const getCardFaceForValue = val => {
@@ -70,12 +69,32 @@ const getDescriptorForValue = val => {
   return val > 0 ? `num-${val}` : 'wild';
 };
 
-/*
-Something about this setup requires the server to send state packets to the 
-client pseudo rapidly
-Probably bad design and will incur large costs in deployment
-Look into this...
-*/
+const handleSelect = (e, area) => {
+  e.stopImmediatePropagation();
+  let element = $(e.target).closest('.play-card');
+
+  if($(element).hasClass('selected')) {
+    console.log('toggling')
+    $(element).toggleClass('selected');
+    selectedArea = null;
+    selectedCard = -1;
+  } else {
+    console.log('selecting other cards');
+    $(
+      '#hand .play-card, #player .stock .play-card, #player .discard .play-card'
+    ).removeClass('selected');
+    $(element).addClass('selected');
+
+    selectedCard = parseInt(
+      $(element)
+        .find('.mark')
+        .text()
+        .trim()
+    );
+    selectedCard = isNaN(selectedCard) || !selectedCard ? 0 : selectedCard;
+    selectedArea = area;
+  }
+}
 
 const handleOpponentDiscard = () => {
   if (opponent) {
@@ -89,6 +108,32 @@ const handleOpponentDiscard = () => {
     handleCard('opponent', 3, oDiscard3, oDiscard3ToCheck);
     handleCard('opponent', 4, oDiscard4, oDiscard4ToCheck);
   }
+}
+
+const handlePlayerDiscard = () => {
+  if(player) {
+    let discard1ToCheck = player.discard1;
+    let discard2ToCheck = player.discard2;
+    let discard3ToCheck = player.discard3;
+    let discard4ToCheck = player.discard4;
+
+    handleCard('discard', 1, discard1, discard1ToCheck);
+    handleCard('discard', 2, discard2, discard2ToCheck);
+    handleCard('discard', 3, discard3, discard3ToCheck);
+    handleCard('discard', 4, discard4, discard4ToCheck);
+  }
+}
+
+const handlePlays = (players) => {
+  let play1ToCheck = players.building1;
+  let play2ToCheck = players.building2;
+  let play3ToCheck = players.building3;
+  let play4ToCheck = players.building4;
+
+  handleCard('play', 1, building1, play1ToCheck);
+  handleCard('play', 2, building2, play2ToCheck);
+  handleCard('play', 3, building3, play3ToCheck);
+  handleCard('play', 4, building4, play4ToCheck);
 }
 
 const clearOpponentDiscards = (target, n, targetN, targetNToCheck, doIt) => {
@@ -115,11 +160,14 @@ const clearOpponentDiscards = (target, n, targetN, targetNToCheck, doIt) => {
       .html('&nbsp;&nbsp;');
   }
 
-  if (doIt) {
+  if(!(val === 12 && target === 'play') && doIt) {
     $(targetNPlayCard).addClass(descriptor);
+    $(targetNPlayCard).removeClass(`selected`);
     $(targetNPlayCard)
       .find('.mark')
       .html(cardFace);
+
+    $(targetNPlayCard).attr('data', cardFace);
 
     targetN = targetNToCheck;
   }
@@ -157,8 +205,6 @@ const createCard = val => {
   return card;
 };
 
-
-
 const toggleOpponent = val => {
   let playerClass = opponentIndexes[player.id].indexOf(val);
   let name = opponents.filter(data => {
@@ -192,12 +238,14 @@ const toggleOpponent = val => {
 const parseState = players => {
   var data = players.players;
 
+  console.log(JSON.stringify(data));
+
   /*============================+
    |Get player state from server|
    +============================*/
 
-  player = data.filter(player => {
-    if (player.name === registrationPayload.name) return true;
+  player = data.filter(x => {
+    if (x.name === registrationPayload.name) return true;
   })[0];
 
   /*==========================================+
@@ -240,10 +288,11 @@ const parseState = players => {
    |Set the current turn|
    +====================*/
 
-  if (currentPlayer) {
-    if (currentPlayer === player.id) isTurn = true;
-    else isTurn = false;
-  }
+  if (currentPlayer === player.id){
+    isTurn = true;
+  } else {
+    isTurn = false;
+  } 
 
   /*=====================+
    |Get opponents as well|
@@ -255,16 +304,6 @@ const parseState = players => {
       else return true;
     });
     opponent = opponents[opponentIndexes[player.id].indexOf(selectedOpponent)];
-  }
-
-  /*=========================================+
-   |First time, default to the first opponent|
-   +=========================================*/
-
-  if (selectedOpponent === -1 && numPlayers > 1) {
-    selectedOpponent = opponentIndexes[player.id][0];
-    $('#opponent').removeClass('hidden');
-    toggleOpponent(selectedOpponent);
   }
 
   /*=================+
@@ -299,34 +338,33 @@ const parseState = players => {
 
   let handToCheck = player.hand;
 
+  console.log(JSON.stringify(handToCheck));
+
   /*=======================================+
    |If incoming hand is different update UI|
    +=======================================*/
 
   if (hand === null || JSON.stringify(handToCheck) !== JSON.stringify(hand)) {
     $('#hand').empty();
+    console.log('diff');
 
     handToCheck.map(val => {
       let card = createCard(val);
       $('#hand').append(card);
     });
 
+    console.log('appended');
+
     hand = handToCheck;
   }
+
+  console.log(JSON.stringify(hand));
 
   /*=========================+
    |Likewise for all discards|
    +=========================*/
 
-  let discard1ToCheck = player.discard1;
-  let discard2ToCheck = player.discard2;
-  let discard3ToCheck = player.discard3;
-  let discard4ToCheck = player.discard4;
-
-  handleCard('discard', 1, discard1, discard1ToCheck);
-  handleCard('discard', 2, discard2, discard2ToCheck);
-  handleCard('discard', 3, discard3, discard3ToCheck);
-  handleCard('discard', 4, discard4, discard4ToCheck);
+  handlePlayerDiscard();
 
   handleOpponentDiscard();
 
@@ -334,15 +372,7 @@ const parseState = players => {
    |And the plays too|
    +=================*/
 
-  let play1ToCheck = players.building1;
-  let play2ToCheck = players.building2;
-  let play3ToCheck = players.building3;
-  let play4ToCheck = players.building4;
-
-  handleCard('play', 1, building1, play1ToCheck);
-  handleCard('play', 2, building2, play2ToCheck);
-  handleCard('play', 3, building3, play3ToCheck);
-  handleCard('play', 4, building4, play4ToCheck);
+  handlePlays(players);
 
   /*===============================+
    |If stock is different update UI|
@@ -363,6 +393,8 @@ const parseState = players => {
     currentStock = stock;
     $('#player .stock').empty();
     $('#player .stock').append(createCard(currentStock[0]));
+  } else if(stock.length === 0) {
+    $('#player .stock').empty();
   }
 
   /*=====================+
@@ -370,63 +402,57 @@ const parseState = players => {
    +=====================*/
 
   $('#hand .play-card').on('click', e => {
-    e.preventDefault();
-    $(
-      '#hand .play-card, #player .stock .play-card, #player .discard .play-card'
-    ).removeClass('selected');
-    let element = $(e.target).closest('.play-card');
-    element.addClass('selected');
-    selectedCard = parseInt(
-      $(element)
-        .find('.mark')
-        .text()
-        .trim()
-    );
-    selectedCard = isNaN(selectedCard) || !selectedCard ? 0 : selectedCard;
-    selectedArea = 'hand';
+    handleSelect(e, 'hand');
   });
 
   $('#player .stock').on('click', e => {
-    e.preventDefault();
-    $(
-      '#hand .play-card, #player .stock .play-card, #player .discard .play-card'
-    ).removeClass('selected');
-    let element = $(e.target).closest('.play-card');
-    element.addClass('selected');
-    selectedCard = parseInt(
-      $(element)
-        .find('.mark')
-        .text()
-        .trim()
-    );
-    selectedCard = isNaN(selectedCard) || !selectedCard ? 0 : selectedCard;
-    selectedArea = `stock`;
+    handleSelect(e, 'stock');
   });
+
+
+  /*=========================================+
+   |First time, default to the first opponent|
+   +=========================================*/
+
+  if (selectedOpponent === -1 && numPlayers > 1) {
+    selectedOpponent = opponentIndexes[player.id][0];
+    $('#opponent').removeClass('hidden');
+    console.log('toggling opponent');
+    toggleOpponent(selectedOpponent);
+  }
 };
 
 $(document).ready(() => {
   $('#player .discard .play-card').on('click', e => {
+    console.log(selectedArea);
+    console.log(selectedCard);
     if (
       isTurn &&
-      opponents.length > 0 &&
-      selectedArea !== null &&
-      selectedArea.indexOf('discard') === -1 &&
-      selectedArea !== 'stock' &&
-      selectedCard > -1
+      opponents.length > 0
     ) {
       let element = $(e.target).closest('.play-card');
+      let t = $(element)
+        .find('.mark')
+        .text()
+        .trim();
       let discardIndex = parseInt($(element).attr('data-discard-number'));
-      let payload = {};
+      
+      if(selectedArea === null) {
+        handleSelect(e, `discard${discardIndex}`);
+      } else if(selectedArea !== 'stock' && selectedCard > -1) {
+        let payload = {};
 
-      payload.id = player.id;
-      payload.card = selectedCard;
-      payload.area = `discard${discardIndex}`;
+        payload.id = player.id;
+        payload.card = selectedCard;
+        payload.area = `discard${discardIndex}`;
 
-      console.log(JSON.stringify(payload));
+        console.log(JSON.stringify(payload));
 
-      socket.emit('discard', payload);
-      selectedArea = null;
-      selectedCard = -1;
+        socket.emit('discard', payload);
+
+        selectedArea = null;
+        selectedCard = -1;
+      }
     }
   });
 
@@ -448,6 +474,10 @@ $(document).ready(() => {
       console.log(JSON.stringify(payload));
 
       socket.emit('play', payload);
+
+      $(
+        '#hand .play-card, #player .stock .play-card, #player .discard .play-card'
+      ).removeClass('selected');
       selectedArea = null;
       selectedCard = -1;
     }
@@ -497,25 +527,25 @@ $(document).ready(() => {
     // $('.hidden').removeClass('hidden');
     $('#registration-area').addClass('hidden');
     $('#hand-area').removeClass('hidden');
+    $('#opponent').removeClass('hidden');
 
     socket.on('state', parseState);
     socket.on('incomingTaunt', data => {
-      console.log(data);
       if (player !== null && !$('#note').hasClass('slide')) {
-        $('#note').empty();
-        $('#note').removeClass('slide');
+        console.log(data);
 
         let id = player.id;
 
         if (parseInt(data.target) === id) {
+          console.log('doin it');
           $('#note').html(data.message);
           $('#note').addClass('slide');
+          setTimeout(() => {
+            console.log('note removed');
+            $('#note').empty();
+            $('#note').removeClass('slide');
+          }, 3000);
         }
-
-        setTimeout(() => {
-          $('#note').empty();
-          $('#note').removeClass('slide');
-        }, 3000);
       }
     });
   });

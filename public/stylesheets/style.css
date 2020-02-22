@@ -300,6 +300,13 @@ a:hover {
   cursor: pointer;
 }
 
+.stacks .play-card .inner:before {
+  content: attr(data);
+  position: absolute;
+  color: black;
+  top: -20px;
+}
+
 a:active {
   text-decoration: none;
 }
