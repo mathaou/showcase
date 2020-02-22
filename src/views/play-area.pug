@@ -2,11 +2,14 @@
 .d-flex.container-fluid.row.col-12
   .col-4.btn-group.btn-group-toggle.d-flex.align-items-center.player-tabs.justify-content-around
     .btn.btn-secondary.active.player-tab.player-2-button.hidden
-      input(type="radio" name="options" id="player2" autocomplete="off" checked)
+      input#player2(type="radio" name="options" autocomplete="off" checked)
+      span#player2text
     .btn.btn-secondary.player-tab.player-3-button.hidden
-      input(type="radio" name="options" id="player3" autocomplete="off")
+      input#player3(type="radio" name="options" autocomplete="off")
+      span#player3text
     .btn.btn-secondary.player-tab.player-4-button.hidden
-      input(type="radio" name="options" id="player4" autocomplete="off")
+      input#player4(type="radio" name="options" autocomplete="off")
+      span#player4text
   .col-8.d-flex.justify-content-center.align-items-center.notifications
     span.notification-text Waiting for a full party...
 #registration-area.d-flex-align-items-center.justify-content-around.col-12.row

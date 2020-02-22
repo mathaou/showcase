@@ -171,13 +171,13 @@ var players = {
   building3: [],
   building4: [],
   deck: [],
-  currentPlayer: 1
+  currentPlayer: 1,
 };
 
 const nextPlayer = () => {
   let val = players.currentPlayer + 1;
   let mod = val % players.players.length;
-  players.currentPlayer = (mod === 0) ? players.players.length : mod;
+  players.currentPlayer = mod === 0 ? players.players.length : mod;
   console.log(players.currentPlayer);
 };
 
@@ -207,7 +207,7 @@ const shuffle = array => {
 
 const initializeDeck = () => {
   players.deck = [];
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 3; i++) {
     if (i % 2 === 0) players.deck.push(0);
     players.deck.push(0);
 
@@ -231,6 +231,11 @@ const countCardsInHand = a => {
   }, {});
 };
 
+/*============================================================================+
+ |Fills up a hand and handles reshuffling of the deck. Also accounts for cards|
+ |~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-in play~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~|
+ +============================================================================*/
+
 const generateHand = id => {
   var selectedPlayer = players.players.filter(player => {
     if (player.id === id) return true;
@@ -240,7 +245,37 @@ const generateHand = id => {
 
   for (let i = handSize; i < MAX_CARDS; i++) {
     if (players.deck.length === 0) {
+      let acc = [];
+      players.players.map(player => {
+        acc = acc.concat([
+          ...player.hand,
+          ...player.stock,
+          ...player.discard1,
+          ...player.discard2,
+          ...player.discard3,
+          ...player.discard4,
+        ]);
+      });
+
+      let tempDeck = [
+        ...players.building1,
+        ...players.building2,
+        ...players.building3,
+        ...players.building4,
+        ...acc
+      ];
+
       initializeDeck();
+
+      let count = countCardsInHand(tempDeck);
+
+      for(let cardCount = 0; cardCount < players.deck.length; cardCount++){ 
+        let indexCount = count[players.deck[cardCount]];
+        if(indexCount > 0) {
+          players.deck.splice(cardCount, 1);
+          count[players.deck[cardCount]]--;
+        }
+      }
     }
 
     let pop = players.deck.pop();
@@ -250,13 +285,15 @@ const generateHand = id => {
   players.players = players.players.map(player => {
     if (player.id === selectedPlayer.id) {
       player.hand = selectedPlayer.hand;
-      console.log('IS THIS YOUR CARD')
     }
 
-    console.log(JSON.stringify(player));
     return player;
   });
 };
+
+/*==========================+
+ |Counts out all stock cards|
+ +==========================*/
 
 const generateStock = id => {
   var selectedPlayer = players.players.filter(player => {
@@ -272,23 +309,27 @@ const generateStock = id => {
   }
 };
 
+/*============+
+ |Rules engine|
+ +============*/
+
 const compareToLastPlay = (building, card, lastPlay) => {
-  if(building.length !== 0) {
+  if (building.length !== 0) {
     let diff = card - lastPlay;
-    if(diff === 1) return card;
-    else if(diff === -lastPlay) return lastPlay + 1;
+    if (diff === 1) return card;
+    else if (diff === -lastPlay) return lastPlay + 1;
     else return -1;
-  } else if(building.length === 0) {
-    if(card === 1) return card;
-    else if(card === 0) return 1;
+  } else if (building.length === 0) {
+    if (card === 1) return card;
+    else if (card === 0) return 1;
     else return -1;
   }
-}
+};
 
 const determinePlayValidity = (target, card) => {
   let lastPlay = null;
 
-  switch(target){
+  switch (target) {
     case 1:
       lastPlay = players.building1[players.building1.length - 1];
       return compareToLastPlay(players.building1, card, lastPlay);
@@ -324,11 +365,11 @@ socket.on('connection', client => {
     let { id, card, area } = data;
 
     players.players = players.players.map(player => {
-      if(player.id === id) {
+      if (player.id === id) {
         let removedCard = player.hand.splice(player.hand.indexOf(card), 1);
         console.log(`Removed ${JSON.stringify(removedCard)} from hand...`);
         console.log(player.hand);
-        switch(parseInt(area.slice(-1))) {
+        switch (parseInt(area.slice(-1))) {
           case 1:
             player.discard1.push(removedCard[0]);
             break;
@@ -340,7 +381,7 @@ socket.on('connection', client => {
             break;
           default:
             player.discard4.push(removedCard[0]);
-            break
+            break;
         }
       }
 
@@ -349,8 +390,8 @@ socket.on('connection', client => {
 
     nextPlayer();
     socket.emit('incomingTaunt', {
-      "message": "Your Turn!",
-      "target": players.currentPlayer
+      message: 'Your Turn!',
+      target: players.currentPlayer,
     });
     generateHand(players.currentPlayer);
     socket.sockets.emit('state', players);
@@ -360,35 +401,68 @@ socket.on('connection', client => {
     let discardIndex = parseInt(data.area.slice(-1));
 
     players.players = players.players.map(player => {
-      if(player.id === data.id) {
+      if (player.id === data.id) {
         let removedCard = null;
 
         let valid = determinePlayValidity(data.target, data.card);
 
-        if(valid === -1) {
+        if (valid === -1) {
           return player;
         }
 
-        switch(data.area) {
+        switch (data.area) {
           case 'hand':
             removedCard = player.hand.splice(player.hand.indexOf(data.card), 1);
             break;
           case 'stock':
             removedCard = player.stock.shift();
+            if (player.stock.length === 0) {
+              setTimeout(() => {
+                socket.emit('gameover', {
+                  name: player.name,
+                });
+                initializeDeck();
+                for (let i = 1; i <= numPlayers; i++) {
+                  socket.emit('incomingTaunt', {
+                    message: `That's a wrap! All hail ${player.name}!`,
+                    target: i,
+                  });
+                }
+                numPlayers = 0;
+                players.currentPlayer = 1;
+                players.players = [];
+                players.building1 = [];
+                players.building2 = [];
+                players.building3 = [];
+                players.building4 = [];
+              }, 2000);
+            }
             break;
           default:
-            switch(discardIndex) {
+            switch (discardIndex) {
               case 1:
-                removedCard = player.discard1.splice(player.discard1.indexOf(data.card), 1);
+                removedCard = player.discard1.splice(
+                  player.discard1.indexOf(data.card),
+                  1
+                );
                 break;
               case 2:
-                removedCard = player.discard2.splice(player.discard2.indexOf(data.card), 1);
+                removedCard = player.discard2.splice(
+                  player.discard2.indexOf(data.card),
+                  1
+                );
                 break;
               case 3:
-                removedCard = player.discard3.splice(player.discard3.indexOf(data.card), 1);
+                removedCard = player.discard3.splice(
+                  player.discard3.indexOf(data.card),
+                  1
+                );
                 break;
-              case 4: 
-                removedCard = player.discard4.splice(player.discard4.indexOf(data.card), 1);
+              case 4:
+                removedCard = player.discard4.splice(
+                  player.discard4.indexOf(data.card),
+                  1
+                );
                 break;
               default:
                 return;
@@ -398,8 +472,8 @@ socket.on('connection', client => {
 
         removedCard = valid;
 
-        if(removedCard === 12) {
-          switch(data.target) {
+        if (removedCard === 12) {
+          switch (data.target) {
             case 1:
               players.building1.length = 0;
               break;
@@ -416,7 +490,7 @@ socket.on('connection', client => {
               return;
           }
         } else {
-          switch(data.target) {
+          switch (data.target) {
             case 1:
               players.building1.push(removedCard);
               break;
@@ -433,15 +507,15 @@ socket.on('connection', client => {
               return;
           }
         }
-      }
 
-      if(player.hand.length === 0) { 
-        generateHand(player.id);
-        console.log('NEW HAND');
-        socket.emit('incomingTaunt', {
-          "message": "NEW HAND TURBO BONUS",
-          "target": player.id
-        });
+        if (player.hand.length === 0) {
+          generateHand(player.id);
+          console.log('NEW HAND');
+          socket.emit('incomingTaunt', {
+            message: 'NEW HAND TURBO BONUS',
+            target: player.id,
+          });
+        }
       }
 
       return player;
@@ -460,9 +534,9 @@ socket.on('connection', client => {
   });
 
   client.on('register', data => {
-    if(data.card !== MAX_CARDS) {
+    if (data.card !== MAX_CARDS) {
       MAX_CARDS = data.card;
-      for(let i = 1; i <= numPlayers; i++) {
+      for (let i = 1; i <= numPlayers; i++) {
         generateHand(i);
       }
     }

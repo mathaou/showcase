@@ -205,6 +205,19 @@ const createCard = val => {
   return card;
 };
 
+const updateStock = () => {
+  if(opponent) {
+    let { stock } = opponent;
+
+    $('#opponent .stock').empty();
+
+    if (stock.length > 0) {
+      // $('#opponent .stock .play-card .inner').attr('data', `${stock.length}`);
+      $('#opponent .stock').append(createCard(stock[0]));
+    }
+  }
+};
+
 const toggleOpponent = val => {
   let playerClass = opponentIndexes[player.id].indexOf(val);
   let name = opponents.filter(data => {
@@ -226,13 +239,7 @@ const toggleOpponent = val => {
   $('#opponent').addClass(`player-${opponentIndexes[player.id][playerClass]}`);
   opponent = opponents[playerClass];
 
-  let { stock } = opponent;
-
-  $('#opponent .stock').empty();
-
-  if (stock.length > 0) {
-    $('#opponent .stock').append(createCard(stock[0]));
-  }
+  updateStock();
 };
 
 const parseState = players => {
@@ -288,11 +295,13 @@ const parseState = players => {
    |Set the current turn|
    +====================*/
 
-  if (currentPlayer === player.id){
-    isTurn = true;
-  } else {
-    isTurn = false;
-  } 
+  if(player) {
+    if (currentPlayer === player.id){
+      isTurn = true;
+    } else {
+      isTurn = false;
+    }
+  }
 
   /*=====================+
    |Get opponents as well|
@@ -315,20 +324,20 @@ const parseState = players => {
       $('.player-4-button, #player-3-button, #player-2-button').removeClass(
         'hidden'
       );
-      $('#player4').after(`${opponents[2].id}`);
+      $('.player-4-button span').html(`${opponents[2].id}`);
       if (hand === null) {
-        $('#player3').after(`${opponents[1].id}`);
-        $('#player2').after(`${opponents[0].id}`);
+        $('.player-3-button span').html(`${opponents[1].id}`);
+        $('.player-2-button span').html(`${opponents[0].id}`);
       }
     } else if (data.length === 3) {
       $('.player-3-button, .player-2-button').removeClass('hidden');
-      $('#player3').after(`${opponents[1].id}`);
+      $('.player-3-button span').html(`${opponents[1].id}`);
       if (hand === null) {
-        $('#player2').after(`${opponents[0].id}`);
+        $('.player-2-button span').html(`${opponents[0].id}`);
       }
     } else if (data.length === 2) {
       $('.player-2-button, .player-1-button').removeClass('hidden');
-      $('#player2').after(`${opponents[0].id}`);
+      $('.player-2-button span').html(`${opponents[0].id}`);
     }
   }
 
@@ -336,93 +345,101 @@ const parseState = players => {
 
   numPlayers = data.length;
 
-  let handToCheck = player.hand;
+  if(player) {
+    let handToCheck = player.hand;
+    console.log(JSON.stringify(handToCheck));
 
-  console.log(JSON.stringify(handToCheck));
 
-  /*=======================================+
-   |If incoming hand is different update UI|
-   +=======================================*/
+    /*=======================================+
+    |If incoming hand is different update UI|
+    +=======================================*/
 
-  if (hand === null || JSON.stringify(handToCheck) !== JSON.stringify(hand)) {
-    $('#hand').empty();
-    console.log('diff');
+    if (hand === null || JSON.stringify(handToCheck) !== JSON.stringify(hand)) {
+      $('#hand').empty();
+      console.log('diff');
 
-    handToCheck.map(val => {
-      let card = createCard(val);
-      $('#hand').append(card);
+      handToCheck.map(val => {
+        let card = createCard(val);
+        $('#hand').append(card);
+      });
+
+      console.log('appended');
+
+      hand = handToCheck;
+    }
+
+    console.log(JSON.stringify(hand));
+
+    /*=========================+
+    |Likewise for all discards|
+    +=========================*/
+
+    handlePlayerDiscard();
+
+    handleOpponentDiscard();
+
+    /*=================+
+    |And the plays too|
+    +=================*/
+
+    handlePlays(players);
+
+    /*===============================+
+    |If stock is different update UI|
+    +===============================*/
+
+    let { stock } = player;
+
+    if (currentStock === null) {
+      $('#building').removeClass('hidden');
+      $('#player').removeClass('hidden');
+    }
+
+    if (
+      stock.length > 0 &&
+      (currentStock === null ||
+        JSON.stringify(currentStock) !== JSON.stringify(stock))
+    ) {
+      currentStock = stock;
+      $('#player .stock').empty();
+      $('#player .stock').append(createCard(currentStock[0]));
+      $('#player .stock .play-card .inner').attr('data', `${currentStock.length}`);
+    } else if(stock.length === 0) {
+      $('#player .stock').empty();
+    }
+
+    updateStock();
+
+    /*=====================+
+    |Handle selected cards|
+    +=====================*/
+
+    $('#hand .play-card').on('click', e => {
+      handleSelect(e, 'hand');
     });
 
-    console.log('appended');
-
-    hand = handToCheck;
-  }
-
-  console.log(JSON.stringify(hand));
-
-  /*=========================+
-   |Likewise for all discards|
-   +=========================*/
-
-  handlePlayerDiscard();
-
-  handleOpponentDiscard();
-
-  /*=================+
-   |And the plays too|
-   +=================*/
-
-  handlePlays(players);
-
-  /*===============================+
-   |If stock is different update UI|
-   +===============================*/
-
-  let { stock } = player;
-
-  if (currentStock === null) {
-    $('#building').removeClass('hidden');
-    $('#player').removeClass('hidden');
-  }
-
-  if (
-    stock.length > 0 &&
-    (currentStock === null ||
-      JSON.stringify(currentStock) !== JSON.stringify(stock))
-  ) {
-    currentStock = stock;
-    $('#player .stock').empty();
-    $('#player .stock').append(createCard(currentStock[0]));
-  } else if(stock.length === 0) {
-    $('#player .stock').empty();
-  }
-
-  /*=====================+
-   |Handle selected cards|
-   +=====================*/
-
-  $('#hand .play-card').on('click', e => {
-    handleSelect(e, 'hand');
-  });
-
-  $('#player .stock').on('click', e => {
-    handleSelect(e, 'stock');
-  });
+    $('#player .stock').on('click', e => {
+      handleSelect(e, 'stock');
+    });
 
 
-  /*=========================================+
-   |First time, default to the first opponent|
-   +=========================================*/
+    /*=========================================+
+    |First time, default to the first opponent|
+    +=========================================*/
 
-  if (selectedOpponent === -1 && numPlayers > 1) {
-    selectedOpponent = opponentIndexes[player.id][0];
-    $('#opponent').removeClass('hidden');
-    console.log('toggling opponent');
-    toggleOpponent(selectedOpponent);
+    if (selectedOpponent === -1 && numPlayers > 1) {
+      selectedOpponent = opponentIndexes[player.id][0];
+      $('#opponent').removeClass('hidden');
+      console.log('toggling opponent');
+      toggleOpponent(selectedOpponent);
+    }
   }
 };
 
 $(document).ready(() => {
+  /*================+
+   |Discard on click|
+   +================*/
   $('#player .discard .play-card').on('click', e => {
     console.log(selectedArea);
     console.log(selectedCard);
@@ -439,7 +456,7 @@ $(document).ready(() => {
       
       if(selectedArea === null) {
         handleSelect(e, `discard${discardIndex}`);
-      } else if(selectedArea !== 'stock' && selectedCard > -1) {
+      } else if(selectedArea !== 'stock' && selectedArea.indexOf('discard') === -1 && selectedCard > -1) {
         let payload = {};
 
         payload.id = player.id;
@@ -456,6 +473,9 @@ $(document).ready(() => {
     }
   });
 
+  /*============+
+   |Handle plays|
+   +============*/
   $('#building .stacks .play-card').on('click', e => {
     if (
       isTurn &&
@@ -482,6 +502,10 @@ $(document).ready(() => {
       selectedCard = -1;
     }
   });
+
+  /*======+
+   |Taunts|
+   +======*/
 
   $('#taunts span').on('click', e => {
     e.preventDefault();
@@ -524,11 +548,24 @@ $(document).ready(() => {
     console.log(`Sending ${JSON.stringify(registrationPayload, null, 2)}`);
     socket.emit('register', registrationPayload);
 
-    // $('.hidden').removeClass('hidden');
     $('#registration-area').addClass('hidden');
-    $('#hand-area').removeClass('hidden');
     $('#opponent').removeClass('hidden');
+    $('#building').removeClass('hidden');
+    $('#player').removeClass('hidden');
+    $('#hand-area').removeClass('hidden');
 
+    socket.on('gameover', data => {
+      $('#opponent').addClass('hidden');
+      $('#building').addClass('hidden');
+      $('#player').addClass('hidden');
+      $('#hand-area').addClass('hidden');
+
+      setNotification('Game over!');
+
+      setTimeout(() => {
+        $('#registration-area').removeClass('hidden');
+      }, 3000);
+    });
     socket.on('state', parseState);
     socket.on('incomingTaunt', data => {
       if (player !== null && !$('#note').hasClass('slide')) {

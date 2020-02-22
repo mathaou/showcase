@@ -300,11 +300,18 @@ a:hover {
   cursor: pointer;
 }
 
-.stacks .play-card .inner:before {
+#player .stock .play-card .inner:before {
   content: attr(data);
   position: absolute;
   color: black;
   top: -20px;
+}
+
+#opponent .stock .play-card .inner:before {
+  content: attr(data);
+  position: absolute;
+  color: black;
+  top: 150px;
 }
 
 a:active {
