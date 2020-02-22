@@ -351,6 +351,27 @@ const determinePlayValidity = (target, card) => {
  |Publish player state|
  +====================*/
 
+socket.on('disconnect', reason => {
+  console.log('Disconnect...');
+  socket.emit('gameover', {
+    name: player.name,
+  });
+  initializeDeck();
+  for (let i = 1; i <= numPlayers; i++) {
+    socket.emit('incomingTaunt', {
+      message: `Player left. Game invalid.`,
+      target: i,
+    });
+  }
+  numPlayers = 0;
+  players.currentPlayer = 1;
+  players.players = [];
+  players.building1 = [];
+  players.building2 = [];
+  players.building3 = [];
+  players.building4 = [];
+});
+
 socket.on('connection', client => {
   console.log('Client connected...');
 

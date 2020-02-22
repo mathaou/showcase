@@ -5,6 +5,12 @@ $(document).ready(() => {
     $('#taunts').toggleClass('menu-open');
   });
 
+  $('#nav-menu-card').on('click', () => {
+    $('#menu').toggleClass('btn-close');
+    $('#sidebar').toggleClass('menu-open');
+    $('#taunts').toggleClass('menu-open');
+  });
+
   $(window).scroll(() => {
     if ($(document).scrollTop() > 20) {
       $('#back-to-top').removeClass('hidden');

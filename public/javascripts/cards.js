@@ -516,7 +516,7 @@ $(document).ready(() => {
     payload.message = element.text();
     payload.target = getSelectedPlayer();
 
-    // console.log(`${JSON.stringify(payload)}`);
+    console.log(`${JSON.stringify(payload)}`);
 
     socket.emit('taunt', payload);
   });
