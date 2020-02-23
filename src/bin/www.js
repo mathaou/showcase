@@ -231,6 +231,42 @@ const countCardsInHand = a => {
   }, {});
 };
 
+const handleReshuffle = () => {
+  if (players.deck.length === 0) {
+    let acc = [];
+    players.players.map(player => {
+      acc = acc.concat([
+        ...player.hand,
+        ...player.stock,
+        ...player.discard1,
+        ...player.discard2,
+        ...player.discard3,
+        ...player.discard4,
+      ]);
+    });
+
+    let tempDeck = [
+      ...players.building1,
+      ...players.building2,
+      ...players.building3,
+      ...players.building4,
+      ...acc
+    ];
+
+    initializeDeck();
+
+    let count = countCardsInHand(tempDeck);
+
+    for(let cardCount = 0; cardCount < players.deck.length; cardCount++){ 
+      let indexCount = count[players.deck[cardCount]];
+      if(indexCount > 0) {
+        players.deck.splice(cardCount, 1);
+        count[players.deck[cardCount]]--;
+      }
+    }
+  }
+}
+
 /*============================================================================+
  |Fills up a hand and handles reshuffling of the deck. Also accounts for cards|
  |~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-in play~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~|
@@ -244,39 +280,7 @@ const generateHand = id => {
   var handSize = selectedPlayer.hand.length;
 
   for (let i = handSize; i < MAX_CARDS; i++) {
-    if (players.deck.length === 0) {
-      let acc = [];
-      players.players.map(player => {
-        acc = acc.concat([
-          ...player.hand,
-          ...player.stock,
-          ...player.discard1,
-          ...player.discard2,
-          ...player.discard3,
-          ...player.discard4,
-        ]);
-      });
-
-      let tempDeck = [
-        ...players.building1,
-        ...players.building2,
-        ...players.building3,
-        ...players.building4,
-        ...acc
-      ];
-
-      initializeDeck();
-
-      let count = countCardsInHand(tempDeck);
-
-      for(let cardCount = 0; cardCount < players.deck.length; cardCount++){ 
-        let indexCount = count[players.deck[cardCount]];
-        if(indexCount > 0) {
-          players.deck.splice(cardCount, 1);
-          count[players.deck[cardCount]]--;
-        }
-      }
-    }
+    handleReshuffle();
 
     let pop = players.deck.pop();
     selectedPlayer.hand.push(pop);
@@ -300,13 +304,22 @@ const generateStock = id => {
     if (player.id === id) return player;
   })[0];
 
-  for (let i = 0; i < STOCK_MAX; i++) {
-    if (players.deck.length === 0) {
-      initializeDeck();
+  let stockLength = selectedPlayer.stock.length;
+
+  for (let i = stockLength; i < STOCK_MAX; i++) {
+    handleReshuffle();
+
+    let pop = players.deck.pop();
+    selectedPlayer.stock.push(pop);
+  }
+
+  players.players = players.players.map(player => {
+    if (player.id === selectedPlayer.id) {
+      player.stock = selectedPlayer.stock;
     }
 
-    selectedPlayer.stock.push(players.deck.pop());
-  }
+    return player;
+  });
 };
 
 /*============+
@@ -560,6 +573,7 @@ socket.on('connection', client => {
       MAX_CARDS = data.card;
       for (let i = 1; i <= numPlayers; i++) {
         generateHand(i);
+        generateStock(i);
       }
     }
 
