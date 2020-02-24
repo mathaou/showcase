@@ -571,13 +571,13 @@ socket.on('connection', client => {
   client.on('register', data => {
     if (data.card !== MAX_CARDS || data.stock !== STOCK_MAX) {
       MAX_CARDS = data.card;
+      STOCK_MAX = data.stock;
       for (let i = 1; i <= numPlayers; i++) {
         generateHand(i);
         generateStock(i);
       }
     }
 
-    STOCK_MAX = data.stock;
     console.log(`registering ${data.name}...`);
     players.players.push({
       id: ++numPlayers,
