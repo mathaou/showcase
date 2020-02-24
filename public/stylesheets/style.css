@@ -15,6 +15,10 @@ h1 {
   font-family: 'IBM Plex Sans Condensed', sans-serif;
 }
 
+.wrapper h1 {
+  margin: auto;
+}
+
 #back-to-top svg {
   display: block;
   fill: currentColor;
