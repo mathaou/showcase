@@ -569,7 +569,7 @@ socket.on('connection', client => {
   });
 
   client.on('register', data => {
-    if (data.card !== MAX_CARDS) {
+    if (data.card !== MAX_CARDS || data.stock !== STOCK_MAX) {
       MAX_CARDS = data.card;
       for (let i = 1; i <= numPlayers; i++) {
         generateHand(i);
