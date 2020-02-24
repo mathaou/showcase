@@ -19,8 +19,8 @@ import Client from '../mqttClient';
 const mqttClient = new Client();
 var chordArray = [];
 
-var MAX_CARDS = 7;
-var STOCK_MAX = 30;
+var MAX_CARDS = 0;
+var STOCK_MAX = 0;
 var numPlayers = 0;
 
 const debug = debugLib('showcase:server');
@@ -569,7 +569,7 @@ socket.on('connection', client => {
   });
 
   client.on('register', data => {
-    if (data.card !== MAX_CARDS || data.stock !== STOCK_MAX) {
+    if (data.card > MAX_CARDS || data.stock > STOCK_MAX) {
       MAX_CARDS = data.card;
       STOCK_MAX = data.stock;
       for (let i = 1; i <= numPlayers; i++) {
