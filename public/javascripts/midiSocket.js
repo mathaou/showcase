@@ -1,7 +1,8 @@
 'use strict';
 
 // www.mfarstad.com on production
-var socket = io.connect('https://www.mfarstad.com:3000', { transports: ['websocket'] });
+//.connect('https://www.mfarstad.com:3000', { transports: ['websocket'] });
+var socket = io();
 
 var buffer = [];
 var lastPayloadSize = 0;
