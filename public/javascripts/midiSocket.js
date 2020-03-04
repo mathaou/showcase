@@ -7,14 +7,29 @@ var socket = io();
 var buffer = [];
 var lastPayloadSize = 0;
 
+var midiConnections = [];
+var selectedMidi = 0;
+
+document.onkeypress = function(e) {
+  e = e || window.event;
+  let num = parseInt(e.key);
+  if (!isNaN(num)) {
+    if (num <= midiConnections.length) {
+      selectedMidi = num - 1;
+      switchMidi();
+    }
+  }
+};
+
+setInterval(() => {
+  buffer.length = 0;
+  ss(socket).emit('event', 'CLEAR');
+}, 500);
+
 socket.on('client', payload => {
   var data = payload.data;
 
-  setTimeout(() => {
-    buffer.length = 0;
-  }, 100);
-
-  if(buffer.length === 0 || data[0].length !== lastPayloadSize) {
+  if (buffer.length === 0 || data[0].length !== lastPayloadSize) {
     data.map(e => {
       buffer.push(e);
     });
@@ -22,12 +37,21 @@ socket.on('client', payload => {
     buffer = [...new Set(buffer)]; // remove duplicates
     $('#chord-list').empty(); // clear area
     buffer.map(chord => {
-      $('#chord-list').hide().append(`<span class='chord'>${chord.replace()}</span>`).fadeIn(100);
+      $('#chord-list')
+        .append(`<span class='chord'>${chord.replace()}</span>`)
     });
   }
 
   lastPayloadSize = data[0].length;
 });
+
+const switchMidi = () => {
+  console.log(`Switching to ${midiConnections[selectedMidi].name}`);
+  midiConnections[selectedMidi].onmidimessage = handleMidiMessage;
+
+  $(`.midiDevice`).css('color', 'black');
+  $(`.midiDevice:eq(${selectedMidi})`).css('color', 'blue');
+};
 
 const onMidiAccessSuccess = access => {
   midiAccess = access;
@@ -38,21 +62,19 @@ const onMidiAccessSuccess = access => {
   var firstInput = null;
   var firstTemp = null;
 
-  for (var input = inputIterators.next(); input && !input.done; input = inputIterators.next()) {
-    firstTemp = input.value;
-    if(firstInput === null){ 
-      if(input.value.name.indexOf('Through') === -1 || input.value.name.indexOf('Output') === -1) firstInput = input.value;
-    }
+  let count = 1;
+
+  for (
+    var input = inputIterators.next();
+    input && !input.done;
+    input = inputIterators.next()
+  ) {
     var deviceName = input.value.name;
-    // console.log(deviceName);
-    $('#midi-list').append(`<span class='midiDevice'>${deviceName}</span>`);
+    midiConnections.push(input.value);
+    $('#midi-list').append(`<span class='midiDevice'>${count++}: ${deviceName}</span>`);
   }
 
-  if(firstInput === null) firstInput = firstTemp;
-
-  console.log(`${firstInput.name} connected...`);
-
-  firstInput.onmidimessage = handleMidiMessage;
+  switchMidi();
 };
 
 const onMidiAccessFailure = error => {

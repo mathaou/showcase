@@ -601,13 +601,18 @@ socket.on('connection', client => {
   });
 
   ss(client).on('event', (data, stream) => {
-    var payload = JSON.parse(data);
+    var payload = null;
+
+    if(data !== 'CLEAR'){
+      payload = JSON.parse(data);
+      buildChord(mqttClient, payload);
+    } else {
+      buildChord(mqttClient, data);
+    }
 
     /*=================+
      |Do the MQTT stuff|
      +=================*/
-
-    buildChord(mqttClient, payload);
 
     // playTone(tone, other);
   });

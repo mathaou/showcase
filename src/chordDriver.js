@@ -59,18 +59,9 @@ export const transmit = (mqttClient: any, arr: any, sharp: boolean) => {
       intervals.push(d);
     }
 
-    var score = 0;
-    intervals.forEach(e => {
-      /*==================================+
-       |arbitrary for now, find better way|
-       +==================================*/
-      if (e === '3M' || e === '2A' || e === '3m' || e === '5P') score++;
-    });
-
     var candidate = {
       notes: temp,
-      intervals: intervals,
-      score,
+      intervals: intervals
     };
 
     comparisons.push(candidate);
@@ -129,6 +120,11 @@ export const transmit = (mqttClient: any, arr: any, sharp: boolean) => {
 };
 
 export const buildChord = (mqttClient: any, payload: any) => {
+  if(payload === 'CLEAR'){
+    mqttClient.chordArray.length = 0; 
+    return;
+  }
+  
   const { note, status } = payload;
 
   mqttClient.chordArray.push(payload);
