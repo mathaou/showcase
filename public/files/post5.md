@@ -4,7 +4,7 @@
 
 # Skip-Bo Clone
 ## 22 Feb 2020
-### Uno 2.0 finds it's way to the web
+### Uno 2.0 finds its way to the web
 
 Skip-Bo is a great game - google it if you haven't heard. The problem, however, comes when you run out of cards and have to shuffle. Since the nature of the game is to create a sequential series of cards from 1-12, if you don't shuffle absolutely perfectly there's a chance that someone may draw several cards in a row, which can be annoying. After jokes about getting an automatic shuffler just for Skip-Bo, I eventually thought it might be better just to bring the game to my website. That way shuffling would be automatic and it would generally just make the game more enjoyable by automating the tedious bits.
 
