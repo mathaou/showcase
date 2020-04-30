@@ -33,7 +33,7 @@
     "flow": "^0.2.3",
     "fs": "0.0.1-security",
     "glob": "^7.1.6",
-    "jquery": "^3.4.0",
+    "jquery": "^3.5.0",
     "markdown-it": "^10.0.0",
     "markdown-to-pug": "^1.0.11",
     "moment": "^2.24.0",
