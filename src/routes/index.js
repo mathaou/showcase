@@ -42,8 +42,8 @@ router.get('/cardgame', (req, res, next) => {
  |for ssl cert generation|
  +=======================*/
 
-// router.get("/.well-known/acme-challenge/CHALLENGE_STRING", (req, res, next) => {
-//   res.sendFile("/.well-known/acme-challenge/CHALLENGE_STRING");
-// });
+router.get("/.well-known/acme-challenge/CHALLENGE_STRING", (req, res, next) => {
+  res.sendFile("/.well-known/acme-challenge/CHALLENGE_STRING");
+});
 
 export default router;
