@@ -7,7 +7,7 @@
     "start": "npm run prod",
     "server": "babel-node ./src/bin/www",
     "server:prod": "node ./dist/bin/www",
-    "dev": "NODE_ENV=development npm-run-all server",
+    "dev": "set NODE_ENV=development && npm-run-all server",
     "clean": "rimraf dist",
     "build": "babel ./src --out-dir dist --copy-files",
     "prod": "NODE_ENV=production npm-run-all clean build server:prod",
@@ -50,11 +50,11 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.7.5",
-    "@babel/core": "^7.7.5",
-    "@babel/node": "^7.7.4",
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
     "@babel/preset-env": "^7.7.7",
-    "nodemon": "^2.0.2",
-    "font-awesome": "^4.7.0"
+    "font-awesome": "^4.7.0",
+    "nodemon": "^2.0.2"
   },
   "repository": {
     "type": "git",

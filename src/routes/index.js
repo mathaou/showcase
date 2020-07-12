@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/zodd', (req, res, next) => {
-  res.render('zodd', { title: "Mingus-Zodd Chord Detection Mk. 1", now: lastUpdate });
+  res.render('zodd', { title: "Mingus-Zodd", now: lastUpdate });
 });
 
 router.get('/cardgame', (req, res, next) => {
@@ -42,8 +42,8 @@ router.get('/cardgame', (req, res, next) => {
  |for ssl cert generation|
  +=======================*/
 
-router.get("/.well-known/acme-challenge/CHALLENGE_STRING", (req, res, next) => {
-  res.sendFile("/.well-known/acme-challenge/CHALLENGE_STRING");
-});
+// router.get("/.well-known/acme-challenge/CHALLENGE_STRING", (req, res, next) => {
+//   res.sendFile("/.well-known/acme-challenge/CHALLENGE_STRING");
+// });
 
 export default router;

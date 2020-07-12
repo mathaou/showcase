@@ -105,42 +105,50 @@ const generateHTTPSData = () => {
   };
 };
 
-net
-  .createServer(conn => {
-    conn.on('error', err => {
-      console.log('Caught flash policy server socket error: ');
-      console.log(err.stack);
-    });
-    conn.once('data', buf => {
-      /*===========================================+
-       |A TLS handshake record starts with byte 22.|
-       +===========================================*/
-      var address = buf[0] === 22 ? port + 2 : port + 1;
-      var proxy = net.createConnection(address, function() {
-        proxy.write(buf);
-        conn.pipe(proxy).pipe(conn);
-      });
-    });
-  })
+// net
+//   .createServer(conn => {
+//     conn.on('error', err => {
+//       console.log('Caught flash policy server socket error: ');
+//       console.log(err.stack);
+//     });
+//     conn.once('data', buf => {
+//       /*===========================================+
+//        |A TLS handshake record starts with byte 22.|
+//        +===========================================*/
+//       var address = buf[0] === 22 ? port + 2 : port + 1;
+//       var proxy = net.createConnection(address, function() {
+//         proxy.write(buf);
+//         conn.pipe(proxy).pipe(conn);
+//       });
+//     });
+//   })
+//   .listen(port);
+
+// .createServer(app) for debug
+
+var server = http
+  .createServer(app)
   .listen(port);
 
-http
-  .createServer((req, res) => {
-    var host = req.headers['host'];
-    res.writeHead(301, { Location: 'https://' + host + req.url });
-    res.end();
-  })
-  .listen(port + 1);
+  // (req, res) => {
+  //   var host = req.headers['host'];
+  //   console.log("Connection...");
+  //   res.write
+  //   // res.writeHead(301, { Location: 'https://' + host + req.url });
+  //   // res.writeHead(200, { Location: 'http://' + host + req.url });
+  //   // res.end();
+  // }
 
-var secureServer = https.createServer(generateHTTPSData(), app);
+// var secureServer = https.createServer(generateHTTPSData(), app);
 
-secureServer.listen(port + 2, () => {
-  console.log('HTTPS server listening on ' + `${port + 2}`);
-});
+// secureServer.listen(port + 2, () => {
+//   console.log('HTTPS server listening on ' + `${port + 2}`);
+// });
 
-secureServer.on('error', onError);
+// secureServer.on('error', onError);
+server.on('error', onError);
 
-const socket = require('socket.io')(secureServer);
+const socket = require('socket.io')(server);
 
 /*==================================================+
  |Better implementation, need to get sound to client|

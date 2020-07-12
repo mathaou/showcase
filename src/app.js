@@ -46,7 +46,7 @@ app.use(
 app.use(express.static(path.join(__dirname, '../node_modules/font-awesome/')));
 
 /*=======+
- |For SSL|
+ |For SSL Generation (DNS seems to be the most reliable way , actually) |
  +=======*/
 // app.use(express.static(__dirname, { dotfiles: "allow" }), indexRouter);
 
