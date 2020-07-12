@@ -134,7 +134,7 @@ var server = http
     res.writeHead(301, { Location: 'https://' + host + req.url });
     res.end();
   })
-  .listen(port);
+  .listen(port + 1);
 
 var secureServer = https.createServer(generateHTTPSData(), app);
 
