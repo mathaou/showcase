@@ -23,26 +23,26 @@ Naturally I spent the better part of a week trying to get the two to play nice w
 
 #### Couldn't Compile, Made My Own
 
-Sean Barrett, owner and propietor of the raw-html-a-palooza known as [nothings.org](http://nothings.org/)#, is the main resource I've found on the internet for herringbone tiles. They were designed by him to produce more interesting patterns with the added ability to color-code edge contraints for matching tiles right into the border of each tile. He wrote a library that could produce herringbone images for you, but it was in C and I've had little experience with actually compiling the language outside of uploading code to arduinos. It should have been as easy as "feeding an image into a file", but when I apt-got GCC with needed libraries it turned out it wasn't that simple. Generally scared, confused, and intimidated I opted to just create my own system in Node.js, in hopes that it might be useful for a fully interactive website of some kind later that dynamically generated a new dungeon to explore with each page refresh. 
+Sean Barrett, owner and propietor of the raw-html-a-palooza known as [nothings.org](http://nothings.org/)#, is the main resource I've found on the internet for herringbone tiles. They were designed by him to produce more interesting patterns with the added ability to color-code edge constraints for matching tiles right into the border of each tile. He wrote a library that could produce herringbone images for you, but it was in C and I've had little experience with actually compiling the language outside of uploading code to arduinos. It should have been as easy as "feeding an image into a file", but when I apt-got GCC with needed libraries it turned out it wasn't that simple. Generally scared, confused, and intimidated I opted to just create my own system in Node.js, in hopes that it might be useful for a fully interactive website of some kind later that dynamically generated a new dungeon to explore with each page refresh. 
 
 Mr. Barrett created a set of herringbone tiles, which I lovingly used. 
 
 *Separated into horizontal and vertical, arranged in a stair pattern*
 ![](http://nothings.org/gamedev/herringbone/chunks.png)
 
-I wasn't about to try and deal with the nonsensical overhead of trying to read in PNG buffers and splice together some image from there, I think I went with a slightly more big-brained approach. I gathered the necessary data needed from the tiles and organized by class (V/H) with row and column from the tilesheet into one massive JSON file. That way, lookup would be cheap and I wouldn't be loading images everytime I wanted to make a new map. Only downside was that I painstakingly had to extract each tile from the tile sheet as its own PNG. That only took 25-30 minutes, but it still sucked.
+I wasn't about to try and deal with the nonsensical overhead of trying to read in PNG buffers and splice together some image from there, I think I went with a slightly more big-brained approach. I gathered the necessary data needed from the tiles and organized by class (V/H) with row and column from the tilesheet into one massive JSON file. That way, lookup would be cheap and I wouldn't be loading images every time I wanted to make a new map. Only downside was that I painstakingly had to extract each tile from the tile sheet as its own PNG. That only took 25-30 minutes, but it still sucked.
 
 After that usable data was created, I just had to pipe that into a UInt8ClampedArray in RGBA format and then a library took care of the rest. I also stored the map structure itself as a 1-D array of 1's and 0's representing walls and floors, respectively.
 
 #### Catching a Wave
 
-I attempted to get the algorithm to work with a Javascript implementation but quickly realized that maybe this wasn't the right language for the job. And while I enjoy using JS, it's not exactly the most efficient of lanuages. I had to use a smaller input image for larger N's because my computer would lock up. Another one of the main CPU overheads is the image dimensions. 
+I attempted to get the algorithm to work with a Javascript implementation but quickly realized that maybe this wasn't the right language for the job. And while I enjoy using JS, it's not exactly the most efficient of languages. I had to use a smaller input image for larger N's because my computer would lock up. Another one of the main CPU overheads is the image dimensions. 
 
 In the end I got some pseudo-satisfying results. 
 
 #### Results
 
-It looks kind of cool, but WFC is designed to find patterns at the macro level with rather clear cut contraints, and for the most part it assumes that the flow of the image is grid-based. Herringbone tiles have a sort of wonky/ diagonal flow, so the output is rather jagged. 
+It looks kind of cool, but WFC is designed to find patterns at the macro level with rather clear cut constraints, and for the most part it assumes that the flow of the image is grid-based. Herringbone tiles have a sort of wonky/ diagonal flow, so the output is rather jagged. 
 
 *Test image generated by me*
 ![](../images/n_3/map-demo.png)
@@ -63,7 +63,7 @@ I could run more tests with a higher n, but I feel like I found my answer. I'm m
 *Oskar Stalberg, my introduction to WFC*
 ![](../images/oskar.gif)
 
-In the mean time, I was going to try and use React to make some kind of playable game with my map data, but I'm having some trouble getting that up and running. I'm also toying with the idea of redoing a large portion of this website in React, but I'm unsure. Could be good excercise, but I think I would rather build something from the ground up than replace what I have here. Plus, I've grown rather attached and this is a personal website, so I think I'm allowed some comfort.
+In the mean time, I was going to try and use React to make some kind of playable game with my map data, but I'm having some trouble getting that up and running. I'm also toying with the idea of redoing a large portion of this website in React, but I'm unsure. Could be good exercise, but I think I would rather build something from the ground up than replace what I have here. Plus, I've grown rather attached and this is a personal website, so I think I'm allowed some comfort.
 
 UPDATE:
 

@@ -31,7 +31,7 @@ router.get('/', (req, res, next) => {
 });
 
 router.get('/zodd', (req, res, next) => {
-  res.render('zodd', { title: "Mingus-Zodd", now: lastUpdate });
+  res.render('zodd', { title, now: lastUpdate });
 });
 
 router.get('/cardgame', (req, res, next) => {
