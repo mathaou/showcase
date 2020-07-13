@@ -122,10 +122,6 @@ a:active {
   color: lightgrey;
 }
 
-a {
-  color: #ffffff;
-}
-
 /* FOOTER */
 
 footer {
@@ -209,7 +205,7 @@ span.page-item:hover {
 /* THE POST LINK */
 
 a {
-  color: #063a6c;
+  color: #0639F3;
 }
 
 a:hover {
