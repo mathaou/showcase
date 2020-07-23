@@ -258,6 +258,11 @@ h4 {
   color: #389583;
 }
 
+.skill-list-courses > li.label {
+  background-color: #f18881;
+  color: #edf5e0;
+}
+
 .skill-list-other > li.label {
   background-color: #99ced2;
   color: black;

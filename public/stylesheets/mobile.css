@@ -60,7 +60,7 @@ Smartphone
   }
 
   .post-container p {
-    font-size: 14px;
+    font-size: inherit !important;
   }
 
   #posts h2 {
