@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .row
+    .col-md-12.post-container
+      ul#posts.d-flex.justify-content-around.flex-column
+        != createdPosts
+      .pagination
+        != pages

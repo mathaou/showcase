@@ -21,8 +21,8 @@ html(style='overflow-y: hidden; overflow-x: hidden;')
     link(href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i|IBM+Plex+Sans+Condensed:400,400i|IBM+Plex+Sans:100,100i,400,400i,700,700i|IBM+Plex+Serif:400,400i&display=swap" rel="stylesheet")
   body(style='overflow-y: hidden; overflow-x: hidden;')
     .wrapper(style='overflow-y: hidden; overflow-x: hidden;')
-      header.container-fluid
-          h1.p2= 'Internal Server Error'
+      header.container-fluid.d-flex
+          h1.p2.align-content-center.justify-content-center= 'Internal Server Error'
       include sidebar
       .container.main.d-flex.justify-content-center
         #error-div.col-12.d-flex.d-flex.justify-content-center

@@ -1,0 +1,219 @@
+extends layout 
+block content 
+  .row
+    .col-md-6.post-container
+      h1 Marquee Effects on TextBlocks in UWP
+      h2 21 Jul 2020
+      p Recently for a work project I had to implement a marquee effect on click for certain textblocks in a grid. For NDA reasons, I’ll use ASCII representations here:
+      h4 Something like this
+      pre.hljs
+        code. 
+      
+              Initial state            First anim.                Almost done...            Second anim.
+          |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|
+          |       Text       |    |       Text       |    |       Text       |    |       Text       |
+          |~~~~~~~~~~~~~~~~~~| -> |~~~~~~~~~~~~~~~~~~| -> |~~~~~~~~~~~~~~~~~~| -> |~~~~~~~~~~~~~~~~~~|
+          | Blah blah bla... |    |ah blah blah      |    |lah               |    |           Blah bl|
+          |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|
+      
+      
+      p The idea was that it would only happen when the text was trimmed, and I’m not quite sure what information I found online or other solutions that existed, but this is what I settled on to achieve this. We called it a marquee effect.
+      pre.hljs
+        code. 
+           - Grid
+              - Grid.RowDefinitions
+                  -- however many rows needed
+              - /Grid.RowDefinitions
+              - Border HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                  Tapped/RightTapped="Marquee_Tapped" // event used on all marquees
+                  - Border.Resources
+                      - Storyboard x:Name="NormalTextForRowOne"
+                          - DoubleAnimation
+                              Storyboard.TargetName="RowOneMarquee"
+                              StoryBoard.TargetProperty="X"
+                              From="5" // this should be something close to left edge of screen depending on
+                                       // if you're wrapping on words or characters - need to account for
+                                       // padding
+                              RepeatBehavior="1x" // this is just going to bring in off the edge before "wrap"
+                              To="-300"           // depends on width of grid/ length of text, just out of view
+                              Duration="0:0:4"    // this is just whatever feels right, fiddle with it
+                              Completed="Marquee_Completed" // cleanup function/
+                      - /Storyboard
+                      - Storyboard x:Name="WrapTextForRowOne"
+                          - DoubleAnimation
+                              Storyboard.TargetName="RowOneMarquee"
+                              Storyboard.TargetProperty="X"
+                              From="200" // this should be something close to right edge of screen depending on
+                                         // if you're wrapping on words or characters - need to account for
+                                         // padding
+                              RepeatBehavior="2x" // arbitrary, however many times it should loop
+                              To="-300"           // depends on width of grid/ length of text, just out of view
+                              Duration="0:0:5"    // this is just whatever feels right, fiddle with it
+                              Completed="Wrap_Completed"/ // cleanup function/
+                      - /Storyboard
+                  - /Border.Resources
+                  - Grid
+                      - TextBlock
+                          Visibility="Visible" // initally showing text
+                          TextTrimming="CharacterEllipsis" // whatever you want, there just needs to be trimming
+                          TextWrapping="NoWrap"
+                          HorizontalAlignment="Center"
+                          Text="{x:Bind PersonName}"
+                          FontSize="20"/ // again, arbitrary but make sure the canvas textblock has same look
+                      - Canvas
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"  // style needs to match border
+                          Visibility="Collapsed" // hidden at first
+                          - TextBlock
+                              HorizontalAlignment="Center"
+                              Text="{x:Bind PersonName}"
+                              FontSize="20"
+                              - TextBlock.RenderTransform
+                                  - TranslateTransform x:Name="RowOneMarquee"/ // target name of storyboard
+                              - /TextBlock.RenderTransform
+                          - /TextBlock
+                      - /Canvas
+                  - /Grid
+              - /Border
+          ... // for however many rows
+      
+      
+      p Thats the raw XAML for the UWP app, commented. But more important is the code behind. You’re going to need local references to both storyboards for whatever marquee that’s in effect, as well as the textblocks themselves. I also had a bool to make the differing states easier to manage.
+      pre.hljs
+        code. 
+              private bool _running = false;
+              private Storyboard _main, _wrap;
+              private FrameworkElement _mainText, _wrapText;
+      
+      p There’s going to be four methods/ functions here. One that gets triggered on complete for both the initial scroll and the wrap (Marquee_Completed and Wrap_Completed), Marquee_Tapped, and TeardownMarquee. Let’s start with the Marquee_Tapped function.
+      pre.hljs
+        code. 
+      
+              private void Marquee_Tapped(object sender, TappedRoutedEventArgs e) // or RightTapped
+              {
+                  try
+                  {
+                      if (!(sender is Border elem)) return;
+      
+                      var storyBoards = elem.Resources.Select(r => r.Value).Cast<Storyboard>().ToList();
+      
+                      if (storyBoards?.Count != 2) return; // covering our tracks, however many states you want
+      
+                      var marqueeResource = storyBoards?[0];
+                      var wrapResource = storyBoards?[1];
+      
+                      if (!(marqueeResource is Storyboard marqueeStoryboard) ||
+                          !(wrapResource is Storyboard wrapStoryBoard)) return; // covering our tracks
+      
+                      var mainText = elem.FindDescendant<TextBlock>();
+                      var hiddenText = elem.FindDescendant<Canvas>();
+      
+                      // if the text is not trimmed do nothing
+                      if (mainText is TextBlock check && !check.IsTextTrimmed) return;
+      
+                      // references need to get set after this textTrimmed check because
+                      // otherwise they overwrite the current state and an active animation
+                      // will get stuck and never complete
+      
+                      // this stops the current animation and transfers control to the
+                      // most recent tap If the currently clicked grid is nonnull and 
+                      // different from the current
+                      if (_mainText != mainText || _hiddenTextCanvas != hiddenText)
+                      {
+                          TeardownMarquee();
+                      }
+      
+                      _mainText = mainText;
+                      _hiddenTextCanvas = hiddenText;
+                      _marqueeStoryBoard = marqueeStoryboard;
+                      _wrapStoryBoard = wrapStoryBoard;
+                      
+                      _hiddenTextCanvas.Height = _mainText?.ActualHeight ?? 16; // fallback value
+      
+                      switch (_mainText?.Visibility)
+                      {
+                          // If grid is tapped during animation, then reset
+                          case Visibility.Collapsed:
+                              TeardownMarquee();
+                              break;
+                          // else start the animation
+                          case Visibility.Visible:
+                              if (!_running)
+                              {
+                                  _mainText.Visibility = Visibility.Collapsed;
+                                  _hiddenTextCanvas.Visibility = Visibility.Visible;
+      
+                                  _marqueeStoryBoard?.BeginAsync();
+                                  _running = true;
+                              }
+                              break;
+                          case null:
+                              break;
+                          default:
+                              throw new ArgumentOutOfRangeException();
+                      }
+                  }
+                  catch (Exception)
+                  {
+                      Console.WriteLine(@"Error with marquee behavior on textblock.");
+                  }
+              }
+      
+      
+      p Thats a pretty general purpose event handler that accounts for structure without looking for any unique tags like names.
+      pre.hljs
+        code. 
+      
+          // this just resets everything
+              private void TeardownMarquee()
+          {
+              try
+              {
+                  // changes visibility
+                  if (_mainText != null) _mainText.Visibility = Visibility.Visible;
+                  if (_hiddenTextCanvas != null) _hiddenTextCanvas.Visibility = Visibility.Collapsed;
+      
+                  _running = true;
+      
+                  if (_marqueeStoryBoard?.GetCurrentState() == ClockState.Active)
+                  {
+                      _marqueeStoryBoard?.Stop();
+                  }
+                  else if (_wrapStoryBoard?.GetCurrentState() == ClockState.Active)
+                  {
+                      _wrapStoryBoard?.Stop();
+                  }
+              }
+              catch (Exception e)
+              {
+                  Console.WriteLine(e);
+              }
+          }
+      
+      
+      p And finally we have the Completed calls for both storyboard animations:
+      pre.hljs
+        code. 
+      
+              private void Wrap_Completed(object sender, object e)
+              {
+                  TeardownMarquee(); // simple
+              }
+      
+              private void Marquee_Completed(object sender, object e)
+              {
+                  try
+                  {
+                      if (_running)
+                      {
+                          _wrapStoryBoard?.BeginAsync();
+                      }
+                  }
+                  catch (Exception exception)
+                  {
+                      Console.WriteLine(exception);
+                  }
+              }
+      
+      
+      p And there you have it. Thats the best implementation of marquee animations for a textblock in whatever container that I could come up with.

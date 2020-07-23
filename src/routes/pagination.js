@@ -47,7 +47,7 @@ const createWebPage = (data, header, router: Router) => {
   var templateString = 'extends layout \nblock content \n'.length;
   generated = [
     generated.slice(0, templateString),
-    '  .row\n    .col-md-8.post-container\n',
+    '  .row\n    .col-md-6.post-container\n',
     generated
       .slice(templateString)
       .replace(/\s\s(h\d)/gim, '      $1')
@@ -103,7 +103,7 @@ const chunkArrayInGroups = (arr, size) => {
 };
 
 const generatePagination = (length, index) => {
-  var previous = index == 2 ? '/personal' : `/page${index - 1}/`;
+  var previous = index == 2 ? '/page1' : `/page${index - 1}/`;
   var next = `/page${index + 1}/`;
 
   var leftArrow =
@@ -120,7 +120,7 @@ const generatePagination = (length, index) => {
   var pagination = leftArrow;
 
   for (var i = 1; i < length + 1; i++) {
-    var toAdd = i == 1 ? '/personal' : `/page${i}/`;
+    var toAdd = i == 1 ? '/page1' : `/page${i}/`;
     if (i != index) {
       pagination = pagination.concat(
         `<a href=\"${toAdd}\" class =\"page-item\">${i}</a>`
@@ -141,8 +141,8 @@ export const createMultiplePages = async (router: Router) => {
   for (let i = 0; i < postChunks.length; i++) {
     const chunkStore = postChunks[i];
     if (i === 0) {
-      router.get('/personal', (req, res, next) => {
-        res.render('personal', {
+      router.get('/page1', (req, res, next) => {
+        res.render('page1', {
           title,
           now: lastUpdate,
           createdPosts: chunkStore.join(''),
@@ -151,7 +151,7 @@ export const createMultiplePages = async (router: Router) => {
       });
     } else {
       const fileName = `page${i + 1}`;
-      fs.copyFileSync('src/views/personal.pug', `src/views/${fileName}.pug`);
+      fs.copyFileSync('src/views/page1.pug', `src/views/${fileName}.pug`);
       router.get(`/${fileName}`, (req, res, next) => {
         res.render(fileName, {
           title,

@@ -1,7 +1,7 @@
 extends layout 
 block content 
   .row
-    .col-md-8.post-container
+    .col-md-6.post-container
       h1 Adventures in Markdown-To-HTML Conversion
       h2 19 Dec 2019
       p In creating this portfolio/resume/personal website, I thought it might be nice to have a system where I could just write a series of individual, self-contained posts in markdown format, and then translate that document to #[a(href="https://pugjs.org/api/getting-started.html") pug]. It turned out to be a little bit more involved than that since then generation didn’t account for things like links inside of paragraphs or fenced code blocks. There was also plenty of async/await going on behind the scenes to make sure that the page didn’t render before the conversion took place.

@@ -18,7 +18,7 @@ block content
                     //-         li.label.icon Azure
                     //-         li.label.icon Go
                     //-         li.label.icon Python
-                    p(style="margin-left: auto;margin-right: auto;") You can learn about my various interests in my #[a(href="https://www.mfarstad.com/projects") projects] and #[a(href="https://www.mfarstad.com/personal") personal] section from the sidebar.
+                    p(style="margin-left: auto;margin-right: auto;") You can learn about my various interests in my #[a(href="https://www.mfarstad.com/projects") projects] and #[a(href="https://www.mfarstad.com/personal") blog] section from the sidebar.
                     ol(style="list-style: lower-roman;")
                         li
                             a(href='#skills') Skills
@@ -34,78 +34,84 @@ block content
     .row
         .col-md-10.resume-body
             h2#skills Skills
-            tbody.resume-info
-                tr.d-flex.align-content-start
-                    td.align-self-center Languages
-                    td
-                    ul.align-self-center.skill-list(style="list-style=none;")
-                        li.label.icon Java
-                        li.label.icon Golang (Go)
-                        li.label.icon Python
-                        li.label.icon Javascript
-                        li.label.icon C#
-                        li.label.icon C++
-                        li.label.icon SQL 
-                        li.label.icon PHP 
-                        li.label.icon HTML 
-                        li.label.icon CSS 
-                        li.label.icon Pug 
-                        li.label.icon Dart
-                span.d-flex.align-content-start
-                    strong.align-self-center Libraries and Technologies
-                    ul.align-self-center.skill-list-green(style="list-style=none;")
-                        li.label.icon Flutter
-                        li.label.icon Go Mobile
-                        li.label.icon UWP
-                        li.label.icon XAML
-                        li.label.icon Mux
-                        li.label.icon Selenium
-                        li.label.icon JDBC
-                        li.label.icon ODBC
-                        li.label.icon JQuery
-                        li.label.icon JSP
-                        li.label.icon React.js
-                        li.label.icon Hibernate
-                        li.label.icon JavaFX
-                        li.label.icon Spring Boot
-                        li.label.icon Gradle
-                        li.label.icon Maven
-                        li.label.icon Swing
-                        li.label.icon Junit
-                        li.label.icon Git
-                        li.label.icon JSON
-                        li.label.icon MQTT
-                        li.label.icon NATS
-                        li.label.icon Node.js
-                        li.label.icon Express.js
-                        li.label.icon Pug
-                        li.label.icon Webpack
-                        li.label.icon Babel
-                        li.label.icon Flow
-                        li.label.icon NPM
-                        li.label.icon AJAX
-                        li.label.icon Electron.js
-                        li.label.icon Docker
-                        li.label.icon MS Azure
-                        li.label.icon Redis
-                        li.label.icon Redux
-                        li.label.icon AWS
-                span.d-flex.align-content-start
-                    strong.align-self-center Software
-                    ul.align-self-center.skill-list-other(style="list-style=none;")
-                        li.label.icon Vim
-                        li.label.icon Eclipse
-                        li.label.icon Intellij
-                        li.label.icon Visual Studio
-                        li.label.icon Visual Studio Code
-                        li.label.icon Postman
-                        li.label.icon Test Studio
-                        li.label.icon UI Path
-                        li.label.icon Scene Builder
-                        li.label.icon Windows 10
-                        li.label.icon OSX
-                        li.label.icon Linux Mint
-                        li.label.icon AWS Console
+            table
+                tbody.resume-info
+                    tr.d-flex.align-content-start.table-1.row
+                        td.align-self-center.table-header.col-md-1
+                            strong.align-self-center Languages
+                        td.align-self-start.table-data.col-md-11
+                            ul.align-self-center.skill-list(style="list-style=none;")
+                                li.label.icon Java
+                                li.label.icon Golang (Go)
+                                li.label.icon Python
+                                li.label.icon Javascript
+                                li.label.icon C#
+                                li.label.icon C++
+                                li.label.icon SQL 
+                                li.label.icon PHP 
+                                li.label.icon HTML 
+                                li.label.icon CSS 
+                                li.label.icon Pug 
+                                li.label.icon Dart
+                    tr.d-flex.align-content-start.table-2.row
+                        td.align-self-center.table-header.col-md-1
+                            strong.align-self-center Technologies
+                        td.align-self-start.table-data.col-md-11
+                            ul.align-self-center.skill-list-green(style="list-style=none;")
+                                li.label.icon Flutter
+                                li.label.icon Go Mobile
+                                li.label.icon UWP
+                                li.label.icon XAML
+                                li.label.icon Mux
+                                li.label.icon Selenium
+                                li.label.icon JDBC
+                                li.label.icon ODBC
+                                li.label.icon JQuery
+                                li.label.icon JSP
+                                li.label.icon React.js
+                                li.label.icon Hibernate
+                                li.label.icon JavaFX
+                                li.label.icon Spring Boot
+                                li.label.icon Gradle
+                                li.label.icon Maven
+                                li.label.icon Swing
+                                li.label.icon Junit
+                                li.label.icon Git
+                                li.label.icon JSON
+                                li.label.icon MQTT
+                                li.label.icon NATS
+                                li.label.icon Node.js
+                                li.label.icon Express.js
+                                li.label.icon Pug
+                                li.label.icon Webpack
+                                li.label.icon Babel
+                                li.label.icon Flow
+                                li.label.icon NPM
+                                li.label.icon AJAX
+                                li.label.icon Electron.js
+                                li.label.icon Docker
+                                li.label.icon MS Azure
+                                li.label.icon Redis
+                                li.label.icon Redux
+                                li.label.icon AWS
+                    tr.d-flex.align-content-start.table-3.row
+                        td.align-self-center.table-header.col-md-1
+                            strong.align-self-center Software
+                        td.align-self-start.table-data.col-md-11
+                            ul.align-self-center.skill-list-other(style="list-style=none;")
+                                li.label.icon Vim
+                                li.label.icon Eclipse
+                                li.label.icon Intellij
+                                li.label.icon Visual Studio
+                                li.label.icon Visual Studio Code
+                                li.label.icon Postman
+                                li.label.icon Test Studio
+                                li.label.icon UI Path
+                                li.label.icon Scene Builder
+                                li.label.icon Windows 10
+                                li.label.icon OSX
+                                li.label.icon Linux Mint
+                                li.label.icon AWS Console
             h2#work-experience Work Experience
             h3#semireg Fastenal Company
             .resume-info
