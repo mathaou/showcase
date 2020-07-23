@@ -127,26 +127,26 @@ net
 // .createServer(app) for debug
 
 var server = http
-  // .createServer((req, res) => {
-  //   var host = req.headers['host'];
-  //   console.log("Connection...");
-  //   res.write
-  //   res.writeHead(301, { Location: 'https://' + host + req.url });
-  //   res.end();
-  // })
-  .createServer(app)
+   .createServer((req, res) => {
+     var host = req.headers['host'];
+     console.log("Connection...");
+     res.write
+     res.writeHead(301, { Location: 'https://' + host + req.url });
+     res.end();
+  })
+  // .createServer(app)
   .listen(port + 1);
 
-// var secureServer = https.createServer(generateHTTPSData(), app);
+var secureServer = https.createServer(generateHTTPSData(), app);
 
-// secureServer.listen(port + 2, () => {
-//   console.log('HTTPS server listening on ' + `${port + 2}`);
-// });
+secureServer.listen(port + 2, () => {
+  console.log('HTTPS server listening on ' + `${port + 2}`);
+});
 
-// secureServer.on('error', onError);
-server.on('error', onError);
-
-const socket = require('socket.io')(server);
+secureServer.on('error', onError);
+// server.on('error', onError);
+ 
+const socket = require('socket.io')(secureServer);
 
 /*==================================================+
  |Better implementation, need to get sound to client|
