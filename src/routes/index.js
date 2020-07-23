@@ -10,10 +10,6 @@ const router = new express.Router(['strict']);
 
 createMultiplePages(router);
 
-router.get('/resume', (req, res, next) => {
-  res.render('resume', { title, now: lastUpdate });
-});
-
 router.get('/music', (req, res, next) => {
   res.render('music', { title, now: lastUpdate });
 });

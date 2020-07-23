@@ -20,6 +20,14 @@ Smartphone
     display: table;
   }
 
+  .spotlight {
+    display: none !important;
+  }
+
+  li.label {
+    font-size: inherit !important;
+  }
+
   .col2 {
     margin-left: auto;
     margin-right: auto;
@@ -28,7 +36,7 @@ Smartphone
   }
 
   html {
-    font-size: 14px;
+    font-size: 18px;
   }
 
   .menu-open {
@@ -60,7 +68,7 @@ Smartphone
   }
 
   blockquote {
-    padding-left: 1vw;
+    padding-left: 2vw;
   }
 
   #sidebar a,
@@ -75,7 +83,7 @@ Smartphone
   }
 
   header {
-    height: 10vh;
+    height: 14vh;
   }
 
   h2 {

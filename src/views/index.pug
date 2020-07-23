@@ -1,6 +1,190 @@
 extends layout
 block content
     .row
-        .col-md-8.index
-            p Hey! I'm Matt Farstad, a software developer and full-stack web developer specializing in desktop/mobile applications and IOT. You can learn about my various interests in my #[a(href="https://www.mfarstad.com/projects") projects] and #[a(href="https://www.mfarstad.com/personal") personal] section from the sidebar.
-            p For my resume, click #[a(href="https://www.mfarstad.com/resume") here.]
+        .col-md-10.index
+            .row.d-flex.align-content-around
+                .col-md-12.d-flex.flex-column.align-items-start
+                    ul.actions.p4
+                        li
+                            a.btn.btn-secondary.btn-lg.register(href="/files/resume_cv.pdf") resume.pdf
+                    p.p2 
+                        | I'm Matt Farstad, a software developer and full-stack web developer specializing in desktop/mobile applications and IOT. I take immense pride in my work, and I make sure that the solution I settle on 
+                        | has the least amount of complexity required without sacrificing scalability or maintainability. I'm a proponent of #[a(href="https://en.wikipedia.org/wiki/SOLID") SOLID] design, detailed comments and documentation, and test-driven development.
+                    //- .tech-stack.d-inline-flex.justify-content-around.align-content-start
+                    //-     strong.p2.d-inline-flexCurrent.align-self-center Current Tech Stack:
+                    //-     ul.align-self-center.skill-list.d-inline-flex.align-items-end(style="list-style=none;") 
+                    //-         li.label.icon C#
+                    //-         li.label.icon UWP
+                    //-         li.label.icon Azure
+                    //-         li.label.icon Go
+                    //-         li.label.icon Python
+                    p(style="margin-left: auto;margin-right: auto;") You can learn about my various interests in my #[a(href="https://www.mfarstad.com/projects") projects] and #[a(href="https://www.mfarstad.com/personal") personal] section from the sidebar.
+                    ol(style="list-style: lower-roman;")
+                        li
+                            a(href='#skills') Skills
+                        li
+                            a(href='#work-experience') Work Experience
+                        li
+                            a(href='#education') Education
+                        li
+                            a(href='#ec') Certifications and Side Projects
+                            //- get different size images this is annoying
+                //- .col-md-6.d-flex.flex-row-reverse.align-content-center.justify-content-center
+                //-     img.d-flex.align-content-center.justify-content-center.spotlight(src="images/me.png")
+    .row
+        .col-md-10.resume-body
+            h2#skills Skills
+            tbody.resume-info
+                tr.d-flex.align-content-start
+                    td.align-self-center Languages
+                    td
+                    ul.align-self-center.skill-list(style="list-style=none;")
+                        li.label.icon Java
+                        li.label.icon Golang (Go)
+                        li.label.icon Python
+                        li.label.icon Javascript
+                        li.label.icon C#
+                        li.label.icon C++
+                        li.label.icon SQL 
+                        li.label.icon PHP 
+                        li.label.icon HTML 
+                        li.label.icon CSS 
+                        li.label.icon Pug 
+                        li.label.icon Dart
+                span.d-flex.align-content-start
+                    strong.align-self-center Libraries and Technologies
+                    ul.align-self-center.skill-list-green(style="list-style=none;")
+                        li.label.icon Flutter
+                        li.label.icon Go Mobile
+                        li.label.icon UWP
+                        li.label.icon XAML
+                        li.label.icon Mux
+                        li.label.icon Selenium
+                        li.label.icon JDBC
+                        li.label.icon ODBC
+                        li.label.icon JQuery
+                        li.label.icon JSP
+                        li.label.icon React.js
+                        li.label.icon Hibernate
+                        li.label.icon JavaFX
+                        li.label.icon Spring Boot
+                        li.label.icon Gradle
+                        li.label.icon Maven
+                        li.label.icon Swing
+                        li.label.icon Junit
+                        li.label.icon Git
+                        li.label.icon JSON
+                        li.label.icon MQTT
+                        li.label.icon NATS
+                        li.label.icon Node.js
+                        li.label.icon Express.js
+                        li.label.icon Pug
+                        li.label.icon Webpack
+                        li.label.icon Babel
+                        li.label.icon Flow
+                        li.label.icon NPM
+                        li.label.icon AJAX
+                        li.label.icon Electron.js
+                        li.label.icon Docker
+                        li.label.icon MS Azure
+                        li.label.icon Redis
+                        li.label.icon Redux
+                        li.label.icon AWS
+                span.d-flex.align-content-start
+                    strong.align-self-center Software
+                    ul.align-self-center.skill-list-other(style="list-style=none;")
+                        li.label.icon Vim
+                        li.label.icon Eclipse
+                        li.label.icon Intellij
+                        li.label.icon Visual Studio
+                        li.label.icon Visual Studio Code
+                        li.label.icon Postman
+                        li.label.icon Test Studio
+                        li.label.icon UI Path
+                        li.label.icon Scene Builder
+                        li.label.icon Windows 10
+                        li.label.icon OSX
+                        li.label.icon Linux Mint
+                        li.label.icon AWS Console
+            h2#work-experience Work Experience
+            h3#semireg Fastenal Company
+            .resume-info
+                p
+                    strong Software Developer
+                p 
+                    | February 2020 - Present
+                ul
+                    li Expanded supported devices for Product Locator kiosk from 1 to 80.
+                    li Implemented new functionality and UI updates for Product Locator.
+                    li Created fake customer generation software in Go + Python to streamline development of new features.
+
+            h3#semireg Semireg Industries, LLC
+            .resume-info
+                p
+                    strong Software Consultant
+                p 
+                    | May 2019 - May 2020
+                ul
+                    li Developed flexible framework for emulation of label printers with Python using Facedancer21 library.
+                    li Created MQTT-based label printer emulation software using Python and Node.js.
+                    li IoT work involving Docker, Node.js, Redis, NATS, and Microsoft Azure IoT.
+                    li Prototyping mobile applications with React and Redux.
+
+            h3#wsu-work Winona State University
+            .resume-info
+                p
+                    strong Software Tester and Developer
+                p 
+                    | October 2016 - May 2020
+                ul
+                    li Cross compiled Python modules written in C from x86 to run on MIPS Linux for use in router.
+                    li Developed Android applications using React Native to supplement device portal.
+                    li Developed UI unit tests for proprietary device management applications.
+                    li Tested new releases of proprietary software and wrote detailed bug reports for the engineering team.
+                    li Developed responsive SQL query builder front end for database for ease of use throughout company.
+            h3#tutor Chegg.com
+            .resume-info
+                p
+                    strong Online Computer Science Tutor
+                p 
+                    | March 2019 - November 2020
+                ul
+                    li Approved to tutor Java, Python, and Computer Science.
+                    li Developed curriculum for students on a case-by-case basis.
+                    li Received a 100 % satisfaction rating over 60 sessions (as of December 12th, 2019).
+
+            h2#education Education
+            h3#wsu Winona State University
+            .resume-info
+                p
+                    strong B.S. in Computer Science /// 3.43 / 4.0
+                p
+                    | August 2016 - May 2020
+                p
+                    strong Relevant Courses: 
+                p
+                    | Networking and Telecommunications, Applied Database Management, Database Systems Design, Intro to Web Programming, Fundamentals of Distributed Application Development, Software Engineering, Computer Systems, Data Structures, Mathematical Foundation of Algorithms, Human Computer Interaction, Embedded Systems, Computer Security, Operating Systems, Theory of Computation, Machine Learning, Principles of Programming Languages, Advanced Networking, Practicum in Computer Science
+            h2#ec Certifications and Side Projects
+            h3#aws Amazon Web Services Fundamentals Certification
+            .resume-info
+                p
+                    strong coursera.org
+                p
+                    | December 2019
+                p
+                    | In depth Amazon Web Services certification course taught by Amazon employees on manipulation of AWS to provide robust, maintainable, and widely available solutions for a variety of business practices.
+            h3#react React.js Essential Training
+            .resume-info
+                p
+                    strong Linkedin / Lynda
+                p
+                    | December 2019
+                p
+                    | An intensive, project-based course that fully covers the basics of React up to more advanced features and functionality.
+            
+            h3#music Tucker Zodd /// Composer and Producer
+            .resume-info
+                p
+                    a(href='https://tuckerzodd.bandcamp.com/') Releases
+
+            hr

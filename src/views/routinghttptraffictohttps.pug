@@ -46,8 +46,7 @@ block content
               })
           }).listen(port);
       
-      p I don’t like this solution because there are 3 servers running concurrently (ewww…) but trust me, I tried finding some other way. If anything this experience has taught me what express.js is capable of and what to use it for. I mainly like the whole view rendering thing for pug, but realistically I won’t be using pug professionally, and even then I didn’t exactly look very hard at other node.js solutions for web servers. I’ll likely just default to some AWS default thing that handles all of this automatically.
-      p But I don’t know, I feel like having this level of control is a good thing… Having a VM in cloud suited my needs, and I can use it to host whatever I need, even if it’s not a website. And I’ve learned a lot doing it! So that’s always a good thing.
+      p I don’t like this solution because there are 3 servers running concurrently (ewww…) but trust me, I tried finding some other way. I’ll likely just default to some AWS default thing that handles all of this automatically. But I don’t know, I feel like having this level of control is a good thing… Having a VM in cloud suited my needs, and I can use it to host whatever I need, even if it’s not a website. And I’ve learned a lot doing it! So that’s always a good thing.
       p Anyway, http server just routes to https. Took a while to figure out how to get express to play nice with user defined ports, since http and https are 80 and 443 by default, respectively.
       pre.hljs
         code. 

@@ -23,7 +23,25 @@ Desktop
     font-size: 50px;
   }
 
+  li.label {
+    font-size: inherit !important;
+  }
+
+  .spotlight {
+    /* margin-top: 3em; */
+    border-radius: 5em;
+    /* padding: 12%; */
+    width: 15vw;
+    /* content: url("/images/me.png") */
+  }
+
+  img.spotlight {
+    max-width: 100% !important;
+  }
+
   html {
+    font-weight: 300;
+    line-height: 1.65;
     font-size: 18px;
   }
 
@@ -48,7 +66,7 @@ Desktop
   }
 
   .post-container {
-    max-width: 1140px;
+    max-width: 80%;
   }
 
   h2,

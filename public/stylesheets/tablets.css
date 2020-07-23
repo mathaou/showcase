@@ -19,6 +19,16 @@ Tablets
     margin-bottom: 4vh;
   }
 
+  li.label {
+    font-size: inherit !important;
+  }
+
+  .spotlight {
+    height: 32vh;
+    width: 100%;
+    margin-top: 7em;
+  }
+
   .post-container {
     flex: none;
     max-width: 100%;
@@ -33,7 +43,7 @@ Tablets
   }
 
   html {
-    font-size: 14px;
+    font-size: 16px;
   }
 
   #posts h2 {

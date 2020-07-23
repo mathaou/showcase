@@ -23,6 +23,20 @@
     font-size: 3.5rem;
   }
 
+  li.label {
+    font-size: inherit !important;
+  }
+
+  .spotlight {
+    width: 17vw;
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  img.spotlight {
+    max-width: 100% !important;
+  }
+
   body {
     font-size: xx-large;
   }

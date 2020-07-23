@@ -162,7 +162,7 @@ hr {
   display: block;
   height: 1px;
   border: 0;
-  border-top: 1px solid white;
+  border-top: 1px solid #dddddd;
   margin: 1em 0;
   padding: 0;
 }
@@ -256,6 +256,25 @@ h2,
 h3,
 h4 {
   color: #389583;
+}
+
+.skill-list-other > li.label {
+  background-color: #99ced2;
+  color: black;
+}
+
+.skill-list-green > li.label {
+  background-color: #389583;
+  color: #edf5e0;
+}
+
+.skill-list > li.label {
+  background-color: #063a6c;
+  color: #edf5e0;
+}
+
+.button:hover {
+  color: #636363 !important;
 }
 
 /* END COLOR */
