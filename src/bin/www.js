@@ -97,13 +97,13 @@ app.enable('trust proxy');
  |Create HTTP server.|
  +===================*/
 
-// const generateHTTPSData = () => {
-//   return {
-//     key: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/privkey.pem'),
-//     cert: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/cert.pem'),
-//     ca: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/chain.pem'),
-//   };
-// };
+const generateHTTPSData = () => {
+  return {
+    key: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/privkey.pem'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/cert.pem'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/www.mfarstad.com/chain.pem'),
+  };
+};
 
 net
   .createServer(conn => {
