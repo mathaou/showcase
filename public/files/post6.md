@@ -11,7 +11,7 @@ Recently for a work project I had to implement a marquee effect on click for cer
 
 ```
 
-        Initial state            First anim.                Almost done...            Second anim.
+        Initial state            First anim.           Almost done...            Second anim.
     |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|    |~~~~~~~~~~~~~~~~~~|
     |       Text       |    |       Text       |    |       Text       |    |       Text       |
     |~~~~~~~~~~~~~~~~~~| -> |~~~~~~~~~~~~~~~~~~| -> |~~~~~~~~~~~~~~~~~~| -> |~~~~~~~~~~~~~~~~~~|
@@ -89,6 +89,7 @@ You're going to need local references to both storyboards for whatever marquee t
     private bool _running = false;
     private Storyboard _main, _wrap;
     private FrameworkElement _mainText, _wrapText;
+
 ```
 
 There's going to be four methods/ functions here. One that gets triggered on complete for both the initial scroll and the wrap (Marquee_Completed and Wrap_Completed), Marquee_Tapped, and TeardownMarquee. Let's start with the Marquee_Tapped function.
@@ -111,8 +112,9 @@ There's going to be four methods/ functions here. One that gets triggered on com
                 if (!(marqueeResource is Storyboard marqueeStoryboard) ||
                     !(wrapResource is Storyboard wrapStoryBoard)) return; // covering our tracks
 
-                var mainText = elem.FindDescendant<TextBlock>();
-                var hiddenText = elem.FindDescendant<Canvas>();
+                var mainText = elem.FindDescendant<>(); // textblock
+                var hiddenText = elem.FindDescendant<>(); // c a n v a s here. Parser thinks this
+                                                          // is a commemt
 
                 // if the text is not trimmed do nothing
                 if (mainText is TextBlock check && !check.IsTextTrimmed) return;
@@ -171,31 +173,30 @@ Thats a pretty general purpose event handler that accounts for structure without
 
 ```
 
-    // this just resets everything
-    private void TeardownMarquee()
-    {
-        try
-        {
-            // changes visibility
-            if (_mainText != null) _mainText.Visibility = Visibility.Visible;
-            if (_hiddenTextCanvas != null) _hiddenTextCanvas.Visibility = Visibility.Collapsed;
-
-            _running = true;
-
-            if (_marqueeStoryBoard?.GetCurrentState() == ClockState.Active)
+     private void TeardownMarquee()
+         {
+            try
             {
-                _marqueeStoryBoard?.Stop();
+                // changes visibility
+                if (_mainText != null) _mainText.Visibility = Visibility.Visible;
+                if (_hiddenTextCanvas != null) _hiddenTextCanvas.Visibility = Visibility.Collapsed;
+
+               _running = true;
+   
+                if (_marqueeStoryBoard?.GetCurrentState() == ClockState.Active)
+                {
+                    _marqueeStoryBoard?.Stop();
+                }
+                else if (_wrapStoryBoard?.GetCurrentState() == ClockState.Active)
+                {
+                    _wrapStoryBoard?.Stop();
+                }
             }
-            else if (_wrapStoryBoard?.GetCurrentState() == ClockState.Active)
+            catch (Exception e)
             {
-                _wrapStoryBoard?.Stop();
+                Console.WriteLine(e);
             }
         }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-        }
-    }
 
 ```
 
