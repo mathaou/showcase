@@ -14,9 +14,9 @@ import fs from 'fs';
 import path from 'path';
 
 import { buildChord } from '../chordDriver';
-import Client from '../mqttClient';
+// import Client from '../mqttClient';
 
-const mqttClient = new Client();
+// const mqttClient = new Client();
 var chordArray = [];
 
 var MAX_CARDS = 0;
@@ -393,10 +393,10 @@ socket.on('connection', client => {
     players.building4 = [];
   });
 
-  console.log('Client connected...');
+//  console.log('Client connected...');
 
-  mqttClient.setSocket(socket);
-  mqttClient.setChordArray(chordArray);
+//  mqttClient.setSocket(socket);
+//  mqttClient.setChordArray(chordArray);
 
   const ss = require('socket.io-stream');
 
