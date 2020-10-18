@@ -26,9 +26,9 @@ router.get('/', (req, res, next) => {
   res.render('index', { title, now: lastUpdate });
 });
 
-router.get('/zodd', (req, res, next) => {
-  res.render('zodd', { title, now: lastUpdate });
-});
+// router.get('/zodd', (req, res, next) => {
+//   res.render('zodd', { title, now: lastUpdate });
+// });
 
 router.get('/cardgame', (req, res, next) => {
   res.render('cardgame', { title: "Playin' Cards", now: lastUpdate });

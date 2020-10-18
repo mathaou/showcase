@@ -391,7 +391,7 @@ socket.on('connection', client => {
     players.building4 = [];
   });
 
-  console.log('Client connected...');
+//  console.log('Client connected...');
 
   // mqttClient.setSocket(socket);
   // mqttClient.setChordArray(chordArray);
