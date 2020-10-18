@@ -11,13 +11,13 @@ import http from 'http';
 import https from 'https';
 
 import fs from 'fs';
-import path from 'path';
+// import path from 'path';
 
-import { buildChord } from '../chordDriver';
-import Client from '../mqttClient';
+// import { buildChord } from '../chordDriver';
+// import Client from '../mqttClient';
 
-const mqttClient = new Client();
-var chordArray = [];
+// const mqttClient = new Client();
+// var chordArray = [];
 
 var MAX_CARDS = 0;
 var STOCK_MAX = 0;
@@ -62,11 +62,9 @@ const onError = error => {
     case 'EACCES':
       console.error(bind + ' requires elevated privileges');
       process.exit(1);
-      break;
     case 'EADDRINUSE':
       console.error(bind + ' is already in use');
       process.exit(1);
-      break;
     default:
       throw error;
   }
@@ -135,7 +133,7 @@ var server = http
      res.end();
   })
   // .createServer(app)
-  .listen(port + 1);
+  .listen(port + 2);
 
 var secureServer = https.createServer(generateHTTPSData(), app);
 
@@ -395,8 +393,8 @@ socket.on('connection', client => {
 
   console.log('Client connected...');
 
-  mqttClient.setSocket(socket);
-  mqttClient.setChordArray(chordArray);
+  // mqttClient.setSocket(socket);
+  // mqttClient.setChordArray(chordArray);
 
   const ss = require('socket.io-stream');
 
@@ -606,20 +604,20 @@ socket.on('connection', client => {
     console.log(err);
   });
 
-  ss(client).on('event', (data, stream) => {
-    var payload = null;
+  // ss(client).on('event', (data, stream) => {
+  //   var payload = null;
 
-    if(data !== 'CLEAR'){
-      payload = JSON.parse(data);
-      buildChord(mqttClient, payload);
-    } else {
-      buildChord(mqttClient, data);
-    }
+  //   if(data !== 'CLEAR'){
+  //     payload = JSON.parse(data);
+  //     buildChord(mqttClient, payload);
+  //   } else {
+  //     buildChord(mqttClient, data);
+  //   }
 
-    /*=================+
-     |Do the MQTT stuff|
-     +=================*/
+  //   /*=================+
+  //    |Do the MQTT stuff|
+  //    +=================*/
 
-    // playTone(tone, other);
-  });
+  //   // playTone(tone, other);
+  // });
 });
